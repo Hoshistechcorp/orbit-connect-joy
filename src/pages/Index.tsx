@@ -141,7 +141,7 @@ const Index = () => {
 
           {/* CTA Buttons */}
           <motion.div
-            className="mt-10 flex items-center gap-6"
+            className="mt-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 3.8, duration: 0.7, type: "spring" }}
@@ -150,7 +150,7 @@ const Index = () => {
               href="https://ibloov.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-foreground text-background font-display font-semibold text-sm"
+              className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full bg-foreground text-background font-display font-semibold text-sm"
               whileHover={{
                 scale: 1.06,
                 boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
@@ -165,7 +165,7 @@ const Index = () => {
               href="https://ibloov.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground"
+              className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground"
               whileHover={{
                 scale: 1.06,
                 boxShadow: "0 4px 20px hsl(var(--ibloov-orange) / 0.2)"
