@@ -20,7 +20,6 @@ const useReveal = () => {
       { threshold: 0.01, rootMargin: "0px 0px 100px 0px" }
     );
     obs.observe(el);
-    // Fallback: reveal after 2s if observer doesn't fire
     const timer = setTimeout(() => setVisible(true), 2000);
     return () => { obs.disconnect(); clearTimeout(timer); };
   }, []);
@@ -52,7 +51,17 @@ const Reveal = ({
   );
 };
 
-/* ─── Color tokens (matching original) ─── */
+/* ─── Inline badge for product names in Acts ─── */
+const Badge = ({ children, color = "hsl(220,15%,22%)" }: { children: React.ReactNode; color?: string }) => (
+  <span
+    className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold mx-1 align-middle"
+    style={{ background: color, color: "hsl(45,30%,92%)", border: `1px solid hsl(220,15%,28%)` }}
+  >
+    {children}
+  </span>
+);
+
+/* ─── Color tokens ─── */
 const c = {
   bg: "hsl(220,15%,8%)",
   bgWarm: "hsl(220,12%,10%)",
@@ -65,6 +74,13 @@ const c = {
   cardBg: "hsl(220,15%,12%)",
   cardBorder: "hsl(220,15%,18%)",
 };
+
+/* Card border colors for Four Lives */
+const storyColors = ["hsl(12,80%,45%)", "hsl(45,90%,50%)", "hsl(160,60%,40%)", "hsl(260,50%,55%)"];
+/* Phase top-border colors */
+const phaseColors = ["hsl(224,85%,45%)", "hsl(39,95%,55%)", "hsl(160,60%,45%)", "hsl(39,95%,55%)"];
+/* Subsidiary border colors */
+const subColors = ["hsl(224,85%,40%)", "hsl(12,70%,45%)", "hsl(39,95%,50%)", "hsl(160,50%,40%)", "hsl(260,50%,50%)"];
 
 const Mission = () => {
   const [scrollPct, setScrollPct] = useState(0);
@@ -116,10 +132,8 @@ const Mission = () => {
           <div className="flex items-center gap-1 sm:gap-2">
             <Link
               to="/"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors hover:bg-[hsl(220,15%,18%)]"
               style={{ color: c.textWarm }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = c.cream; e.currentTarget.style.background = c.cardBorder; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = c.textWarm; e.currentTarget.style.background = "transparent"; }}
             >
               <Home className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Home</span>
@@ -134,10 +148,8 @@ const Mission = () => {
             </button>
             <button
               onClick={() => scrollTo("ecosystem")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors hover:bg-[hsl(220,15%,18%)]"
               style={{ color: c.textWarm }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = c.cream; e.currentTarget.style.background = c.cardBorder; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = c.textWarm; e.currentTarget.style.background = "transparent"; }}
             >
               <Layers className="w-3.5 h-3.5" />
               <span>Ecosystem</span>
@@ -161,7 +173,6 @@ const Mission = () => {
         ref={heroRef}
         className="min-h-screen flex flex-col justify-center items-center text-center relative px-8 overflow-hidden"
       >
-        {/* Background image at low opacity */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY }}>
           <img
             src={heroConnection}
@@ -180,21 +191,11 @@ const Mission = () => {
           />
         </motion.div>
 
-        {/* Top shimmer line */}
-        <div
-          className="absolute top-0 left-0 right-0 h-px"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${c.gold}, transparent)`,
-            animation: "4s ease-in-out 0s infinite hero-shimmer",
-          }}
-        />
-
         {/* Floating hearts */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           {[
             { left: "15%", top: "20%", delay: "0s", dur: "5s", size: "1.5rem" },
             { left: "30%", top: "45%", delay: "0.8s", dur: "6s", size: "1.8rem" },
-            { left: "45%", top: "70%", delay: "1.6s", dur: "7s", size: "2.1rem" },
             { left: "60%", top: "20%", delay: "2.4s", dur: "8s", size: "2.4rem" },
             { left: "75%", top: "45%", delay: "3.2s", dur: "9s", size: "2.7rem" },
             { left: "90%", top: "70%", delay: "4s", dur: "10s", size: "3rem" },
@@ -203,13 +204,9 @@ const Mission = () => {
               key={i}
               className="absolute animate-bounce"
               style={{
-                left: h.left,
-                top: h.top,
-                animationDelay: h.delay,
-                animationDuration: h.dur,
-                opacity: 0.06,
-                fontSize: h.size,
-                color: c.gold,
+                left: h.left, top: h.top,
+                animationDelay: h.delay, animationDuration: h.dur,
+                opacity: 0.06, fontSize: h.size, color: c.gold,
               }}
             >
               ♥
@@ -217,21 +214,7 @@ const Mission = () => {
           ))}
         </div>
 
-        {/* Hero content */}
         <motion.div className="relative z-10 max-w-[900px]" style={{ opacity: heroOpacity }}>
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            <img
-              src={ibloovLogoClean}
-              alt="iBloov"
-              className="h-16 md:h-20 mx-auto"
-              style={{ filter: `drop-shadow(0 0 20px ${c.gold}4d)` }}
-            />
-          </motion.div>
           <motion.p
             className="text-xs font-semibold tracking-[0.3em] uppercase mb-8"
             style={{ color: c.gold }}
@@ -242,7 +225,7 @@ const Mission = () => {
             A Manifesto for the Connected World
           </motion.p>
           <motion.h1
-            className="font-serif font-black leading-[1.05] mb-6"
+            className="font-serif font-black leading-[1.05] mb-8"
             style={{ color: c.cream, fontSize: "clamp(2.8rem, 7vw, 6.5rem)" }}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -253,7 +236,7 @@ const Mission = () => {
           </motion.h1>
           <motion.p
             className="font-light max-w-[640px] mx-auto leading-[1.7] mb-12"
-            style={{ color: c.textWarm, fontSize: "clamp(1.1rem, 2.2vw, 1.6rem)" }}
+            style={{ color: c.textWarm, fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
@@ -282,81 +265,47 @@ const Mission = () => {
         </motion.div>
       </section>
 
-      {/* ═══════════════ DIAGNOSIS ═══════════════ */}
-      <section
-        id="intro"
-        className="py-32 px-8"
-        style={{
-          background: c.bgWarm,
-          borderTop: `1px solid ${c.gold}1a`,
-          borderBottom: `1px solid ${c.gold}1a`,
-        }}
-      >
+      {/* ═══════════════ DIAGNOSIS — THE LOVE LEAK ═══════════════ */}
+      <section id="intro" className="py-32 px-8" style={{ background: c.bgWarm, borderTop: `1px solid ${c.gold}1a`, borderBottom: `1px solid ${c.gold}1a` }}>
         <div className="max-w-[1100px] mx-auto">
+          {/* Dripping heart */}
           <Reveal>
-            <p className="text-xs font-semibold tracking-[0.3em] uppercase text-center mb-8" style={{ color: c.gold }}>
-              The Diagnosis
-            </p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <blockquote
-              className="font-serif font-normal leading-[1.35] text-center max-w-[820px] mx-auto mb-12"
-              style={{ color: c.cream, fontSize: "clamp(1.8rem, 4vw, 3.2rem)" }}
-            >
-              "People do not hate what they truly understand. And people rarely understand each other through arguments, news headlines, or timelines. They understand each other through{" "}
-              <em className="italic" style={{ color: c.coral }}>shared experiences</em>."
-            </blockquote>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <p
-              className="text-lg leading-[1.9] text-center max-w-[680px] mx-auto mb-16"
-              style={{ color: c.textWarm }}
-            >
-              The world isn't only short on money, or jobs, or technology. It's leaking love — the human kind — from everyday life. Not because people are evil. Because people are separated, exhausted, misinformed, and uninvested in each other.
-            </p>
-          </Reveal>
-
-          {/* Large heart dripping */}
-          <Reveal delay={0.3}>
-            <div className="max-w-[700px] mx-auto mb-16">
-              <div className="relative flex items-center justify-center py-8">
-                <div className="relative">
-                  <div className="text-[4rem] md:text-[5rem] text-center" style={{ color: `${c.coral}cc` }}>♥</div>
-                  <div
-                    className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-8"
-                    style={{ background: `linear-gradient(to bottom, ${c.coral}99, transparent)` }}
-                  />
-                </div>
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-3">
-                  {[0, 0.5, 1].map((d, i) => (
-                    <span
-                      key={i}
-                      className="text-lg animate-bounce"
-                      style={{ animationDelay: `${d}s`, opacity: 0.4, color: `${c.coral}80` }}
-                    >
-                      💧
-                    </span>
-                  ))}
-                </div>
+            <div className="flex flex-col items-center mb-8">
+              <div className="relative">
+                <div className="text-[4rem] md:text-[5rem] text-center" style={{ color: `${c.coral}cc` }}>❤️</div>
+                <div
+                  className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-8"
+                  style={{ background: `linear-gradient(to bottom, ${c.coral}99, transparent)` }}
+                />
               </div>
-              <p className="text-xs tracking-[0.2em] uppercase text-center mt-4" style={{ color: c.muted }}>
-                The World Is Leaking Love — From Everyday Life
-              </p>
+              <div className="flex gap-3 mt-2">
+                {[0, 0.5, 1].map((d, i) => (
+                  <span key={i} className="text-lg animate-bounce" style={{ animationDelay: `${d}s`, opacity: 0.4, color: `hsl(210,60%,60%)` }}>
+                    💧
+                  </span>
+                ))}
+              </div>
             </div>
           </Reveal>
 
-          {/* Stats */}
-          <Reveal delay={0.45}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-[800px] mx-auto">
+          <Reveal delay={0.1}>
+            <p className="text-xs font-semibold tracking-[0.3em] uppercase text-center mb-12" style={{ color: c.muted }}>
+              The World Is Leaking Love — From Everyday Life
+            </p>
+          </Reveal>
+
+          {/* Stats - matching screenshot exactly */}
+          <Reveal delay={0.2}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-[900px] mx-auto">
               {[
                 { emoji: "😔", value: "1 in 4", label: "adults worldwide report\nfeeling lonely" },
                 { emoji: "📉", value: "$1.05T", label: "annual economic cost\nof disconnection" },
                 { emoji: "🏚️", value: "60%", label: "say they lack meaningful\ncommunity" },
               ].map((s) => (
-                <div key={s.value} className="text-center p-6 rounded-2xl" style={{ background: c.cardBg, border: `1px solid ${c.cardBorder}` }}>
-                  <div className="text-2xl mb-3">{s.emoji}</div>
-                  <div className="text-3xl font-bold mb-1" style={{ color: c.cream }}>{s.value}</div>
-                  <div className="text-sm whitespace-pre-line" style={{ color: c.muted }}>{s.label}</div>
+                <div key={s.value} className="text-center p-8 rounded-2xl" style={{ background: c.cardBg, border: `1px solid ${c.cardBorder}` }}>
+                  <div className="text-3xl mb-4">{s.emoji}</div>
+                  <div className="font-serif text-4xl md:text-5xl font-bold mb-3" style={{ color: c.gold }}>{s.value}</div>
+                  <div className="text-sm whitespace-pre-line leading-relaxed" style={{ color: c.muted }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -368,41 +317,43 @@ const Mission = () => {
       <section id="story" className="py-32 px-8">
         <div className="max-w-[1100px] mx-auto">
           <Reveal>
-            <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>
+            <p className="text-xs font-semibold tracking-[0.3em] uppercase text-center mb-4" style={{ color: c.gold }}>
               Four Lives, One Orbit
             </p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold mb-4" style={{ color: c.cream }}>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-center mb-4" style={{ color: c.cream }}>
               They Never Met. Until They <em className="italic" style={{ color: c.gold }}>Did.</em>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mb-12 max-w-2xl" style={{ color: c.textWarm }}>
+            <p className="text-center mb-12 max-w-2xl mx-auto leading-relaxed" style={{ color: c.textWarm }}>
               Four strangers. Four continents. Four aching hungers for something bigger than survival. One platform that quietly forced their worlds to collide.
             </p>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+          {/* 4-column cards with colored top borders */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { emoji: "🔥", loc: "Lagos, Nigeria", name: "Simi", story: "28. Surrounded by millions, starving for connection. Her fire was tired. She wanted a life where she could earn on her terms, grow fast, travel deep, and feel human again. Then one day, stuck in go-slow traffic — she saw iBloov AURA. It didn't look like an app. It looked like a doorway." },
-              { emoji: "⚡", loc: "Shanghai, China", name: "Su", story: "26. Tech whiz drowning in neon grind and 996 shifts. Smog-choked skies, ambition eclipsing joy. She craved balance — skills that traveled, income that flexed, moments that bridged cultures. One late-night scroll changed everything." },
-              { emoji: "🎨", loc: "Madrid, Spain", name: "Sofía", story: "29. An artist trapped in the vibrant but volatile rhythm of economic uncertainty. Tired of unstable gigs and isolated creativity, she yearned for a canvas bigger than her studio — global adventures, meaningful bonds, prosperity born from passion." },
-              { emoji: "🏙️", loc: "New York, USA", name: "Sean", story: "27. Entrepreneur navigating the concrete jungle where skyscrapers pierce the sky and subways swallow souls. Drained by startup failures, he sought a reboot — flexible wealth-building, cross-cultural thrills, connections that healed divides." },
+              { emoji: "🔥", loc: "Lagos, Nigeria", name: "Simi", story: "28. Surrounded by millions, starving for connection. Her fire was tired. She wanted a life where she could earn on her terms, grow fast, travel deep, and feel human again. Then one day, stuck in go-slow traffic — she saw iBloov AURA. It didn't look like an app. It looked like a doorway.", color: storyColors[0] },
+              { emoji: "⚡", loc: "Shanghai, China", name: "Su", story: "26. Tech whiz drowning in neon grind and 996 shifts. Smog-choked skies, ambition eclipsing joy. She craved balance — skills that traveled, income that flexed, moments that bridged cultures. One late-night scroll changed everything.", color: storyColors[1] },
+              { emoji: "🎨", loc: "Madrid, Spain", name: "Sofía", story: "29. An artist trapped in the vibrant but volatile rhythm of economic uncertainty. Tired of unstable gigs and isolated creativity, she yearned for a canvas bigger than her studio — global adventures, meaningful bonds, prosperity born from passion.", color: storyColors[2] },
+              { emoji: "🏙️", loc: "New York, USA", name: "Sean", story: "27. Entrepreneur navigating the concrete jungle where skyscrapers pierce the sky and subways swallow souls. Drained by startup failures, he sought a reboot — flexible wealth-building, cross-cultural thrills, connections that healed divides.", color: storyColors[3] },
             ].map((card, i) => (
               <Reveal key={card.name} delay={i * 0.1}>
                 <div
-                  className="p-6 rounded-2xl transition-colors"
+                  className="p-6 rounded-2xl h-full relative overflow-hidden"
                   style={{
                     background: c.cardBg,
                     border: `1px solid ${c.cardBorder}`,
+                    borderTopColor: card.color,
+                    borderTopWidth: 3,
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${c.gold}66`; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = c.cardBorder; }}
                 >
-                  <span className="text-2xl">{card.emoji}</span>
-                  <p className="text-xs font-semibold tracking-widest uppercase mt-3" style={{ color: c.gold }}>{card.loc}</p>
-                  <h3 className="text-xl font-bold mt-1" style={{ color: c.cream }}>{card.name}</h3>
-                  <p className="text-sm mt-3 leading-relaxed" style={{ color: c.textWarm }}>{card.story}</p>
+                  <span className="text-3xl block mb-4">{card.emoji}</span>
+                  <p className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-1" style={{ color: c.muted }}>{card.loc}</p>
+                  <h3 className="font-serif text-2xl font-bold mb-3" style={{ color: card.color }}>{card.name}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: c.textWarm }}>{card.story}</p>
                 </div>
               </Reveal>
             ))}
@@ -413,46 +364,52 @@ const Mission = () => {
       {/* ═══════════════ THREE ACTS ═══════════════ */}
       <section className="py-32 px-8">
         <div className="max-w-[900px] mx-auto">
-          <Reveal>
-            <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>
-              How iBloov Stitched Their Worlds Together
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold mb-12" style={{ color: c.cream }}>
-              The Accidental Family Nobody <em className="italic" style={{ color: c.gold }}>Planned</em>
-            </h2>
-          </Reveal>
-
           {/* Act I */}
-          <Reveal delay={0.15}>
+          <Reveal>
             <div className="mb-16">
-              <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-2" style={{ color: c.muted }}>Act I — The Spark</p>
-              <h3 className="text-xl font-bold mb-4" style={{ color: c.cream }}>A Basketball Bouncing in Barcelona</h3>
-              <div className="space-y-4 text-sm leading-relaxed" style={{ color: c.textWarm }}>
-                <p>Sofía opened Sport Buddy on a whim. She needed to sweat out the stress. In that gym, she met Sean — the burnt-out New Yorker on a "digital detox" trip, using Kia Travel Buddy to force himself into real-world adventures.</p>
-                <p>He was terrible at basketball. She passed him the ball with a smile. They high-fived. The game ended, but something began. Loyalty & Rewards pinged them both: <strong style={{ color: c.gold }}>+50 IBT</strong> for your first cross-border Sport Buddy connection.</p>
-                <p>He scanned the Picture Share QR on the court wall and found a photo of himself, mid-air, comically missing a layup. Sofía had tagged him. He laughed — a real, deep laugh he hadn't felt in months. He tipped her 10 euros via Flex-it. Over tapas found on iBloov Place, they shared stories. Sean talked about his dream diner. Sofía's eyes lit up.</p>
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-3" style={{ color: c.coral }}>Act I — The Spark</p>
+              <h3 className="font-serif text-2xl font-bold mb-6" style={{ color: c.cream }}>A Basketball Bouncing in Barcelona</h3>
+              <div className="space-y-5 text-[15px] leading-[1.8]" style={{ color: c.textWarm }}>
+                <p>
+                  Sofía opened <Badge color="hsl(160,50%,30%)">Sport Buddy</Badge> on a whim. She needed to sweat out the stress. In that gym, she met Sean — the burnt-out New Yorker on a "digital detox" trip, using <Badge color="hsl(200,50%,30%)">Kia Travel Buddy</Badge> to force himself into real-world adventures.
+                </p>
+                <p>
+                  He was terrible at basketball. She passed him the ball with a smile. They high-fived. The game ended, but something began. <Badge color="hsl(280,40%,35%)">Loyalty & Rewards</Badge> pinged them both: <strong style={{ color: c.gold }}>+50 IBT</strong> for your first cross-border Sport Buddy connection.
+                </p>
+                <p>
+                  He scanned the <Badge color="hsl(12,60%,40%)">Picture Share</Badge> QR on the court wall and found a photo of himself, mid-air, comically missing a layup. Sofía had tagged him. He laughed — a real, deep laugh he hadn't felt in months. He tipped her 10 euros via <Badge color="hsl(39,70%,35%)">Flex-it</Badge>. Over tapas found on <Badge color="hsl(160,40%,35%)">iBloov Place</Badge>, they shared stories. Sean talked about his dream diner. Sofía's eyes lit up.
+                </p>
               </div>
             </div>
           </Reveal>
 
+          {/* Divider */}
+          <div className="w-full h-px mb-16" style={{ background: c.cardBorder }} />
+
           {/* Act II */}
-          <Reveal delay={0.15}>
+          <Reveal>
             <div className="mb-16">
-              <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-2" style={{ color: c.muted }}>Act II — The Convergence</p>
-              <h3 className="text-xl font-bold mb-4" style={{ color: c.cream }}>Four Orbits Align in Dubai</h3>
-              <div className="space-y-4 text-sm leading-relaxed" style={{ color: c.textWarm }}>
-                <p>Weeks later. Simi was in Dubai — a certified mixologist from iBloov Learning, working a massive festival booked through Event Ticketing. The lounge needed emergency staff. The manager posted on iBloov Hub.</p>
-                <p>Su in Shanghai saw it. Her NomadVerse profile — verified by certs — got her an instant interview. She was on a plane within 48 hours, financed by the Bank of Leisure's "Save Half, Pay Rest" plan.</p>
-                <p>Meanwhile, Sean and Sofía had arrived using the AI Concierge. They walked into the lounge. Sofía saw Simi's confident flair: <em>"Your technique is art!"</em> Simi recognized Sofía from AuraLink: <em>"The basketball legend from Barcelona!"</em></p>
-                <p>In that surreal moment — Lagos, New York, Madrid, Shanghai — four orbits physically aligned. They closed the place down. They captured it all on Picture Share in a folder titled <strong style={{ color: c.gold }}>"The Global Crew, Night One."</strong></p>
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-3" style={{ color: c.muted }}>Act II — The Convergence</p>
+              <h3 className="font-serif text-2xl font-bold mb-6" style={{ color: c.cream }}>Four Orbits Align in Dubai</h3>
+              <div className="space-y-5 text-[15px] leading-[1.8]" style={{ color: c.textWarm }}>
+                <p>
+                  Weeks later. Simi was in Dubai — a certified mixologist from <Badge color="hsl(160,50%,30%)">iBloov Learning</Badge>, working a massive festival booked through <Badge color="hsl(280,40%,35%)">Event Ticketing</Badge>. The lounge needed emergency staff. The manager posted on <Badge color="hsl(200,50%,30%)">iBloov Hub</Badge>.
+                </p>
+                <p>
+                  Su in Shanghai saw it. Her NomadVerse profile — verified by certs — got her an instant interview. She was on a plane within 48 hours, financed by the Bank of Leisure's "Save Half, Pay Rest" plan.
+                </p>
+                <p>
+                  Meanwhile, Sean and Sofía had arrived using the AI Concierge. They walked into the lounge. Sofía saw Simi's confident flair: <em className="italic" style={{ color: c.cream }}>"Your technique is art!"</em> Simi recognized Sofía from <Badge color="hsl(224,60%,40%)">AuraLink</Badge>: <em className="italic" style={{ color: c.cream }}>"The basketball legend from Barcelona!"</em>
+                </p>
+                <p>
+                  In that surreal moment — Lagos, New York, Madrid, Shanghai — four orbits physically aligned. They closed the place down. They captured it all on <Badge color="hsl(12,60%,40%)">Picture Share</Badge> in a folder titled <strong style={{ color: c.cream }}>"The Global Crew, Night One."</strong>
+                </p>
               </div>
             </div>
           </Reveal>
 
           {/* Global Crew Image */}
-          <Reveal delay={0.1}>
+          <Reveal>
             <div className="mb-16">
               <img
                 src={globalCrew}
@@ -464,12 +421,15 @@ const Mission = () => {
             </div>
           </Reveal>
 
+          {/* Divider */}
+          <div className="w-full h-px mb-16" style={{ background: c.cardBorder }} />
+
           {/* Act III */}
-          <Reveal delay={0.15}>
+          <Reveal>
             <div>
-              <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-2" style={{ color: c.muted }}>Act III — The Syndicate</p>
-              <h3 className="text-xl font-bold mb-4" style={{ color: c.cream }}>From Strangers to Co-Owners</h3>
-              <div className="space-y-4 text-sm leading-relaxed" style={{ color: c.textWarm }}>
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-3" style={{ color: c.muted }}>Act III — The Syndicate</p>
+              <h3 className="font-serif text-2xl font-bold mb-6" style={{ color: c.cream }}>From Strangers to Co-Owners</h3>
+              <div className="space-y-5 text-[15px] leading-[1.8]" style={{ color: c.textWarm }}>
                 <p>For six months, they were a digital tribe. Monthly check-ins on Engage. Mindfulness sessions from Mavericks Wellness. A group trip to Lagos via Kia.</p>
                 <p>The trust was absolute — built layer by layer. Trust in skill, verified by Learning certs and Hub reviews. Trust in character, proven through shared play and shared tipping. Trust in vision, aligned through dialogue.</p>
                 <p>Then Sean found it on LeapFranchise: a boutique lounge franchise combining Simi's mixology, Sofía's cultural performances, Su's wellness ambiance, and Sean's community model. Using Timeshare dividends, Investment Syndicates, and shared capital — they bought it. Together.</p>
@@ -480,7 +440,7 @@ const Mission = () => {
         </div>
       </section>
 
-      {/* ═══════════════ EQUATION ═══════════════ */}
+      {/* ═══════════════ CONNECTION EQUATION ═══════════════ */}
       <section className="py-32 px-8">
         <div className="max-w-[1100px] mx-auto text-center">
           <Reveal>
@@ -499,17 +459,27 @@ const Mission = () => {
               loading="lazy"
             />
           </Reveal>
+
+          {/* 4 equation cards with left colored borders */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
             {[
-              { title: "Proximity", desc: "Be in the same place → Places, Sport Buddy, Event Ticketing" },
-              { title: "Shared Activity", desc: "Do something together → Institute, Hub, Ticketing" },
-              { title: "Repeated Interaction", desc: "Keep showing up → Engage, Wellness, Picture Share" },
-              { title: "Shared Ownership", desc: "Build something together → Timeshare, LeapFranchise" },
+              { title: "Proximity", desc: "Be in the same place →\nPlaces, Sport Buddy, Event Ticketing", color: "hsl(12,80%,50%)" },
+              { title: "Shared Activity", desc: "Do something together →\nInstitute, Hub, Ticketing", color: "hsl(39,95%,55%)" },
+              { title: "Repeated Interaction", desc: "Keep showing up →\nEngage, Wellness, Picture Share", color: "hsl(160,60%,45%)" },
+              { title: "Shared Ownership", desc: "Build something together\n→ Timeshare, LeapFranchise", color: "hsl(260,50%,55%)" },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 0.1}>
-                <div className="p-5 rounded-2xl" style={{ background: c.cardBg, border: `1px solid ${c.cardBorder}` }}>
-                  <h4 className="font-bold text-sm mb-2" style={{ color: c.cream }}>{item.title}</h4>
-                  <p className="text-xs leading-relaxed" style={{ color: c.textWarm }}>{item.desc}</p>
+                <div
+                  className="p-5 rounded-xl h-full"
+                  style={{
+                    background: c.cardBg,
+                    border: `1px solid ${c.cardBorder}`,
+                    borderLeftColor: item.color,
+                    borderLeftWidth: 3,
+                  }}
+                >
+                  <h4 className="font-bold text-sm mb-2" style={{ color: item.color }}>{item.title}</h4>
+                  <p className="text-xs leading-relaxed whitespace-pre-line" style={{ color: c.textWarm }}>{item.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -519,25 +489,42 @@ const Mission = () => {
 
       {/* ═══════════════ FLYWHEEL ═══════════════ */}
       <section className="py-32 px-8">
-        <div className="max-w-[1100px] mx-auto text-center">
+        <div className="max-w-[900px] mx-auto text-center">
           <Reveal>
-            <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>The Flywheel</p>
+            <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-6" style={{ color: c.gold }}>The Flywheel</p>
           </Reveal>
           <Reveal delay={0.1}>
             <img
               src={flywheelInfographic}
               alt="iBloov AURA Flywheel"
-              className="w-full rounded-2xl mb-8"
+              className="w-full rounded-2xl mb-10"
               loading="lazy"
             />
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="font-mono text-sm tracking-wide" style={{ color: c.gold }}>
-              Learn → Earn → Explore → Pay → Heal → Belong → Own → Repeat ∞
-            </p>
+            <div className="flex flex-wrap items-center justify-center gap-2 text-base font-semibold">
+              {[
+                { word: "Learn", color: "hsl(39,95%,55%)" },
+                { word: "Earn", color: "hsl(120,50%,50%)" },
+                { word: "Explore", color: "hsl(200,70%,55%)" },
+                { word: "Pay", color: "hsl(280,50%,55%)" },
+                { word: "Heal", color: "hsl(340,70%,55%)" },
+                { word: "Belong", color: "hsl(160,60%,45%)" },
+                { word: "Own", color: "hsl(12,80%,55%)" },
+              ].map((item, i) => (
+                <span key={item.word} className="flex items-center gap-2">
+                  <span style={{ color: item.color }}>{item.word}</span>
+                  {i < 6 && <span style={{ color: c.muted }}>→</span>}
+                </span>
+              ))}
+              <span className="flex items-center gap-2">
+                <span style={{ color: c.muted }}>→</span>
+                <span className="font-bold" style={{ color: c.cream }}>Repeat ∞</span>
+              </span>
+            </div>
           </Reveal>
           <Reveal delay={0.25}>
-            <p className="mt-4 text-sm" style={{ color: c.textWarm }}>
+            <p className="mt-6 text-sm" style={{ color: c.textWarm }}>
               Real life becomes a loop, not a dead end.
             </p>
           </Reveal>
@@ -548,80 +535,139 @@ const Mission = () => {
       <section id="ecosystem" className="py-32 px-8">
         <div className="max-w-[1100px] mx-auto">
           <Reveal>
-            <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>The Enterprise Ecosystem</p>
+            <p className="text-xs font-semibold tracking-[0.3em] uppercase text-center mb-4" style={{ color: c.gold }}>The Enterprise Ecosystem</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold mb-6" style={{ color: c.cream }}>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-center mb-6" style={{ color: c.cream }}>
               One Platform. Every Life <em className="italic" style={{ color: c.gold }}>Function.</em>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mb-12 max-w-3xl leading-relaxed" style={{ color: c.textWarm }}>
+            <p className="text-center mb-14 max-w-3xl mx-auto leading-relaxed" style={{ color: c.textWarm }}>
               iBloov AURA is not a collection of apps. It is a global nervous system — linking communities, economies, and hearts through a deliberate, phased architecture that makes love compound.
             </p>
           </Reveal>
 
-          <div className="space-y-8">
+          {/* Phase cards in 2x2 grid with colored top borders and pill tags */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { phase: "Phase 1 — The Mothership", title: "Identity & Discovery", items: "AuraLink · Sport Buddy · Places · Event Ticketing · CheckPoint · iBloov Learning · Hub · Flex-it · Mavericks Wellness · Loyalty & Rewards" },
-              { phase: "Phase 2 — Community & Commerce", title: "When the Flywheel Spins", items: "Engage · Picture Share · Fusion · Element" },
-              { phase: "Phase 3 — Ownership & Prestige", title: "When Trust Is Built", items: "Timeshare · LeapFranchise · MetaPass · DreamPort" },
+              { phase: "Phase 1 — The Mothership", title: "Identity & Discovery", items: ["AuraLink", "Sport Buddy", "Places", "Event Ticketing", "CheckPoint", "iBloov Learning", "Hub", "Flex-it", "Mavericks Wellness", "Loyalty & Rewards"], color: phaseColors[0] },
+              { phase: "Phase 2 — Community & Commerce", title: "When the Flywheel Spins", items: ["Engage", "Picture Share", "Fusion", "Element"], color: phaseColors[1] },
+              { phase: "Phase 3 — Ownership & Prestige", title: "When Trust Is Built", items: ["Timeshare", "LeapFranchise", "MetaPass", "DreamPort"], color: phaseColors[2] },
             ].map((p, i) => (
               <Reveal key={p.phase} delay={i * 0.1}>
-                <div className="p-6 rounded-2xl" style={{ background: c.cardBg, border: `1px solid ${c.cardBorder}` }}>
-                  <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-1" style={{ color: c.muted }}>{p.phase}</p>
-                  <h3 className="text-lg font-bold mb-3" style={{ color: c.cream }}>{p.title}</h3>
-                  <p className="text-sm" style={{ color: c.textWarm }}>{p.items}</p>
+                <div
+                  className="p-6 rounded-2xl h-full"
+                  style={{
+                    background: c.cardBg,
+                    border: `1px solid ${c.cardBorder}`,
+                    borderTopColor: p.color,
+                    borderTopWidth: 3,
+                  }}
+                >
+                  <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-2" style={{ color: p.color }}>{p.phase}</p>
+                  <h3 className="font-serif text-xl font-bold mb-4" style={{ color: c.cream }}>{p.title}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {p.items.map((item) => (
+                      <span
+                        key={item}
+                        className="px-3 py-1.5 rounded-full text-xs font-medium"
+                        style={{ background: "hsl(220,15%,16%)", color: c.textWarm, border: `1px solid ${c.cardBorder}` }}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Reveal>
             ))}
-          </div>
 
-          <Reveal delay={0.3}>
-            <div className="mt-8 p-6 rounded-2xl" style={{ background: c.cardBg, border: `1px solid ${c.gold}33` }}>
-              <h3 className="text-lg font-bold mb-3" style={{ color: c.cream }}>The Full Architecture</h3>
-              <p className="text-sm font-mono" style={{ color: c.gold }}>
-                Identity → Skills → Income → Experiences → Payments → Wellness → Rewards → Ownership
-              </p>
-              <p className="text-sm mt-3 leading-relaxed" style={{ color: c.textWarm }}>
-                Each step reduces hate because each step increases proximity, shared projects, shared play, shared wins, and shared ownership.
-              </p>
-            </div>
-          </Reveal>
+            {/* Full Architecture card */}
+            <Reveal delay={0.3}>
+              <div
+                className="p-6 rounded-2xl h-full"
+                style={{
+                  background: c.cardBg,
+                  border: `1px solid ${c.gold}33`,
+                  borderTopColor: c.gold,
+                  borderTopWidth: 3,
+                }}
+              >
+                <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-2" style={{ color: c.gold }}>The Full Architecture</p>
+                <p className="font-serif text-xl font-bold leading-relaxed mb-4" style={{ color: c.cream }}>
+                  Identity → Skills → Income → Experiences → Payments → Wellness → Rewards → Ownership
+                </p>
+                <p className="text-sm leading-relaxed" style={{ color: c.textWarm }}>
+                  Each step reduces hate because each step increases proximity, shared projects, shared play, shared wins, and shared ownership.
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* ═══════════════ ASSET MANAGEMENT ═══════════════ */}
+      {/* ═══════════════ ASSET MANAGEMENT HOLDING COMPANY ═══════════════ */}
       <section className="py-32 px-8">
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-[1100px] mx-auto text-center">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>The Movement Becomes a Machine</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold mb-6" style={{ color: c.cream }}>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold mb-8" style={{ color: c.cream }}>
               Asset Management <em className="italic" style={{ color: c.gold }}>Holding Company</em>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mb-12 max-w-3xl leading-relaxed" style={{ color: c.textWarm }}>
+            <p className="mb-14 max-w-3xl mx-auto leading-relaxed" style={{ color: c.textWarm }}>
               Each product can grow into its own company while staying tied to the AURA protocol. Revenue sits at the intersection of ticketing, venue commission, gig marketplaces, education, payments, wellness subscriptions, and tokenized rewards — multiple defensible streams in a global market already in the trillions.
             </p>
           </Reveal>
 
+          {/* Hierarchy: Parent → AuraLink → Subsidiaries */}
           <Reveal delay={0.25}>
-            <div className="p-6 rounded-2xl mb-6" style={{ background: c.cardBg, border: `1px solid ${c.cardBorder}` }}>
-              <h3 className="text-lg font-bold text-center mb-4" style={{ color: c.cream }}>iBloov Group (Parent)</h3>
-              <p className="text-xs text-center mb-6" style={{ color: c.muted }}>Strategy · Capital Allocation · Shared Infrastructure</p>
-              <p className="text-xs text-center font-semibold mb-4" style={{ color: c.gold }}>AURALINK — Shared Identity · Data · SSO · Verified Credentials Layer</p>
+            <div className="space-y-4 max-w-[900px] mx-auto">
+              {/* Parent */}
+              <div
+                className="p-6 rounded-2xl"
+                style={{
+                  background: c.cardBg,
+                  border: `2px solid hsl(224,70%,35%)`,
+                }}
+              >
+                <h3 className="font-serif text-xl font-bold mb-1" style={{ color: c.cream }}>iBloov Group (Parent)</h3>
+                <p className="text-xs" style={{ color: c.muted }}>Strategy · Capital Allocation · Shared Infrastructure</p>
+              </div>
+
+              {/* AuraLink bar */}
+              <div
+                className="py-3 px-6 rounded-xl text-center"
+                style={{
+                  background: "linear-gradient(90deg, hsl(39,60%,25%), hsl(39,80%,30%), hsl(39,60%,25%))",
+                  border: `1px solid ${c.gold}44`,
+                }}
+              >
+                <p className="text-sm font-semibold tracking-wide" style={{ color: c.gold }}>
+                  AURALINK — Shared Identity · Data · SSO · Verified Credentials Layer
+                </p>
+              </div>
+
+              {/* Subsidiaries row */}
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                 {[
-                  { name: "Hub", sub: "Gig Economy" },
-                  { name: "Institute", sub: "Skills & Credentials" },
-                  { name: "Ticketing", sub: "Events & Experiences" },
-                  { name: "Wellness", sub: "Health & Resilience" },
-                  { name: "Franchise", sub: "Ownership & Expansion" },
+                  { name: "Hub", sub: "Gig Economy", color: subColors[0] },
+                  { name: "Institute", sub: "Skills & Credentials", color: subColors[1] },
+                  { name: "Ticketing", sub: "Events & Experiences", color: subColors[2] },
+                  { name: "Wellness", sub: "Health & Resilience", color: subColors[3] },
+                  { name: "Franchise", sub: "Ownership & Expansion", color: subColors[4] },
                 ].map((s) => (
-                  <div key={s.name} className="p-3 rounded-xl text-center" style={{ background: "hsl(220,15%,14%)" }}>
+                  <div
+                    key={s.name}
+                    className="p-4 rounded-xl text-center"
+                    style={{
+                      background: c.cardBg,
+                      border: `1px solid ${s.color}`,
+                    }}
+                  >
                     <p className="font-bold text-sm" style={{ color: c.cream }}>{s.name}</p>
                     <p className="text-xs mt-1" style={{ color: c.muted }}>{s.sub}</p>
                   </div>
@@ -630,21 +676,22 @@ const Mission = () => {
             </div>
           </Reveal>
 
-          <div className="space-y-3">
-            {[
-              "Each subsidiary has its own CEO, P&L, and can raise independently — while the AURA identity layer binds them together.",
-              "Investors get optionality: bet on the full ecosystem OR invest in individual verticals with their own growth trajectory.",
-              "Co-Founder CEOs are recruited for each vertical — operators who run subsidiaries as founder-level leaders with equity and autonomy.",
-              "The transition to asset management happens as subsidiaries mature and generate independent cash flow.",
-            ].map((text, i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <div className="flex gap-3 items-start p-4 rounded-xl" style={{ background: c.cardBg, border: `1px solid ${c.cardBorder}` }}>
-                  <span className="font-bold mt-0.5" style={{ color: c.gold }}>→</span>
+          {/* Bullet points in 2-col grid */}
+          <Reveal delay={0.3}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10 max-w-[900px] mx-auto text-left">
+              {[
+                "Each subsidiary has its own CEO, P&L, and can raise independently — while the AURA identity layer binds them together.",
+                "Investors get optionality: bet on the full ecosystem OR invest in individual verticals with their own growth trajectory.",
+                "Co-Founder CEOs are recruited for each vertical — operators who run subsidiaries as founder-level leaders with equity and autonomy.",
+                "The transition to asset management happens as subsidiaries mature and generate independent cash flow.",
+              ].map((text, i) => (
+                <div key={i} className="flex gap-3 items-start">
+                  <span className="mt-1.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs" style={{ background: c.cardBg, border: `1px solid ${c.cardBorder}`, color: c.muted }}>—</span>
                   <p className="text-sm leading-relaxed" style={{ color: c.textWarm }}>{text}</p>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -713,7 +760,6 @@ const Mission = () => {
             </h2>
           </Reveal>
 
-          {/* Progress indicator */}
           <Reveal delay={0.15}>
             <div className="flex justify-center items-center gap-2 mb-12 text-xl">
               <span>😐</span><span style={{ color: c.muted }}>→</span>
@@ -757,52 +803,30 @@ const Mission = () => {
 
       {/* ═══════════════ FINAL CTA ═══════════════ */}
       <section className="py-32 px-8 text-center relative overflow-hidden">
-        {/* Floating hearts & stars */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {[
             { left: "10%", top: "15%", delay: "0s", dur: "5s" },
             { left: "85%", top: "25%", delay: "1s", dur: "6s" },
             { left: "20%", top: "65%", delay: "2s", dur: "7s" },
             { left: "75%", top: "75%", delay: "3s", dur: "8s" },
-            { left: "50%", top: "40%", delay: "1.5s", dur: "9s" },
           ].map((h, i) => (
             <div
               key={i}
               className="absolute animate-bounce"
               style={{
-                left: h.left,
-                top: h.top,
-                animationDelay: h.delay,
-                animationDuration: h.dur,
-                opacity: 0.06,
-                fontSize: "1.5rem",
-                color: c.gold,
+                left: h.left, top: h.top,
+                animationDelay: h.delay, animationDuration: h.dur,
+                opacity: 0.06, fontSize: "1.5rem", color: c.gold,
               }}
             >
               ♥
             </div>
           ))}
-          <div
-            className="absolute animate-spin"
-            style={{ left: "35%", top: "20%", animationDuration: "12s", opacity: 0.08, fontSize: "1.2rem", color: c.gold }}
-          >
-            ✦
-          </div>
-          <div
-            className="absolute animate-spin"
-            style={{ left: "70%", top: "60%", animationDuration: "16s", opacity: 0.08, fontSize: "1.2rem", color: c.gold, animationDirection: "reverse" }}
-          >
-            ✦
-          </div>
         </div>
 
         <div className="max-w-[900px] mx-auto relative z-10">
           <Reveal>
-            <img
-              src={ibloovLogoClean}
-              alt="iBloov"
-              className="h-10 mx-auto mb-8"
-            />
+            <img src={ibloovLogoClean} alt="iBloov" className="h-10 mx-auto mb-8" />
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>
