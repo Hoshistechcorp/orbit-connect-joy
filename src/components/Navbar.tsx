@@ -1,31 +1,34 @@
 import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
+import { Link } from "react-router-dom";
 import ibloovLogo from "@/assets/ibloov-logo.jpeg";
-import AboutModal from "./AboutModal";
 
 const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-border/50">
       <nav className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-        <motion.div
-          className="flex items-center gap-2.5"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}>
-          <img
-            src={ibloovLogo}
-            alt="iBloov"
-            className="h-8 w-auto rounded-lg" />
-        </motion.div>
+        <Link to="/">
+          <motion.div
+            className="flex items-center gap-2.5"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}>
+            <img
+              src={ibloovLogo}
+              alt="iBloov"
+              className="h-8 w-auto rounded-lg" />
+          </motion.div>
+        </Link>
 
         <div className="flex items-center gap-5 sm:gap-7 text-sm font-medium font-display">
-          <AboutModal>
-            <motion.button
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}>
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/mission"
+              className="text-muted-foreground hover:text-foreground transition-colors">
               Mission
-            </motion.button>
-          </AboutModal>
+            </Link>
+          </motion.div>
 
           <motion.a
             href="https://ibloov.com"
