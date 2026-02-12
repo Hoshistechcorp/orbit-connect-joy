@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Orbit, Heart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingMath from "@/components/FloatingMath";
@@ -82,23 +83,36 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 3.8, duration: 0.7, type: "spring" }}
           >
-            <a
+            <motion.a
               href="https://ibloov.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground hover:border-ibloov-blue transition-colors shadow-sm"
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-foreground text-background font-display font-semibold text-sm"
+              whileHover={{
+                scale: 1.06,
+                boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
             >
+              <Orbit className="w-4 h-4" />
               Enter the Orbit
-              <span className="text-muted-foreground">⌘</span>
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="https://ibloov.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-display font-medium text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground"
+              whileHover={{
+                scale: 1.06,
+                boxShadow: "0 4px 20px hsl(var(--ibloov-orange) / 0.2)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
             >
+              <Heart className="w-4 h-4 text-ibloov-orange" />
               Support the Vision
-            </a>
+            </motion.a>
           </motion.div>
         </motion.div>
       </main>

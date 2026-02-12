@@ -32,7 +32,14 @@ const EmailSearchBar = () => {
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto">
+    <div className="w-full max-w-xl mx-auto relative">
+      {/* Colorful glow behind the form */}
+      <div
+        className="absolute -inset-3 rounded-full blur-2xl opacity-50 pointer-events-none"
+        style={{
+          background: "linear-gradient(135deg, hsl(var(--ibloov-blue) / 0.3), hsl(var(--ibloov-orange) / 0.4), hsl(var(--ibloov-blue) / 0.2))",
+        }}
+      />
       <AnimatePresence mode="wait">
         {!submitted ? (
           <motion.form
@@ -75,7 +82,7 @@ const EmailSearchBar = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", bounce: 0.5 }}
-            className="flex items-center justify-center gap-3 py-4 px-6 rounded-full bg-card/80 backdrop-blur-xl"
+            className="relative flex items-center justify-center gap-3 py-4 px-6 rounded-full bg-card/80 backdrop-blur-xl"
             style={{ boxShadow: "0 4px 30px hsl(var(--foreground) / 0.06)" }}
           >
             <motion.div
