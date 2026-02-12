@@ -177,7 +177,7 @@ const Mission = () => {
           <img
             src={heroConnection}
             alt="Global human connection"
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-15"
           />
           <div
             className="absolute inset-0"
