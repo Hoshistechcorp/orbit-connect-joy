@@ -48,10 +48,13 @@ const EmailSearchBar = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="relative flex items-center rounded-full bg-muted/60 backdrop-blur-xl transition-all duration-500 border border-border/40"
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            className="relative flex items-center rounded-full bg-muted/60 backdrop-blur-xl transition-all duration-300 border border-border/40 hover:bg-muted/80 hover:border-border/60 cursor-text"
             style={{
               boxShadow: focused
-                ? "0 0 0 1px hsl(var(--border) / 0.6), 0 8px 40px hsl(var(--foreground) / 0.08), 0 20px 60px hsl(var(--ibloov-orange) / 0.06)"
+                ? "0 0 0 2px hsl(var(--ibloov-orange) / 0.4), 0 8px 40px hsl(var(--foreground) / 0.1), 0 20px 60px hsl(var(--ibloov-orange) / 0.1)"
                 : "0 0 0 1px hsl(var(--border) / 0.3), 0 4px 30px hsl(var(--foreground) / 0.04), 0 15px 50px hsl(var(--ibloov-orange) / 0.04)",
             }}
           >
@@ -68,10 +71,11 @@ const EmailSearchBar = () => {
             />
             <motion.button
               type="submit"
-              className="absolute right-2.5 sm:right-3 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-foreground flex items-center justify-center"
+              className="absolute right-2.5 sm:right-3 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-foreground flex items-center justify-center transition-colors duration-200 hover:bg-ibloov-orange"
               aria-label="Submit email"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15, rotate: -10 }}
+              whileTap={{ scale: 0.85 }}
+              transition={{ type: "spring", stiffness: 500, damping: 15 }}
             >
               <ArrowRight className="w-5 h-5 text-background" />
             </motion.button>
