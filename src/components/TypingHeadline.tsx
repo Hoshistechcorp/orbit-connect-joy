@@ -23,71 +23,35 @@ const TypingHeadline = () => {
   }, []);
 
   return (
-    <div className="space-y-4">
-      <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tight min-h-[1.4em]">
+    <div className="space-y-3">
+      <h1 className="font-display text-6xl sm:text-7xl md:text-8xl font-bold text-foreground tracking-tight min-h-[1.2em]">
         {displayed.split("").map((char, i) => (
           <motion.span
             key={i}
-            initial={{ opacity: 0, y: 30, scale: 0.5 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.15, type: "spring", bounce: 0.4 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.12, type: "spring", bounce: 0.3 }}
             className={char === "x" ? "text-ibloov-orange" : ""}
-            style={
-              char === "x"
-                ? { textShadow: "0 0 40px hsl(var(--ibloov-orange) / 0.6), 0 0 80px hsl(var(--ibloov-orange) / 0.2)" }
-                : {}
-            }
           >
             {char}
           </motion.span>
         ))}
         <motion.span
-          className="inline-block w-[3px] h-[0.8em] bg-ibloov-blue ml-1 align-middle rounded-full"
+          className="inline-block w-[3px] h-[0.7em] bg-foreground/30 ml-1 align-middle rounded-full"
           animate={{ opacity: done ? [1, 0] : 1 }}
           transition={done ? { duration: 0.5, repeat: Infinity, repeatType: "reverse" } : {}}
-          style={{ boxShadow: "0 0 10px hsl(var(--ibloov-blue) / 0.5)" }}
         />
       </h1>
 
       <AnimatePresence>
         {showSubtext && (
           <motion.p
-            initial={{ opacity: 0, y: 15, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, type: "spring" }}
-            className="font-display text-xl sm:text-2xl text-muted-foreground"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="font-display text-xl sm:text-2xl text-muted-foreground/60"
           >
-            Where{" "}
-            <motion.span
-              className="text-ibloov-blue font-bold"
-              animate={{
-                scale: [1, 1.15, 1],
-                textShadow: [
-                  "0 0 0px hsl(var(--ibloov-blue) / 0)",
-                  "0 0 20px hsl(var(--ibloov-blue) / 0.5)",
-                  "0 0 0px hsl(var(--ibloov-blue) / 0)",
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              x
-            </motion.span>
-            {" "}={" "}
-            <motion.span
-              className="text-ibloov-orange font-bold"
-              animate={{
-                scale: [1, 1.15, 1],
-                textShadow: [
-                  "0 0 0px hsl(var(--ibloov-orange) / 0)",
-                  "0 0 20px hsl(var(--ibloov-orange) / 0.5)",
-                  "0 0 0px hsl(var(--ibloov-orange) / 0)",
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-            >
-              Love
-            </motion.span>
-            {" "}💛
+            (Where x = Love)
           </motion.p>
         )}
       </AnimatePresence>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ArrowRight, Check, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Sparkles } from "lucide-react";
 
 const EmailSearchBar = () => {
   const [email, setEmail] = useState("");
@@ -41,44 +41,41 @@ const EmailSearchBar = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="relative flex items-center rounded-full border bg-card shadow-lg transition-all duration-300"
+            className="relative flex items-center rounded-full bg-card/80 backdrop-blur-xl transition-all duration-500"
             style={{
-              borderColor: focused
-                ? "hsl(var(--ibloov-blue))"
-                : "hsl(var(--border))",
               boxShadow: focused
-                ? "0 0 30px hsl(var(--ibloov-blue) / 0.15), 0 10px 40px hsl(var(--ibloov-blue) / 0.08)"
-                : "0 4px 20px hsl(var(--foreground) / 0.05)",
+                ? "0 0 0 1px hsl(var(--ibloov-blue) / 0.3), 0 8px 40px hsl(var(--ibloov-blue) / 0.15), 0 0 80px hsl(var(--ibloov-blue) / 0.08), inset 0 1px 0 hsl(var(--background) / 0.8)"
+                : "0 0 0 1px hsl(var(--border) / 0.5), 0 4px 30px hsl(var(--foreground) / 0.06), 0 0 60px hsl(var(--ibloov-blue) / 0.04), inset 0 1px 0 hsl(var(--background) / 0.8)",
             }}
           >
-            <Search className="absolute left-4 w-5 h-5 text-muted-foreground" />
             <input
               type="email"
-              placeholder="your@email.com — join the orbit 🛸"
+              placeholder="Enter your email to join the orbit"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(""); }}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
-              className="flex-1 bg-transparent py-4 pl-12 pr-16 text-base text-foreground placeholder:text-muted-foreground outline-none rounded-full"
+              className="flex-1 bg-transparent py-4 sm:py-5 pl-6 sm:pl-8 pr-16 text-base sm:text-lg text-foreground placeholder:text-muted-foreground/50 outline-none rounded-full"
               maxLength={255}
             />
             <motion.button
               type="submit"
-              className="absolute right-2 w-10 h-10 rounded-full bg-primary flex items-center justify-center"
+              className="absolute right-2 sm:right-3 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-foreground flex items-center justify-center"
               aria-label="Submit email"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <ArrowRight className="w-5 h-5 text-primary-foreground" />
+              <ArrowRight className="w-5 h-5 text-background" />
             </motion.button>
           </motion.form>
         ) : (
           <motion.div
             key="success"
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", bounce: 0.5 }}
-            className="flex items-center justify-center gap-3 py-4 px-6 rounded-full border border-border bg-card shadow-lg"
+            className="flex items-center justify-center gap-3 py-4 px-6 rounded-full bg-card/80 backdrop-blur-xl"
+            style={{ boxShadow: "0 4px 30px hsl(var(--foreground) / 0.06)" }}
           >
             <motion.div
               className="w-8 h-8 rounded-full bg-ibloov-orange flex items-center justify-center"
@@ -88,7 +85,7 @@ const EmailSearchBar = () => {
               <Check className="w-4 h-4 text-accent-foreground" />
             </motion.div>
             <span className="text-foreground font-semibold">
-              You're in the Orbit! 🎉 We'll find x together.
+              You're in the Orbit! 🎉
             </span>
             <Sparkles className="w-4 h-4 text-ibloov-orange" />
           </motion.div>
