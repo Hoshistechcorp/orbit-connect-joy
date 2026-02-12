@@ -28,18 +28,70 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "spring" }}
           >
-            <div className="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl tracking-tight select-none">
-              <span className="text-ibloov-blue">iB</span>
-              <span className="text-foreground">L</span>
+            <motion.div
+              className="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl tracking-tight select-none cursor-default"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              {/* i */}
               <motion.span
-                className="inline-block text-ibloov-orange"
-                animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="inline-block text-ibloov-blue"
+                initial={{ opacity: 0, x: -30, rotateY: 90 }}
+                animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+              >
+                i
+              </motion.span>
+              {/* B */}
+              <motion.span
+                className="inline-block text-ibloov-blue"
+                initial={{ opacity: 0, y: -40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.5, type: "spring", bounce: 0.5 }}
+              >
+                B
+              </motion.span>
+              {/* L */}
+              <motion.span
+                className="inline-block text-foreground"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.4, type: "spring", bounce: 0.6 }}
+              >
+                L
+              </motion.span>
+              {/* oo - bouncy with glow */}
+              <motion.span
+                className="inline-block text-ibloov-orange relative"
+                initial={{ opacity: 0, scale: 0.3, rotate: -180 }}
+                animate={{
+                  opacity: 1,
+                  scale: [1, 1.1, 1],
+                  rotate: 0,
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  opacity: { delay: 0.65, duration: 0.4 },
+                  scale: { delay: 1.2, duration: 2, repeat: Infinity, ease: "easeInOut" },
+                  rotate: { delay: 0.65, duration: 0.6, type: "spring" },
+                  y: { delay: 1.2, duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                }}
+                style={{
+                  textShadow: "0 0 20px hsl(var(--ibloov-orange) / 0.4), 0 0 40px hsl(var(--ibloov-orange) / 0.2)",
+                }}
               >
                 oo
               </motion.span>
-              <span className="text-ibloov-blue">v</span>
-            </div>
+              {/* v */}
+              <motion.span
+                className="inline-block text-ibloov-blue"
+                initial={{ opacity: 0, x: 30, rotateY: -90 }}
+                animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                transition={{ delay: 0.8, duration: 0.6, type: "spring" }}
+              >
+                v
+              </motion.span>
+            </motion.div>
           </motion.div>
 
           {/* Typing headline */}
