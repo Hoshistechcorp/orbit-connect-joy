@@ -136,7 +136,7 @@ const Index = () => {
             transition={{ delay: 3.2, duration: 0.8 }}
           >
             <span className="font-bold text-foreground">The Love Leak is real.</span>{" "}
-            We are the most connected generation, yet the most disconnected. iBloov AURA is building the infrastructure for shared joy to save the world from isolation.
+            We are the most connected generation, yet the most disconnected. iBloov Aura is building the life and leisure OS for shared joy to save the world from isolation.
           </motion.p>
 
           {/* CTA Buttons */}
