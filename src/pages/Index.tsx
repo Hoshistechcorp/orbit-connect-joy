@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingMath from "@/components/FloatingMath";
+import MissionSection from "@/components/MissionSection";
 import TypingHeadline from "@/components/TypingHeadline";
 import EmailSearchBar from "@/components/EmailSearchBar";
 import ibloovLogo from "@/assets/ibloov-logo.jpeg";
@@ -75,6 +76,8 @@ const Index = () => {
           </motion.p>
         </motion.div>
       </main>
+
+      <MissionSection />
 
       <Footer />
     </div>
