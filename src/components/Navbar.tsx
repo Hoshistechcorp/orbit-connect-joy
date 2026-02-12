@@ -3,6 +3,8 @@ import { ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import ibloovLogo from "@/assets/ibloov-logo.jpeg";
 
+const MISSION_URL = "https://id-preview--c25b436b-2cb1-466e-9f63-84b516aae839.lovable.app";
+
 const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-border/50">
@@ -20,15 +22,15 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-5 sm:gap-7 text-sm font-medium font-display">
-          <motion.div
+          <motion.a
+            href={MISSION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/mission"
-              className="text-muted-foreground hover:text-foreground transition-colors">
-              Mission
-            </Link>
-          </motion.div>
+            Mission
+          </motion.a>
 
           <motion.a
             href="https://ibloov.com"
