@@ -22,14 +22,29 @@ const Index = () => {
           className="flex flex-col items-center text-center max-w-2xl w-full"
         >
           {/* Centered Logo */}
-          <motion.img
-            src={ibloovLogo}
-            alt="iBloov"
-            className="h-16 sm:h-20 w-auto rounded-2xl mb-10"
+          <motion.div
+            className="flex flex-col items-center mb-10"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "spring" }}
-          />
+          >
+            <img
+              src={ibloovLogo}
+              alt="iBloov"
+              className="h-16 sm:h-20 w-auto rounded-2xl mb-3"
+            />
+            <motion.div
+              className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-foreground"
+              animate={{ y: [0, -4, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              iBl
+              <span className="inline-block text-ibloov-orange" style={{ fontFamily: "serif", letterSpacing: "-0.05em" }}>
+                ∞
+              </span>
+              v
+            </motion.div>
+          </motion.div>
 
           {/* Typing headline */}
           <motion.div
