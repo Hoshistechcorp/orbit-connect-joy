@@ -74,6 +74,32 @@ const Index = () => {
             <span className="font-bold text-foreground">The Love Leak is real.</span>{" "}
             We are the most connected generation, yet the most disconnected. iBloov AURA is building the infrastructure for shared joy to save the world from isolation.
           </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            className="mt-10 flex items-center gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3.8, duration: 0.7, type: "spring" }}
+          >
+            <a
+              href="https://ibloov.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground hover:border-ibloov-blue transition-colors shadow-sm"
+            >
+              Enter the Orbit
+              <span className="text-muted-foreground">⌘</span>
+            </a>
+            <a
+              href="https://ibloov.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display font-medium text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Support the Vision
+            </a>
+          </motion.div>
         </motion.div>
       </main>
 
