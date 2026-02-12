@@ -28,22 +28,18 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "spring" }}
           >
-            <img
-              src={ibloovLogo}
-              alt="iBloov"
-              className="h-16 sm:h-20 w-auto rounded-2xl mb-3"
-            />
-            <motion.div
-              className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-foreground"
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-              iBl
-              <span className="inline-block text-ibloov-orange" style={{ fontFamily: "serif", letterSpacing: "-0.05em" }}>
-                ∞
-              </span>
-              v
-            </motion.div>
+            <div className="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl tracking-tight select-none">
+              <span className="text-ibloov-blue">iB</span>
+              <span className="text-foreground">L</span>
+              <motion.span
+                className="inline-block text-ibloov-orange"
+                animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                oo
+              </motion.span>
+              <span className="text-ibloov-blue">v</span>
+            </div>
           </motion.div>
 
           {/* Typing headline */}
