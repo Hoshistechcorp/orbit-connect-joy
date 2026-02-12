@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, type Easing } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Heart } from "lucide-react";
+import { Heart, ExternalLink, BookOpen, Layers, Home } from "lucide-react";
 import heroConnection from "@/assets/hero-connection.jpg";
 import ibloovLogoClean from "@/assets/ibloov-logo-clean.png";
 import globalCrew from "@/assets/global-crew.jpg";
@@ -57,6 +57,19 @@ const StoryCard = ({
   </motion.div>
 );
 
+/* Floating decorative heart */
+const FloatingHeart = ({ delay, x, size = 16 }: { delay: number; x: string; size?: number }) => (
+  <motion.div
+    className="absolute text-ibloov-orange/20 pointer-events-none"
+    style={{ left: x }}
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: [0, 0.6, 0], y: -80 }}
+    transition={{ delay, duration: 4, repeat: Infinity, repeatDelay: 3 }}
+  >
+    <Heart className={`w-${size / 4} h-${size / 4}`} style={{ width: size, height: size }} fill="currentColor" />
+  </motion.div>
+);
+
 const Mission = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -66,16 +79,54 @@ const Mission = () => {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="bg-[hsl(220,15%,8%)] text-[hsl(0,0%,95%)] min-h-screen">
-      {/* Sticky Nav */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[hsl(220,15%,8%)/0.8] backdrop-blur-xl border-b border-[hsl(220,15%,18%)]">
+      {/* Navbar — exact replica + Home */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[hsl(220,15%,8%)/0.85] backdrop-blur-xl border-b border-[hsl(220,15%,15%)]">
         <nav className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-[hsl(0,0%,95%)] hover:text-ibloov-orange transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm font-semibold font-display">Back</span>
-          </Link>
-          <img src={ibloovLogoClean} alt="iBloov" className="h-7" />
+          {/* Left — Logo + AURA */}
+          <div className="flex items-center gap-2.5">
+            <img src={ibloovLogoClean} alt="iBloov" className="h-6 w-auto" />
+            <span className="font-display font-bold text-sm tracking-wider text-[hsl(0,0%,95%)]">AURA</span>
+          </div>
+
+          {/* Right — Nav links */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link
+              to="/"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[hsl(220,10%,65%)] hover:text-[hsl(0,0%,95%)] hover:bg-[hsl(220,15%,15%)] transition-colors"
+            >
+              <Home className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Home</span>
+            </Link>
+            <button
+              onClick={() => scrollToSection("story")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-[hsl(220,15%,15%)] text-[hsl(0,0%,95%)] transition-colors"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Story</span>
+            </button>
+            <button
+              onClick={() => scrollToSection("ecosystem")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[hsl(220,10%,65%)] hover:text-[hsl(0,0%,95%)] hover:bg-[hsl(220,15%,15%)] transition-colors"
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Ecosystem</span>
+            </button>
+            <a
+              href="https://ibloov.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold border border-[hsl(220,15%,25%)] text-[hsl(0,0%,95%)] hover:bg-[hsl(220,15%,15%)] transition-colors ml-1"
+            >
+              <span>Invest</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
         </nav>
       </header>
 
@@ -118,7 +169,7 @@ const Mission = () => {
           >
             The World Is Searching{" "}
             <br className="hidden sm:block" />
-            for <em className="text-ibloov-orange not-italic font-serif">Love.</em>
+            for <em className="text-ibloov-orange not-italic font-serif italic">Love.</em>
           </motion.h1>
           <motion.p
             className="mt-6 text-base sm:text-lg text-[hsl(220,10%,70%)] max-w-2xl mx-auto leading-relaxed"
@@ -145,8 +196,17 @@ const Mission = () => {
       </section>
 
       {/* Diagnosis */}
-      <section className="py-24 sm:py-32 px-6">
-        <div className="max-w-3xl mx-auto">
+      <section id="story" className="py-24 sm:py-32 px-6 relative overflow-hidden">
+        {/* Floating hearts decoration */}
+        <div className="absolute inset-0 pointer-events-none">
+          <FloatingHeart delay={0} x="10%" size={14} />
+          <FloatingHeart delay={1.5} x="85%" size={18} />
+          <FloatingHeart delay={3} x="50%" size={12} />
+          <FloatingHeart delay={2} x="30%" size={16} />
+          <FloatingHeart delay={4} x="70%" size={14} />
+          <FloatingHeart delay={1} x="92%" size={10} />
+        </div>
+        <div className="max-w-3xl mx-auto relative z-10">
           <SectionLabel>The Diagnosis</SectionLabel>
           <motion.blockquote
             {...fadeUp}
@@ -161,7 +221,25 @@ const Mission = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 relative">
+        {/* Water drops decoration */}
+        <motion.div
+          className="flex justify-center gap-1 mb-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          {["💧", "💧", "💧"].map((d, i) => (
+            <motion.span
+              key={i}
+              className="text-lg"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ delay: i * 0.3, duration: 1.5, repeat: Infinity }}
+            >
+              {d}
+            </motion.span>
+          ))}
+        </motion.div>
         <div className="max-w-3xl mx-auto">
           <motion.h2 {...fadeUp} className="font-display text-2xl sm:text-3xl font-bold text-center mb-12">
             The World Is Leaking Love — From Everyday Life
@@ -179,7 +257,7 @@ const Mission = () => {
         <div className="max-w-4xl mx-auto">
           <SectionLabel>Four Lives, One Orbit</SectionLabel>
           <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-4">
-            They Never Met. Until They <em className="text-ibloov-orange not-italic font-serif">Did.</em>
+            They Never Met. Until They <em className="text-ibloov-orange not-italic font-serif italic">Did.</em>
           </motion.h2>
           <motion.p {...fadeUp} className="text-[hsl(220,10%,60%)] mb-12 max-w-2xl">
             Four strangers. Four continents. Four aching hungers for something bigger than survival. One platform that quietly forced their worlds to collide.
@@ -218,7 +296,7 @@ const Mission = () => {
         <div className="max-w-3xl mx-auto">
           <SectionLabel>How iBloov Stitched Their Worlds Together</SectionLabel>
           <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-12">
-            The Accidental Family Nobody <em className="text-ibloov-orange not-italic font-serif">Planned</em>
+            The Accidental Family Nobody <em className="text-ibloov-orange not-italic font-serif italic">Planned</em>
           </motion.h2>
 
           {/* Act I */}
@@ -274,7 +352,7 @@ const Mission = () => {
         <div className="max-w-4xl mx-auto text-center">
           <SectionLabel>The Theory</SectionLabel>
           <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-12">
-            Connection Isn't Random. It's an <em className="text-ibloov-orange not-italic font-serif">Equation.</em>
+            Connection Isn't Random. It's an <em className="text-ibloov-orange not-italic font-serif italic">Equation.</em>
           </motion.h2>
           <motion.img
             {...fadeUp}
@@ -324,11 +402,11 @@ const Mission = () => {
       </section>
 
       {/* Enterprise Ecosystem */}
-      <section className="py-24 sm:py-32 px-6">
+      <section id="ecosystem" className="py-24 sm:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <SectionLabel>The Enterprise Ecosystem</SectionLabel>
           <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-6">
-            One Platform. Every Life <em className="text-ibloov-orange not-italic font-serif">Function.</em>
+            One Platform. Every Life <em className="text-ibloov-orange not-italic font-serif italic">Function.</em>
           </motion.h2>
           <motion.p {...fadeUp} className="text-[hsl(220,10%,60%)] mb-12 max-w-3xl leading-relaxed">
             iBloov AURA is not a collection of apps. It is a global nervous system — linking communities, economies, and hearts through a deliberate, phased architecture that makes love compound.
@@ -369,7 +447,7 @@ const Mission = () => {
         <div className="max-w-4xl mx-auto">
           <SectionLabel>The Movement Becomes a Machine</SectionLabel>
           <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-6">
-            Asset Management <em className="text-ibloov-orange not-italic font-serif">Holding Company</em>
+            Asset Management <em className="text-ibloov-orange not-italic font-serif italic">Holding Company</em>
           </motion.h2>
           <motion.p {...fadeUp} className="text-[hsl(220,10%,60%)] mb-12 max-w-3xl leading-relaxed">
             Each product can grow into its own company while staying tied to the AURA protocol. Revenue sits at the intersection of ticketing, venue commission, gig marketplaces, education, payments, wellness subscriptions, and tokenized rewards — multiple defensible streams in a global market already in the trillions.
@@ -416,11 +494,36 @@ const Mission = () => {
       </section>
 
       {/* Peace Treaty */}
-      <section className="py-24 sm:py-32 px-6">
+      <section className="py-24 sm:py-32 px-6 relative overflow-hidden">
+        {/* Decorative globes and hearts */}
+        <motion.div
+          className="flex justify-center items-center gap-4 mb-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <span className="text-2xl">🌍</span>
+          <div className="flex gap-1">
+            {[0, 1, 2].map(i => (
+              <motion.span key={i} className="text-ibloov-orange/40" animate={{ scale: [1, 1.3, 1] }} transition={{ delay: i * 0.2, duration: 1.5, repeat: Infinity }}>
+                <Heart className="w-3 h-3" fill="currentColor" />
+              </motion.span>
+            ))}
+          </div>
+          <span className="text-2xl">🤝</span>
+          <div className="flex gap-1">
+            {[0, 1, 2].map(i => (
+              <motion.span key={i} className="text-ibloov-orange/40" animate={{ scale: [1, 1.3, 1] }} transition={{ delay: i * 0.2 + 0.5, duration: 1.5, repeat: Infinity }}>
+                <Heart className="w-3 h-3" fill="currentColor" />
+              </motion.span>
+            ))}
+          </div>
+          <span className="text-2xl">🌎</span>
+        </motion.div>
         <div className="max-w-3xl mx-auto text-center">
           <SectionLabel>The Bigger Picture</SectionLabel>
           <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-12">
-            Every Transaction Is a Tiny <em className="text-ibloov-orange not-italic font-serif">Peace Treaty</em>
+            Every Transaction Is a Tiny <em className="text-ibloov-orange not-italic font-serif italic">Peace Treaty</em>
           </motion.h2>
           <div className="space-y-4 text-[hsl(220,10%,60%)] text-sm leading-relaxed italic">
             {[
@@ -442,9 +545,26 @@ const Mission = () => {
       <section className="py-24 sm:py-32 px-6">
         <div className="max-w-3xl mx-auto">
           <SectionLabel>How the Stack Kills Hate</SectionLabel>
-          <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-12 text-center">
+          <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-4xl font-bold mb-6 text-center">
             From Tolerance to Love — Product by Product
           </motion.h2>
+
+          {/* Progress indicator */}
+          <motion.div
+            {...fadeUp}
+            className="flex justify-center items-center gap-2 mb-12 text-xl"
+          >
+            <span>😐</span>
+            <span className="text-[hsl(220,10%,40%)]">→</span>
+            <span>🤝</span>
+            <span className="text-[hsl(220,10%,40%)]">→</span>
+            <span>💪</span>
+            <span className="text-[hsl(220,10%,40%)]">→</span>
+            <span>🏠</span>
+            <span className="text-[hsl(220,10%,40%)]">→</span>
+            <span>❤️</span>
+          </motion.div>
+
           <div className="space-y-3">
             {[
               { icon: "🏀", name: "Sport Buddy", effect: "turns strangers into teammates" },
@@ -466,6 +586,9 @@ const Mission = () => {
                   <span className="font-display font-bold text-sm">{step.name}</span>
                   <span className="text-[hsl(220,10%,60%)] text-sm"> → {step.effect}</span>
                 </div>
+                {i < 7 && (
+                  <span className="ml-auto text-[hsl(220,10%,30%)] text-xs">↓</span>
+                )}
               </motion.div>
             ))}
           </div>
@@ -476,8 +599,32 @@ const Mission = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 px-6 text-center">
-        <div className="max-w-3xl mx-auto">
+      <section className="py-32 px-6 text-center relative overflow-hidden">
+        {/* Floating hearts & stars */}
+        <div className="absolute inset-0 pointer-events-none">
+          <FloatingHeart delay={0} x="15%" size={16} />
+          <FloatingHeart delay={1} x="80%" size={14} />
+          <FloatingHeart delay={2} x="45%" size={12} />
+          <FloatingHeart delay={3} x="65%" size={18} />
+          <FloatingHeart delay={1.5} x="25%" size={10} />
+          <motion.span
+            className="absolute text-ibloov-orange/15 text-lg"
+            style={{ left: "35%", top: "20%" }}
+            animate={{ rotate: [0, 180, 360], scale: [1, 1.3, 1] }}
+            transition={{ duration: 6, repeat: Infinity }}
+          >
+            ✦
+          </motion.span>
+          <motion.span
+            className="absolute text-ibloov-orange/15 text-lg"
+            style={{ left: "70%", top: "60%" }}
+            animate={{ rotate: [0, -180, -360], scale: [1, 1.3, 1] }}
+            transition={{ duration: 8, repeat: Infinity }}
+          >
+            ✦
+          </motion.span>
+        </div>
+        <div className="max-w-3xl mx-auto relative z-10">
           <motion.img
             {...fadeUp}
             src={ibloovLogoClean}
@@ -488,18 +635,27 @@ const Mission = () => {
           <motion.h2 {...fadeUp} className="font-display text-3xl sm:text-5xl font-bold leading-tight mb-8">
             The World Doesn't Need Another App.{" "}
             <br className="hidden sm:block" />
-            It Needs a <em className="text-ibloov-orange not-italic font-serif">Movement.</em>
+            It Needs a <em className="text-ibloov-orange not-italic font-serif italic">Movement.</em>
           </motion.h2>
           <motion.p {...fadeUp} className="text-[hsl(220,10%,60%)] max-w-2xl mx-auto leading-relaxed mb-10">
             iBloov AURA uses leisure, travel, and shared play as the softest, strongest weapon against division. It turns strangers into teammates, hosts, and co-investors. It rewards people not just for consuming — but for co-creating experiences, jobs, and assets. Together.
           </motion.p>
-          <motion.div {...fadeUp}>
-            <Link
-              to="/"
+          <motion.div {...fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="https://ibloov.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-ibloov-orange text-[hsl(220,15%,8%)] font-display font-bold text-sm hover:scale-105 transition-transform"
             >
               <Heart className="w-4 h-4" />
               Enter the Orbit
+            </a>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full border border-[hsl(220,15%,25%)] text-[hsl(0,0%,95%)] font-display font-semibold text-sm hover:bg-[hsl(220,15%,15%)] transition-colors"
+            >
+              <Home className="w-4 h-4" />
+              Back to Home
             </Link>
           </motion.div>
         </div>
