@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ShoppingBag, Rocket } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import ibloovLogo from "@/assets/ibloov-logo.jpeg";
 import AboutModal from "./AboutModal";
 
@@ -11,57 +11,49 @@ const Navbar = () => {
           className="flex items-center gap-2.5"
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}>
-
           <img
             src={ibloovLogo}
             alt="iBloov"
             className="h-8 w-auto rounded-lg" />
-
-          <span className="font-display font-bold text-foreground text-sm hidden sm:inline">
-          </span>
         </motion.div>
-        <div className="flex items-center gap-3 sm:gap-5 text-sm font-medium font-display">
-          <AboutModal>
-            <motion.button className="text-muted-foreground hover:text-foreground transition-colors"
-            whileHover={{ scale: 1.05, y: -1 }}
-            whileTap={{ scale: 0.95 }}>
 
-              Mission
-            </motion.button>
-          </AboutModal>
+        <div className="flex items-center gap-5 sm:gap-7 text-sm font-medium font-display">
           <AboutModal>
             <motion.button
               className="text-muted-foreground hover:text-foreground transition-colors"
-              whileHover={{ scale: 1.05, y: -1 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}>
-
-              About
+              Mission
             </motion.button>
           </AboutModal>
+
           <motion.a
             href="https://ibloov.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-ibloov-orange transition-colors"
-            whileHover={{ scale: 1.05, y: -1 }}
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider text-xs font-semibold"
+            whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}>
-
-            <ShoppingBag className="w-4 h-4" />
             <span>Store</span>
+            <motion.span
+              whileHover={{ rotate: 12, scale: 1.2 }}
+              transition={{ type: "spring", stiffness: 400 }}>
+              <ShoppingBag className="w-4 h-4" />
+            </motion.span>
           </motion.a>
+
           <motion.a
             href="https://ibloov.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-semibold text-xs"
+            className="px-5 py-2 rounded-full bg-foreground text-background font-semibold text-sm"
             whileHover={{
-              scale: 1.08,
-              boxShadow: "0 0 25px hsl(var(--ibloov-blue) / 0.4)"
+              scale: 1.06,
+              boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
             }}
-            whileTap={{ scale: 0.95 }}>
-
-            <Rocket className="w-3.5 h-3.5" />
-            Support Us 💛
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}>
+            Enter Orbit
           </motion.a>
         </div>
       </nav>
