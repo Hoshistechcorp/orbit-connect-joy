@@ -177,15 +177,15 @@ const Mission = () => {
           <img
             src={heroConnection}
             alt="Global human connection"
-            className="w-full h-full object-cover opacity-15"
+            className="w-full h-full object-cover opacity-[0.08]"
           />
           <div
             className="absolute inset-0"
             style={{
               background: `
-                radial-gradient(ellipse at 30% 40%, ${c.gold}1f 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 60%, ${c.coral}14 0%, transparent 50%),
-                linear-gradient(to bottom, ${c.bg}99 0%, ${c.bg}d9 100%)
+                radial-gradient(ellipse at 30% 40%, ${c.gold}12 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 60%, ${c.coral}0a 0%, transparent 50%),
+                linear-gradient(to bottom, ${c.bg}cc 0%, ${c.bg}f2 100%)
               `,
             }}
           />
