@@ -51,7 +51,7 @@ const TypingHeadline = () => {
             transition={{ duration: 0.5 }}
             className="font-display text-xl sm:text-2xl text-muted-foreground/60"
           >
-            (Where x = Love)
+            (Where x = Love 💛)
           </motion.p>
         )}
       </AnimatePresence>

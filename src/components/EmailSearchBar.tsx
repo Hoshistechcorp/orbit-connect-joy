@@ -41,26 +41,27 @@ const EmailSearchBar = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="relative flex items-center rounded-full bg-card/80 backdrop-blur-xl transition-all duration-500"
+            className="relative flex items-center rounded-full bg-muted/60 backdrop-blur-xl transition-all duration-500 border border-border/40"
             style={{
               boxShadow: focused
-                ? "0 0 0 1px hsl(var(--ibloov-blue) / 0.3), 0 8px 40px hsl(var(--ibloov-blue) / 0.15), 0 0 80px hsl(var(--ibloov-blue) / 0.08), inset 0 1px 0 hsl(var(--background) / 0.8)"
-                : "0 0 0 1px hsl(var(--border) / 0.5), 0 4px 30px hsl(var(--foreground) / 0.06), 0 0 60px hsl(var(--ibloov-blue) / 0.04), inset 0 1px 0 hsl(var(--background) / 0.8)",
+                ? "0 0 0 1px hsl(var(--border) / 0.6), 0 8px 40px hsl(var(--foreground) / 0.08), 0 20px 60px hsl(var(--ibloov-orange) / 0.06)"
+                : "0 0 0 1px hsl(var(--border) / 0.3), 0 4px 30px hsl(var(--foreground) / 0.04), 0 15px 50px hsl(var(--ibloov-orange) / 0.04)",
             }}
           >
             <input
               type="email"
               placeholder="Enter your email to join the orbit"
+              autoComplete="email"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(""); }}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
-              className="flex-1 bg-transparent py-4 sm:py-5 pl-6 sm:pl-8 pr-16 text-base sm:text-lg text-foreground placeholder:text-muted-foreground/50 outline-none rounded-full"
+              className="flex-1 bg-transparent py-4 sm:py-5 pl-6 sm:pl-8 pr-16 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/40 outline-none rounded-full"
               maxLength={255}
             />
             <motion.button
               type="submit"
-              className="absolute right-2 sm:right-3 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-foreground flex items-center justify-center"
+              className="absolute right-2.5 sm:right-3 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-foreground flex items-center justify-center"
               aria-label="Submit email"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
