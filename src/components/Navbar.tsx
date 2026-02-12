@@ -3,7 +3,7 @@ import { ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import ibloovLogo from "@/assets/ibloov-logo.jpeg";
 
-const MISSION_URL = "https://id-preview--c25b436b-2cb1-466e-9f63-84b516aae839.lovable.app";
+const MISSION_URL = "https://aura-orbit-unite.lovable.app";
 
 const Navbar = () => {
   return (
