@@ -1,9 +1,11 @@
-import { motion } from "framer-motion";
-import { Trophy, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Trophy } from "lucide-react";
 import ibloovEvents from "@/assets/ibloov-events.jpg";
 import ibloovPlaces from "@/assets/ibloov-places.jpg";
 import ibloovWellness from "@/assets/ibloov-wellness.jpg";
 import ibloovInstitute from "@/assets/ibloov-institute.jpg";
+import flexIt from "@/assets/flex-it.jpg";
 
 const featuredProduct = {
   name: "iBloov Events",
@@ -12,14 +14,20 @@ const featuredProduct = {
 };
 
 const products = [
-  { name: "iBloov Places", description: "Discover/book unique venues", image: ibloovPlaces },
-  { name: "iBloov Wellness", description: "All in one mental and physical health", image: ibloovWellness },
-  { name: "iBloov Institute", description: "Tourism Certifications for career growth", image: ibloovInstitute },
+  { name: "iBloov Places", description: "Discover/book unique venues", image: ibloovPlaces, bg: "bg-blue-50", comingSoon: false },
+  { name: "iBloov Wellness", description: "All in one mental and physical health", image: ibloovWellness, bg: "bg-orange-50", comingSoon: false },
+  { name: "iBloov Institute", description: "Tourism Certifications for career growth", image: ibloovInstitute, bg: "bg-purple-50", comingSoon: false },
+  { name: "Flex-it by iBloov", description: "Flexible service marketplace for all your needs", image: flexIt, bg: "bg-white", comingSoon: false },
+  { name: "iBloov Franchise Hub", description: "Connect with franchise opportunities worldwide", image: ibloovInstitute, bg: "bg-rose-50", comingSoon: true },
+  { name: "iBloov Element", description: "For your pop up events and trade fair", image: ibloovEvents, bg: "bg-amber-50", comingSoon: true },
 ];
 
 const AuraProducts = () => {
+  const [showAll, setShowAll] = useState(false);
+  const visibleProducts = showAll ? products : products.slice(0, 3);
+
   return (
-    <section id="products" className="py-20 px-6" style={{ background: "linear-gradient(180deg, hsl(220 25% 12%) 0%, hsl(220 20% 15%) 100%)" }}>
+    <section id="products" className="py-20 px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -27,79 +35,103 @@ const AuraProducts = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-white">
+          <h2 className="text-3xl sm:text-5xl font-display font-bold text-foreground">
             The iBloov <span className="text-ibloov-orange">AURA</span>
           </h2>
-          <p className="mt-4 text-white/50 max-w-xl mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
             Six powerful products working together to transform how you work, travel, and live.
           </p>
         </motion.div>
 
-        {/* Featured product */}
+        {/* Featured product - light card with gradient button */}
         <motion.div
-          className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm mb-8"
+          className="rounded-3xl overflow-hidden bg-muted mb-10"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <div className="grid md:grid-cols-2 gap-0">
             <div className="p-8 sm:p-12 flex flex-col justify-center">
-              <div className="flex items-center gap-2 mb-4">
-                <Trophy className="w-4 h-4 text-ibloov-orange" />
-                <span className="text-ibloov-orange text-xs font-semibold uppercase tracking-wider">Featured Product</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ibloov-blue text-white text-xs font-semibold w-fit mb-6">
+                <Trophy className="w-3.5 h-3.5" />
+                Featured Product
               </div>
-              <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">{featuredProduct.name}</h3>
-              <p className="text-white/50 leading-relaxed mb-6">{featuredProduct.description}</p>
+              <h3 className="text-2xl sm:text-4xl font-display font-bold text-foreground mb-4">{featuredProduct.name}</h3>
+              <p className="text-muted-foreground leading-relaxed mb-8">{featuredProduct.description}</p>
               <motion.a
                 href="https://ibloov.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-ibloov-blue font-semibold text-sm hover:underline"
-                whileHover={{ x: 4 }}
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-gradient-to-r from-ibloov-blue to-purple-500 text-white font-semibold text-sm w-full max-w-sm hover:opacity-90 transition-opacity"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                Learn more <ArrowRight className="w-4 h-4" />
+                Learn more
               </motion.a>
             </div>
-            <div className="relative h-64 md:h-auto">
-              <img src={featuredProduct.image} alt={featuredProduct.name} className="w-full h-full object-cover" />
+            <div className="relative h-64 md:h-auto flex items-center justify-center p-8">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl transform rotate-3 scale-105" />
+                <img src={featuredProduct.image} alt={featuredProduct.name} className="relative w-full max-w-md rounded-2xl shadow-2xl" />
+              </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Product grid */}
+        {/* Product grid - pastel colored cards */}
         <div className="grid sm:grid-cols-3 gap-6">
-          {products.map((product, i) => (
-            <motion.div
-              key={product.name}
-              className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm group"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -4 }}
-            >
-              <div className="h-40 overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-5">
-                <h4 className="font-display font-bold text-white text-sm mb-1">{product.name}</h4>
-                <p className="text-white/40 text-xs mb-3">{product.description}</p>
-                <motion.a
-                  href="https://ibloov.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-ibloov-blue font-semibold text-xs hover:underline"
-                  whileHover={{ x: 3 }}
-                >
-                  Learn more <ArrowRight className="w-3 h-3" />
-                </motion.a>
-              </div>
-            </motion.div>
-          ))}
+          <AnimatePresence>
+            {visibleProducts.map((product, i) => (
+              <motion.div
+                key={product.name}
+                className={`rounded-3xl overflow-hidden ${product.bg} border border-border/50 group relative`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={{ y: -4 }}
+              >
+                {product.comingSoon && (
+                  <div className="absolute top-4 right-4 z-10 px-4 py-1 rounded-full bg-ibloov-orange text-white text-xs font-bold">
+                    Coming Soon
+                  </div>
+                )}
+                <div className="p-6 text-center">
+                  <h4 className="font-display font-bold text-foreground text-xl mb-2">{product.name}</h4>
+                  <p className="text-muted-foreground text-sm mb-6">{product.description}</p>
+                  <div className="h-48 flex items-center justify-center mb-6">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="max-h-full w-auto rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <motion.a
+                    href="https://ibloov.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full px-6 py-3.5 rounded-full bg-foreground text-background font-semibold text-sm hover:opacity-90 transition-opacity text-center"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Learn more
+                  </motion.a>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Show More/Less toggle */}
+        <div className="flex justify-center mt-10">
+          <motion.button
+            onClick={() => setShowAll(!showAll)}
+            className="px-8 py-3.5 rounded-full bg-foreground text-background font-semibold text-sm hover:opacity-90 transition-opacity"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {showAll ? "Show Less Products" : "Show More Products"}
+          </motion.button>
         </div>
       </div>
     </section>
