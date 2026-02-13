@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const TypingHeadline = () => {
-  const text = "Solve for x.";
+  const text = "Solving for x.";
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const [showSubtext, setShowSubtext] = useState(false);
