@@ -3,8 +3,8 @@ const AuraHero = () => {
     <section
       id="hero"
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
-      style={{ background: "linear-gradient(180deg, hsl(220 20% 18%) 0%, hsl(220 22% 16%) 40%, hsl(220 25% 14%) 70%, hsl(220 25% 12%) 100%)" }}
-    >
+      style={{ background: "linear-gradient(180deg, hsl(220 20% 18%) 0%, hsl(220 22% 16%) 40%, hsl(220 25% 14%) 70%, hsl(220 25% 12%) 100%)" }}>
+
       {/* Spinning orbital ring with 4 cardinal dots */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -48,18 +48,18 @@ const AuraHero = () => {
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 sm:mb-16 opacity-0 animate-fade-up animation-delay-700">
-          <button className="w-full sm:w-auto text-white px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-4 rounded-full text-base sm:text-lg font-semibold shadow-2xl relative overflow-hidden group animate-pulse gradient-primary min-w-[200px] hover:scale-105 transition-transform">
-            <span className="relative z-10">Enter Orbit</span>
-            <div className="absolute inset-0 bg-white/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500" />
-          </button>
-          <a
-            href="#products"
-            className="w-full sm:w-auto bg-white/5 backdrop-blur-sm text-white border border-white/30 px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-4 rounded-full text-base sm:text-lg font-medium relative overflow-hidden group min-w-[200px] text-center hover:scale-105 transition-transform"
-          >
-            <span className="relative z-10">Explore Universe</span>
-          </a>
-        </div>
+        
+
+
+
+
+
+
+
+
+
+
+
 
         {/* Additional orbital rings below */}
         <div className="mt-8 sm:mt-12 md:mt-16 opacity-0 animate-fade-up animation-delay-800">
@@ -73,8 +73,8 @@ const AuraHero = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default AuraHero;
