@@ -1,9 +1,14 @@
+import AuraMouseParticles from "./AuraMouseParticles";
+
 const AuraHero = () => {
   return (
     <section
       id="hero"
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
       style={{ background: "linear-gradient(180deg, hsl(220 20% 18%) 0%, hsl(220 22% 16%) 40%, hsl(220 25% 14%) 70%, hsl(220 25% 12%) 100%)" }}>
+
+      {/* Mouse-tracking particles */}
+      <AuraMouseParticles />
 
       {/* Spinning orbital ring with 4 cardinal dots */}
       <div className="absolute inset-0">
