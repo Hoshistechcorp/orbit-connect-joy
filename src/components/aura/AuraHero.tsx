@@ -12,7 +12,7 @@ const AuraHero = () => {
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
         src="/aura-hero-bg.mp4"
       />
 
