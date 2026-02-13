@@ -171,7 +171,7 @@ const Mission = () => {
       {/* ═══════════════ HERO ═══════════════ */}
       <section
         ref={heroRef}
-        className="min-h-screen flex flex-col justify-center items-center text-center relative px-8 overflow-hidden"
+        className="min-h-screen flex flex-col justify-center items-center text-center relative px-4 sm:px-8 overflow-hidden"
       >
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY }}>
           <img
@@ -266,7 +266,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ DIAGNOSIS — THE LOVE LEAK ═══════════════ */}
-      <section id="intro" className="py-32 px-8" style={{ background: c.bgWarm, borderTop: `1px solid ${c.gold}1a`, borderBottom: `1px solid ${c.gold}1a` }}>
+      <section id="intro" className="py-16 sm:py-32 px-4 sm:px-8" style={{ background: c.bgWarm, borderTop: `1px solid ${c.gold}1a`, borderBottom: `1px solid ${c.gold}1a` }}>
         <div className="max-w-[1100px] mx-auto">
           {/* Dripping heart */}
           <Reveal>
@@ -314,7 +314,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ FOUR LIVES ═══════════════ */}
-      <section id="story" className="py-32 px-8">
+      <section id="story" className="py-16 sm:py-32 px-4 sm:px-8">
         <div className="max-w-[1100px] mx-auto">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase text-center mb-4" style={{ color: c.gold }}>
@@ -362,7 +362,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ THREE ACTS ═══════════════ */}
-      <section className="py-32 px-8">
+      <section className="py-16 sm:py-32 px-4 sm:px-8">
         <div className="max-w-[900px] mx-auto">
           {/* Act I */}
           <Reveal>
@@ -441,7 +441,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ CONNECTION EQUATION ═══════════════ */}
-      <section className="py-32 px-8">
+      <section className="py-16 sm:py-32 px-4 sm:px-8">
         <div className="max-w-[1100px] mx-auto text-center">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>The Theory</p>
@@ -488,7 +488,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ FLYWHEEL ═══════════════ */}
-      <section className="py-32 px-8">
+      <section className="py-16 sm:py-32 px-4 sm:px-8">
         <div className="max-w-[900px] mx-auto text-center">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-6" style={{ color: c.gold }}>The Flywheel</p>
@@ -532,7 +532,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ ENTERPRISE ECOSYSTEM ═══════════════ */}
-      <section id="ecosystem" className="py-32 px-8">
+      <section id="ecosystem" className="py-16 sm:py-32 px-4 sm:px-8">
         <div className="max-w-[1100px] mx-auto">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase text-center mb-4" style={{ color: c.gold }}>The Enterprise Ecosystem</p>
@@ -607,7 +607,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ ASSET MANAGEMENT HOLDING COMPANY ═══════════════ */}
-      <section className="py-32 px-8">
+      <section className="py-16 sm:py-32 px-4 sm:px-8">
         <div className="max-w-[1100px] mx-auto text-center">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>The Movement Becomes a Machine</p>
@@ -696,7 +696,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ PEACE TREATY ═══════════════ */}
-      <section className="py-32 px-8 relative overflow-hidden">
+      <section className="py-16 sm:py-32 px-4 sm:px-8 relative overflow-hidden">
         <Reveal>
           <div className="flex justify-center items-center gap-4 mb-8">
             <span className="text-2xl">🌍</span>
@@ -749,7 +749,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ KILL HATE STACK ═══════════════ */}
-      <section className="py-32 px-8">
+      <section className="py-16 sm:py-32 px-4 sm:px-8">
         <div className="max-w-[900px] mx-auto">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: c.gold }}>How the Stack Kills Hate</p>
@@ -802,7 +802,7 @@ const Mission = () => {
       </section>
 
       {/* ═══════════════ FINAL CTA ═══════════════ */}
-      <section className="py-32 px-8 text-center relative overflow-hidden">
+      <section className="py-16 sm:py-32 px-4 sm:px-8 text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {[
             { left: "10%", top: "15%", delay: "0s", dur: "5s" },

@@ -15,7 +15,7 @@ const Index = () => {
       <Navbar />
       <FloatingMath />
 
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 pt-24 pb-20">
+      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 pt-20 sm:pt-24 pb-16 sm:pb-20">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -30,7 +30,7 @@ const Index = () => {
             transition={{ duration: 0.8, type: "spring" }}
           >
             <motion.div
-              className="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl tracking-tight select-none cursor-default"
+              className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight select-none cursor-default"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -100,13 +100,14 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
+            className="px-2"
           >
             <TypingHeadline />
           </motion.div>
 
           {/* What iBloov does — bubble text */}
           <motion.div
-            className="mt-8 max-w-lg mx-auto"
+            className="mt-6 sm:mt-8 max-w-lg mx-auto px-2"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2, duration: 0.8 }}
@@ -189,7 +190,7 @@ const Index = () => {
 
           {/* Glowing Email bar */}
           <motion.div
-            className="w-full mt-12"
+            className="w-full mt-8 sm:mt-12 px-2"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.6, duration: 0.7, type: "spring" }}
@@ -199,7 +200,7 @@ const Index = () => {
 
           {/* Single line tagline */}
           <motion.p
-            className="mt-10 text-muted-foreground text-sm sm:text-base max-w-lg leading-relaxed"
+            className="mt-6 sm:mt-10 text-muted-foreground text-xs sm:text-sm md:text-base max-w-lg leading-relaxed px-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 3.2, duration: 0.8 }}
@@ -210,7 +211,7 @@ const Index = () => {
 
           {/* CTA Buttons */}
           <motion.div
-            className="mt-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
+            className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 3.8, duration: 0.7, type: "spring" }}

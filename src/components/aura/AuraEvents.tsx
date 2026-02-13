@@ -40,8 +40,8 @@ const AuraEvents = () => {
         >
           <CarouselContent className="-ml-4">
             {events.map((event) => (
-              <CarouselItem key={event.name} className="pl-4 basis-[85%] sm:basis-[70%] lg:basis-[60%]">
-                <div className="relative rounded-2xl overflow-hidden h-[400px] sm:h-[450px] group">
+              <CarouselItem key={event.name} className="pl-4 basis-[90%] sm:basis-[70%] lg:basis-[60%]">
+                <div className="relative rounded-2xl overflow-hidden h-[320px] sm:h-[400px] md:h-[450px] group">
                   {/* Background image */}
                   <img
                     src={event.image}
