@@ -6,14 +6,12 @@ const AuraHero = () => {
       id="hero"
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 bg-white">
 
-      {/* Background video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
+      {/* Background animation */}
+      <img
+        src="/aura-hero-bg.gif"
+        alt=""
+        aria-hidden="true"
         className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
-        src="/aura-hero-bg.mp4"
       />
 
       {/* Mouse-tracking particles */}
