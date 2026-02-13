@@ -6,6 +6,16 @@ const AuraHero = () => {
       id="hero"
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 bg-white">
 
+      {/* Background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none"
+        src="/aura-hero-bg.mp4"
+      />
+
       {/* Mouse-tracking particles */}
       <AuraMouseParticles />
 
