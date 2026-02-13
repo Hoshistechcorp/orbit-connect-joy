@@ -111,17 +111,78 @@ const Index = () => {
             transition={{ delay: 2, duration: 0.8 }}
           >
             <div className="inline-flex flex-wrap items-center justify-center gap-1.5 text-sm sm:text-base leading-relaxed">
-              <span className="text-muted-foreground font-display">The world's first</span>
-              <span className="px-3 py-1 rounded-full bg-ibloov-blue/10 text-ibloov-blue font-display font-bold border border-ibloov-blue/20">Life & Leisure</span>
-              <span className="px-3 py-1 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-display font-bold border border-ibloov-orange/20">Operating System</span>
-              <span className="text-muted-foreground font-display">that aligns</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-semibold text-xs sm:text-sm border border-ibloov-orange/15">earning</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-blue/10 text-ibloov-blue font-semibold text-xs sm:text-sm border border-ibloov-blue/15">exploring</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-semibold text-xs sm:text-sm border border-ibloov-orange/15">playing</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-blue/10 text-ibloov-blue font-semibold text-xs sm:text-sm border border-ibloov-blue/15">learning</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-semibold text-xs sm:text-sm border border-ibloov-orange/15">building wealth</span>
-              <span className="text-muted-foreground font-display">into one connected journey powered by</span>
-              <span className="px-3 py-1 rounded-full bg-ibloov-blue/15 text-ibloov-blue font-display font-bold border border-ibloov-blue/25">shared experience ✨</span>
+              <motion.span
+                className="text-muted-foreground font-display"
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              >The world's first</motion.span>
+              <motion.span
+                className="px-3 py-1 rounded-full bg-ibloov-blue/10 text-ibloov-blue font-display font-bold border border-ibloov-blue/20"
+                animate={{ scale: [1, 1.12, 1], y: [0, -3, 0] }}
+                transition={{ duration: 2.5, delay: 0.2, repeat: Infinity, ease: "easeInOut" }}
+                whileHover={{ scale: 1.2, rotate: -3 }}
+              >Life & Leisure</motion.span>
+              <motion.span
+                className="px-3 py-1 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-display font-bold border border-ibloov-orange/20"
+                animate={{ scale: [1, 1.1, 1], y: [0, -4, 0] }}
+                transition={{ duration: 2.8, delay: 0.5, repeat: Infinity, ease: "easeInOut" }}
+                whileHover={{ scale: 1.2, rotate: 3 }}
+              >Operating System</motion.span>
+              <motion.span
+                className="text-muted-foreground font-display"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 3.5, delay: 0.8, repeat: Infinity, ease: "easeInOut" }}
+              >that aligns</motion.span>
+              {[
+                { text: "earning", color: "orange", delay: 0.3 },
+                { text: "exploring", color: "blue", delay: 0.6 },
+                { text: "playing", color: "orange", delay: 0.9 },
+                { text: "learning", color: "blue", delay: 1.2 },
+                { text: "building wealth", color: "orange", delay: 1.5 },
+              ].map((pill) => (
+                <motion.span
+                  key={pill.text}
+                  className={`px-2.5 py-0.5 rounded-full font-semibold text-xs sm:text-sm border cursor-default ${
+                    pill.color === "orange"
+                      ? "bg-ibloov-orange/10 text-ibloov-orange border-ibloov-orange/15"
+                      : "bg-ibloov-blue/10 text-ibloov-blue border-ibloov-blue/15"
+                  }`}
+                  animate={{
+                    scale: [1, 1.15, 0.95, 1.08, 1],
+                    y: [0, -5, 2, -3, 0],
+                    rotate: [0, 2, -2, 1, 0],
+                  }}
+                  transition={{
+                    duration: 3 + pill.delay,
+                    delay: 2.5 + pill.delay,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  whileHover={{ scale: 1.25, y: -6, rotate: -4 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {pill.text}
+                </motion.span>
+              ))}
+              <motion.span
+                className="text-muted-foreground font-display"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 4, delay: 2, repeat: Infinity, ease: "easeInOut" }}
+              >into one connected journey powered by</motion.span>
+              <motion.span
+                className="px-3 py-1 rounded-full bg-ibloov-blue/15 text-ibloov-blue font-display font-bold border border-ibloov-blue/25"
+                animate={{
+                  scale: [1, 1.15, 1],
+                  y: [0, -5, 0],
+                  boxShadow: [
+                    "0 0 0px hsl(var(--ibloov-blue) / 0)",
+                    "0 0 20px hsl(var(--ibloov-blue) / 0.3)",
+                    "0 0 0px hsl(var(--ibloov-blue) / 0)",
+                  ],
+                }}
+                transition={{ duration: 3, delay: 3, repeat: Infinity, ease: "easeInOut" }}
+                whileHover={{ scale: 1.2, rotate: 2 }}
+              >shared experience ✨</motion.span>
             </div>
           </motion.div>
 
