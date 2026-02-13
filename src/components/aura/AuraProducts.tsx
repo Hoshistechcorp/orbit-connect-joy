@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import ibloovEvents from "@/assets/ibloov-events.jpg";
 import ibloovPlaces from "@/assets/ibloov-places.jpg";
@@ -80,46 +80,39 @@ const AuraProducts = () => {
 
         {/* Product grid - pastel colored cards */}
         <div className="grid sm:grid-cols-3 gap-6">
-          <AnimatePresence>
-            {visibleProducts.map((product, i) => (
-              <motion.div
-                key={product.name}
-                className={`rounded-3xl overflow-hidden ${product.bg} border border-border/50 group relative`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ delay: i * 0.08 }}
-                whileHover={{ y: -4 }}
-              >
-                {product.comingSoon && (
-                  <div className="absolute top-4 right-4 z-10 px-4 py-1 rounded-full bg-ibloov-orange text-white text-xs font-bold">
-                    Coming Soon
-                  </div>
-                )}
-                <div className="p-6 text-center">
-                  <h4 className="font-display font-bold text-foreground text-xl mb-2">{product.name}</h4>
-                  <p className="text-muted-foreground text-sm mb-6">{product.description}</p>
-                  <div className="h-48 flex items-center justify-center mb-6">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="max-h-full w-auto rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <motion.a
-                    href="https://ibloov.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full px-6 py-3.5 rounded-full bg-foreground text-background font-semibold text-sm hover:opacity-90 transition-opacity text-center"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Learn more
-                  </motion.a>
+          {visibleProducts.map((product, i) => (
+            <div
+              key={product.name}
+              className={`rounded-3xl overflow-hidden ${product.bg} border border-border/50 group relative hover:-translate-y-1 transition-transform`}
+            >
+              {product.comingSoon && (
+                <div className="absolute top-4 right-4 z-10 px-4 py-1 rounded-full bg-ibloov-orange text-white text-xs font-bold">
+                  Coming Soon
                 </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+              )}
+              <div className="p-6 text-center">
+                <h4 className="font-display font-bold text-foreground text-xl mb-2">{product.name}</h4>
+                <p className="text-muted-foreground text-sm mb-6">{product.description}</p>
+                <div className="h-48 flex items-center justify-center mb-6">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="max-h-full w-auto rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <motion.a
+                  href="https://ibloov.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full px-6 py-3.5 rounded-full bg-foreground text-background font-semibold text-sm hover:opacity-90 transition-opacity text-center"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Learn more
+                </motion.a>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Show More/Less toggle */}
