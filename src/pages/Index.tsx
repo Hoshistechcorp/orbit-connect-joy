@@ -103,19 +103,26 @@ const Index = () => {
             <TypingHeadline />
           </motion.div>
 
-          {/* Equation — minimal */}
+          {/* What iBloov does — bubble text */}
           <motion.div
-            className="mt-6 space-y-1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            className="mt-8 max-w-lg mx-auto"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2, duration: 0.8 }}
           >
-            <p className="font-mono text-base text-muted-foreground">
-              <span className="italic">f</span>(<span className="text-ibloov-blue font-semibold">x</span>) where x = <span className="text-ibloov-orange font-bold">Love</span>
-            </p>
-            <p className="font-mono text-sm text-muted-foreground/70">
-              As t → ∞, x → ∞
-            </p>
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 text-sm sm:text-base leading-relaxed">
+              <span className="text-muted-foreground font-display">The world's first</span>
+              <span className="px-3 py-1 rounded-full bg-ibloov-blue/10 text-ibloov-blue font-display font-bold border border-ibloov-blue/20">Life & Leisure</span>
+              <span className="px-3 py-1 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-display font-bold border border-ibloov-orange/20">Operating System</span>
+              <span className="text-muted-foreground font-display">that aligns</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-semibold text-xs sm:text-sm border border-ibloov-orange/15">earning</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-blue/10 text-ibloov-blue font-semibold text-xs sm:text-sm border border-ibloov-blue/15">exploring</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-semibold text-xs sm:text-sm border border-ibloov-orange/15">playing</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-blue/10 text-ibloov-blue font-semibold text-xs sm:text-sm border border-ibloov-blue/15">learning</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-ibloov-orange/10 text-ibloov-orange font-semibold text-xs sm:text-sm border border-ibloov-orange/15">building wealth</span>
+              <span className="text-muted-foreground font-display">into one connected journey powered by</span>
+              <span className="px-3 py-1 rounded-full bg-ibloov-blue/15 text-ibloov-blue font-display font-bold border border-ibloov-blue/25">shared experience ✨</span>
+            </div>
           </motion.div>
 
           {/* Glowing Email bar */}
