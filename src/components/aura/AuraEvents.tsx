@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Star, Users, ArrowRight, Bell } from "lucide-react";
+import { Star, Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import ibloovEvents from "@/assets/ibloov-events.jpg";
 import ibloovPlaces from "@/assets/ibloov-places.jpg";
 import ibloovWellness from "@/assets/ibloov-wellness.jpg";
@@ -19,7 +20,7 @@ const AuraEvents = () => {
     <section className="py-20 px-6" style={{ background: "linear-gradient(180deg, hsl(220 25% 10%) 0%, hsl(220 25% 12%) 100%)" }}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -32,82 +33,89 @@ const AuraEvents = () => {
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event, i) => (
-            <motion.div
-              key={event.name}
-              className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm group relative"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              whileHover={{ y: -4 }}
-            >
-              <div className="h-44 overflow-hidden relative">
-                <img
-                  src={event.image}
-                  alt={event.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                {event.comingSoon && (
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-ibloov-orange/90 text-white text-xs font-bold">
-                    Coming Soon
-                  </div>
-                )}
-              </div>
-              <div className="p-5">
-                <h3 className="font-display font-bold text-white mb-2">{event.name}</h3>
-                <p className="text-white/40 text-sm mb-4 leading-relaxed">{event.description}</p>
+        {/* Full-width carousel */}
+        <Carousel
+          opts={{ align: "center", loop: true }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-4">
+            {events.map((event) => (
+              <CarouselItem key={event.name} className="pl-4 basis-[85%] sm:basis-[70%] lg:basis-[60%]">
+                <div className="relative rounded-2xl overflow-hidden h-[400px] sm:h-[450px] group">
+                  {/* Background image */}
+                  <img
+                    src={event.image}
+                    alt={event.name}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Dark overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
 
-                {!event.comingSoon ? (
-                  <>
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center gap-1 text-xs text-white/60">
-                        <Star className="w-3 h-3 text-ibloov-orange fill-ibloov-orange" />
-                        <span className="font-semibold text-white">{event.rating}</span>
-                        <span>rating</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-white/60">
-                        <Users className="w-3 h-3" />
-                        <span className="font-semibold text-white">{event.users}</span>
-                        <span>users</span>
-                      </div>
+                  {/* Coming soon badge */}
+                  {event.comingSoon && (
+                    <div className="absolute top-4 right-4 px-4 py-1.5 rounded-full bg-ibloov-orange text-white text-xs font-bold z-10">
+                      Coming Soon
                     </div>
-                    <div className="flex gap-3">
-                      <motion.a
-                        href="https://ibloov.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 text-center px-4 py-2 rounded-lg border border-white/15 text-white/80 text-xs font-semibold hover:bg-white/5 transition-colors"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Learn More
-                      </motion.a>
-                      <motion.a
-                        href="https://ibloov.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 text-center px-4 py-2 rounded-lg bg-ibloov-blue text-white text-xs font-semibold hover:opacity-90 transition-opacity"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Try Now
-                      </motion.a>
-                    </div>
-                  </>
-                ) : (
-                  <motion.button
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-ibloov-orange/30 text-ibloov-orange text-xs font-semibold hover:bg-ibloov-orange/10 transition-colors"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Bell className="w-3 h-3" />
-                    Notify Me
-                  </motion.button>
-                )}
-              </div>
-            </motion.div>
+                  )}
+
+                  {/* Content overlay at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+                    <h3 className="font-display font-bold text-white text-2xl sm:text-3xl mb-2">{event.name}</h3>
+                    <p className="text-white/70 text-sm sm:text-base mb-4 max-w-lg">{event.description}</p>
+
+                    {!event.comingSoon && (
+                      <>
+                        <div className="flex items-center gap-4 mb-5">
+                          <div className="flex items-center gap-1.5 text-sm text-white/70">
+                            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                            <span className="font-semibold text-white">{event.rating}</span>
+                            <span>rating</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-sm text-white/70">
+                            <Users className="w-4 h-4 text-ibloov-blue" />
+                            <span className="font-semibold text-white">{event.users}</span>
+                            <span>users</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <a
+                            href="https://ibloov.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-2.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold hover:bg-white/20 transition-colors"
+                          >
+                            Learn More
+                          </a>
+                          <a
+                            href="https://ibloov.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-2.5 rounded-full bg-white text-foreground text-sm font-semibold hover:bg-white/90 transition-colors"
+                          >
+                            Try Now
+                          </a>
+                        </div>
+                      </>
+                    )}
+
+                    {event.comingSoon && (
+                      <button className="px-6 py-2.5 rounded-full border border-ibloov-orange/40 text-ibloov-orange text-sm font-semibold hover:bg-ibloov-orange/10 transition-colors">
+                        Notify Me
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-4 sm:left-8 h-10 w-10 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
+          <CarouselNext className="right-4 sm:right-8 h-10 w-10 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
+        </Carousel>
+
+        {/* Dots indicator */}
+        <div className="flex justify-center gap-2 mt-6">
+          {events.map((_, i) => (
+            <div key={i} className={`w-2 h-2 rounded-full ${i === 0 ? "bg-white" : "bg-white/30"}`} />
           ))}
         </div>
       </div>
