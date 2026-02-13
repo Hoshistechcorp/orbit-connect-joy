@@ -847,16 +847,14 @@ const Mission = () => {
           </Reveal>
           <Reveal delay={0.4}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="https://ibloov.com"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/aura"
                 className="inline-flex items-center gap-2 px-8 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform"
                 style={{ background: c.gold, color: c.bg }}
               >
                 <Heart className="w-4 h-4" />
                 Enter the Orbit
-              </a>
+              </Link>
               <Link
                 to="/"
                 className="inline-flex items-center gap-2 px-8 py-3 rounded-full font-semibold text-sm transition-colors"
