@@ -31,6 +31,15 @@ const Navbar = () => {
             </motion.span>
           </Link>
 
+          <Link to="/aura">
+            <motion.span
+              className="text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider text-xs font-semibold"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}>
+              AURA
+            </motion.span>
+          </Link>
+
           <motion.a
             href="https://ibloov.com"
             target="_blank"
@@ -46,19 +55,18 @@ const Navbar = () => {
             </motion.span>
           </motion.a>
 
-          <motion.a
-            href="https://ibloov.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2 rounded-full bg-foreground text-background font-semibold text-sm"
-            whileHover={{
-              scale: 1.06,
-              boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
-            }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 15 }}>
-            Enter Orbit
-          </motion.a>
+          <Link to="/aura">
+            <motion.span
+              className="inline-block px-5 py-2 rounded-full bg-foreground text-background font-semibold text-sm"
+              whileHover={{
+                scale: 1.06,
+                boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}>
+              Enter Orbit
+            </motion.span>
+          </Link>
         </div>
       </nav>
     </header>);

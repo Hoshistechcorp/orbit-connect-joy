@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Orbit, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingMath from "@/components/FloatingMath";
@@ -214,21 +215,20 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 3.8, duration: 0.7, type: "spring" }}
           >
-            <motion.a
-              href="https://ibloov.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full bg-foreground text-background font-display font-semibold text-sm"
-              whileHover={{
-                scale: 1.06,
-                boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            >
-              <Orbit className="w-4 h-4" />
-              Enter the Orbit
-            </motion.a>
+            <Link to="/aura">
+              <motion.span
+                className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full bg-foreground text-background font-display font-semibold text-sm"
+                whileHover={{
+                  scale: 1.06,
+                  boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              >
+                <Orbit className="w-4 h-4" />
+                Enter the Orbit
+              </motion.span>
+            </Link>
             <motion.a
               href="https://ibloov.com"
               target="_blank"
