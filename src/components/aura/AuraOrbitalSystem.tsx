@@ -196,17 +196,17 @@ const AuraOrbitalSystem = () => {
         </motion.div>
 
         {/* Cards in flow layout - staggered left/right */}
-        <div className="relative z-20 space-y-8 lg:space-y-12">
+        <div className="relative z-20 space-y-6 sm:space-y-8 lg:space-y-12">
           {orbits.map((orbit, i) => (
             <motion.div
               key={orbit.name}
-              className={`flex ${orbit.slideFrom === "right" ? "justify-end" : "justify-start"}`}
+              className={`flex justify-start sm:${orbit.slideFrom === "right" ? "justify-end" : "justify-start"}`}
               initial={{ opacity: 0, x: orbit.slideFrom === "left" ? -40 : 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
             >
-              <div className="w-full sm:w-[55%] lg:w-[45%] rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm p-5 sm:p-6">
+              <div className="w-full sm:w-[55%] lg:w-[45%] rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm p-4 sm:p-5 sm:p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className={`w-9 h-9 rounded-lg ${orbit.badgeBg} flex items-center justify-center text-white font-display font-bold text-sm`}>
                     {orbit.letter}

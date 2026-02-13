@@ -21,22 +21,13 @@ const Navbar = () => {
           </motion.div>
         </Link>
 
-        <div className="flex items-center gap-5 sm:gap-7 text-sm font-medium font-display">
+        <div className="flex items-center gap-3 sm:gap-5 md:gap-7 text-sm font-medium font-display">
           <Link to="/mission">
             <motion.span
               className="text-muted-foreground hover:text-foreground transition-colors"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}>
               Mission
-            </motion.span>
-          </Link>
-
-          <Link to="/aura">
-            <motion.span
-              className="text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider text-xs font-semibold"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}>
-              AURA
             </motion.span>
           </Link>
 
@@ -57,7 +48,7 @@ const Navbar = () => {
 
           <Link to="/aura">
             <motion.span
-              className="inline-block px-5 py-2 rounded-full bg-foreground text-background font-semibold text-sm"
+              className="inline-block px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-foreground text-background font-semibold text-xs sm:text-sm"
               whileHover={{
                 scale: 1.06,
                 boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
