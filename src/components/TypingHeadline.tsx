@@ -31,7 +31,7 @@ const TypingHeadline = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.12, type: "spring", bounce: 0.3 }}
-            className={char === "x" ? "text-ibloov-orange" : ""}
+            className={char === "X" ? "text-yellow-400" : ""}
           >
             {char}
           </motion.span>
