@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
-import { ShoppingBag } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ShoppingBag, Home } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import ibloovLogo from "@/assets/ibloov-logo.jpeg";
 
 
 
 const Navbar = () => {
+  const location = useLocation();
+  const isAuraPage = location.pathname === "/aura";
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-border/50">
       <nav className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
@@ -22,6 +25,18 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-5 md:gap-7 text-sm font-medium font-display">
+          {isAuraPage && (
+            <Link to="/">
+              <motion.span
+                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}>
+                <Home className="w-4 h-4" />
+                <span className="hidden sm:inline">Home</span>
+              </motion.span>
+            </Link>
+          )}
+
           <Link to="/mission">
             <motion.span
               className="text-muted-foreground hover:text-foreground transition-colors"
