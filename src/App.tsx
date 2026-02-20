@@ -10,6 +10,7 @@ import Detect from "./pages/Detect";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import EnterpriseDashboard from "./pages/EnterpriseDashboard";
+import EnterpriseOnboarding from "./pages/EnterpriseOnboarding";
 import OrbitContinent from "./pages/OrbitContinent";
 import ConsumerSignup from "./pages/ConsumerSignup";
 import Onboarding from "./pages/Onboarding";
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/signup/consumer" element={<ConsumerSignup />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/onboarding/enterprise" element={<EnterpriseOnboarding />} />
           <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
