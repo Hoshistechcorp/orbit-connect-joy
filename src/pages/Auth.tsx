@@ -18,8 +18,14 @@ const Auth = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const dashPath = userType === "enterprise" ? "/dashboard/enterprise" : "/dashboard";
-    navigate(dashPath, { state: { location: detectedLocation, userType, user: form } });
+    if (tab === "signin") {
+      const dashPath = userType === "enterprise" ? "/dashboard/enterprise" : "/dashboard";
+      navigate(dashPath, { state: { location: detectedLocation, userType, user: form } });
+    } else if (userType === "enterprise") {
+      navigate("/onboarding/enterprise", { state: { user: form } });
+    } else {
+      navigate("/onboarding", { state: { user: form, continent: detectedLocation.continent } });
+    }
   };
 
   return (
