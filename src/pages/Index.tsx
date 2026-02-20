@@ -216,7 +216,7 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 3.8, duration: 0.7, type: "spring" }}
           >
-            <Link to="/aura">
+            <Link to="/detect">
               <motion.span
                 className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full bg-foreground text-background font-display font-semibold text-sm"
                 whileHover={{
