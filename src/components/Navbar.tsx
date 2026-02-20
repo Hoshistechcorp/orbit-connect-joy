@@ -65,7 +65,7 @@ const Navbar = () => {
             <ShoppingBag className="w-4 h-4" />
           </motion.a>
 
-          <Link to="/aura">
+          <Link to="/detect">
             <motion.span
               className="inline-block px-5 py-2 rounded-full bg-foreground text-background font-semibold text-sm"
               whileHover={{
@@ -81,7 +81,7 @@ const Navbar = () => {
 
         {/* Mobile: Enter Orbit + Hamburger */}
         <div className="flex sm:hidden items-center gap-3">
-          <Link to="/aura">
+          <Link to="/detect">
             <span className="inline-block px-4 py-1.5 rounded-full bg-foreground text-background font-semibold text-xs">
               Enter Orbit
             </span>
@@ -135,7 +135,7 @@ const Navbar = () => {
                 </a>
 
                 <Link
-                  to="/aura"
+                  to="/detect"
                   onClick={() => setOpen(false)}
                   className="inline-block text-center px-5 py-2.5 rounded-full bg-foreground text-background font-semibold text-sm mt-2">
                   Enter Orbit

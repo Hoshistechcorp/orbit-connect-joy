@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Mission from "./pages/Mission";
 import Aura from "./pages/Aura";
+import Detect from "./pages/Detect";
+import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import EnterpriseDashboard from "./pages/EnterpriseDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +24,10 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/mission" element={<Mission />} />
           <Route path="/aura" element={<Aura />} />
+          <Route path="/detect" element={<Detect />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
