@@ -10,6 +10,9 @@ import Detect from "./pages/Detect";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import EnterpriseDashboard from "./pages/EnterpriseDashboard";
+import OrbitContinent from "./pages/OrbitContinent";
+import ConsumerSignup from "./pages/ConsumerSignup";
+import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,7 +28,10 @@ const App = () => (
           <Route path="/mission" element={<Mission />} />
           <Route path="/aura" element={<Aura />} />
           <Route path="/detect" element={<Detect />} />
+          <Route path="/orbit/:continent" element={<OrbitContinent />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/signup/consumer" element={<ConsumerSignup />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           

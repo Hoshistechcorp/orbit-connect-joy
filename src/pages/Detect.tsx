@@ -141,12 +141,15 @@ const Detect = () => {
               </motion.div>
 
               <motion.button
-                onClick={() => navigate("/auth", { state: { location } })}
+                onClick={() => {
+                  const slug = location.continent.toLowerCase().replace(" ", "-");
+                  navigate(`/orbit/${slug}`, { state: { location } });
+                }}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-foreground text-background font-display font-semibold text-sm mb-4"
                 whileHover={{ scale: 1.03, boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)" }}
                 whileTap={{ scale: 0.97 }}
               >
-                Continue to Sign Up
+                Explore {location.continent} Orbit
                 <ArrowRight className="w-4 h-4" />
               </motion.button>
 
