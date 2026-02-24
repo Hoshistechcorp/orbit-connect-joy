@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Globe, Heart, ShoppingBag } from "lucide-react";
+import { Globe, Heart, Instagram, Twitter, Linkedin, Youtube } from "lucide-react";
 
 const missionCards = [
   {
@@ -20,6 +20,13 @@ const missionCards = [
     text: "Save the world from isolation, one shared experience at a time. Math checks out.",
     color: "ibloov-orange",
   },
+];
+
+const socialLinks = [
+  { icon: Instagram, href: "https://instagram.com/ibloov", label: "Instagram" },
+  { icon: Twitter, href: "https://twitter.com/ibloov", label: "Twitter" },
+  { icon: Linkedin, href: "https://linkedin.com/company/ibloov", label: "LinkedIn" },
+  { icon: Youtube, href: "https://youtube.com/@ibloov", label: "YouTube" },
 ];
 
 const Footer = () => {
@@ -93,6 +100,24 @@ const Footer = () => {
             Support the Vision
           </motion.a>
         </motion.div>
+
+        {/* Social Links */}
+        <div className="flex justify-center gap-4 mt-8">
+          {socialLinks.map((social) => (
+            <motion.a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              className="p-2.5 rounded-full border border-border bg-background/80 text-muted-foreground hover:text-foreground transition-colors"
+              whileHover={{ scale: 1.15, y: -3 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <social.icon className="w-4 h-4" />
+            </motion.a>
+          ))}
+        </div>
       </div>
 
       {/* Bottom bar */}
