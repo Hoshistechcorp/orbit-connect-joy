@@ -214,7 +214,7 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 3.8, duration: 0.7, type: "spring" }}
           >
-            <Link to="/detect">
+            <Link to="/coming-soon">
               <motion.span
                 className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full bg-foreground text-background font-display font-semibold text-sm"
                 whileHover={{
@@ -226,6 +226,16 @@ const Index = () => {
               >
                 <Orbit className="w-4 h-4" />
                 Enter the Orbit
+              </motion.span>
+            </Link>
+            <Link to="/detect">
+              <motion.span
+                className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              >
+                View the Orbit
               </motion.span>
             </Link>
           </motion.div>
