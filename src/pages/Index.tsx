@@ -1,13 +1,11 @@
 import { motion } from "framer-motion";
-import { Orbit, Heart } from "lucide-react";
+import { Orbit } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingMath from "@/components/FloatingMath";
-import MissionSection from "@/components/MissionSection";
 import TypingHeadline from "@/components/TypingHeadline";
 import EmailSearchBar from "@/components/EmailSearchBar";
-import ibloovLogo from "@/assets/ibloov-logo.jpeg";
 
 const Index = () => {
   return (
@@ -230,26 +228,9 @@ const Index = () => {
                 Enter the Orbit
               </motion.span>
             </Link>
-            <motion.a
-              href="https://ibloov.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground"
-              whileHover={{
-                scale: 1.06,
-                boxShadow: "0 4px 20px hsl(var(--ibloov-orange) / 0.2)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            >
-              <Heart className="w-4 h-4 text-ibloov-orange" />
-              Support the Vision
-            </motion.a>
           </motion.div>
         </motion.div>
       </main>
-
-      <MissionSection />
 
       <Footer />
     </div>
