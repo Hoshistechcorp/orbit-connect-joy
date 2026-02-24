@@ -105,7 +105,7 @@ const Index = () => {
 
           {/* What iBloov does — bubble text */}
           <motion.div
-            className="mt-6 sm:mt-8 max-w-lg mx-auto px-2"
+            className="mt-6 sm:mt-8 max-w-lg md:max-w-2xl mx-auto px-2"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2, duration: 0.8 }}
