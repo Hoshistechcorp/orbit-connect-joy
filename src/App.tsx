@@ -14,6 +14,7 @@ import EnterpriseOnboarding from "./pages/EnterpriseOnboarding";
 import OrbitContinent from "./pages/OrbitContinent";
 import ConsumerSignup from "./pages/ConsumerSignup";
 import Onboarding from "./pages/Onboarding";
+import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/onboarding/enterprise" element={<EnterpriseOnboarding />} />
           <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           
+          <Route path="/coming-soon" element={<ComingSoon />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
