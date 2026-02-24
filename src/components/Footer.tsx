@@ -115,31 +115,6 @@ const Footer = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Support the Vision */}
-        <motion.div
-          className="flex justify-center mt-10"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          <motion.a
-            href="https://ibloov.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground"
-            whileHover={{
-              scale: 1.06,
-              boxShadow: "0 4px 20px hsl(var(--ibloov-orange) / 0.2)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 15 }}
-          >
-            <Heart className="w-4 h-4 text-ibloov-orange" />
-            Support the Vision
-          </motion.a>
-        </motion.div>
       </div>
 
       {/* Links Grid */}
@@ -210,36 +185,53 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom bar */}
+      {/* Support + Bottom bar */}
       <div className="border-t border-border">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
-              <Globe className="w-3.5 h-3.5" />
-              <span>Global (English)</span>
+        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col items-center gap-4">
+          <motion.a
+            href="https://ibloov.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-border bg-background font-display font-semibold text-sm text-foreground"
+            whileHover={{
+              scale: 1.06,
+              boxShadow: "0 4px 20px hsl(var(--ibloov-orange) / 0.2)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+          >
+            <Heart className="w-4 h-4 text-ibloov-orange" />
+            Support the Vision
+          </motion.a>
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5" />
+                <span>Global (English)</span>
+              </div>
+              <span className="hidden sm:inline">·</span>
+              <div className="flex items-center gap-1.5">
+                <Mail className="w-3.5 h-3.5" />
+                <a href="mailto:hello@ibloov.com" className="hover:text-foreground transition-colors">
+                  hello@ibloov.com
+                </a>
+              </div>
             </div>
-            <span className="hidden sm:inline">·</span>
-            <div className="flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5" />
-              <a href="mailto:hello@ibloov.com" className="hover:text-foreground transition-colors">
-                hello@ibloov.com
-              </a>
+            <div className="flex items-center gap-6">
+              <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
+              <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+              <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
+              <span className="flex items-center gap-1">
+                Made with{" "}
+                <motion.span
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <Heart className="w-3 h-3 text-ibloov-orange fill-ibloov-orange" />
+                </motion.span>
+                {" "}© {new Date().getFullYear()} iBloov
+              </span>
             </div>
-          </div>
-          <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-            <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
-            <span className="flex items-center gap-1">
-              Made with{" "}
-              <motion.span
-                animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <Heart className="w-3 h-3 text-ibloov-orange fill-ibloov-orange" />
-              </motion.span>
-              {" "}© {new Date().getFullYear()} iBloov
-            </span>
           </div>
         </div>
       </div>
