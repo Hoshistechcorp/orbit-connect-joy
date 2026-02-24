@@ -228,7 +228,7 @@ const Index = () => {
                 Enter the Orbit
               </motion.span>
             </Link>
-            <Link to="/detect">
+            <Link to="/aura">
               <motion.span
                 className="flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto rounded-full border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-colors"
                 whileHover={{ scale: 1.05 }}
