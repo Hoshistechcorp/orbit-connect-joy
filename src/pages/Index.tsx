@@ -9,7 +9,7 @@ import EmailSearchBar from "@/components/EmailSearchBar";
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen overflow-hidden" style={{ background: "linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--ibloov-light-gray)) 40%, hsl(var(--ibloov-orange) / 0.08) 100%)" }}>
+    <div className="relative min-h-screen overflow-x-hidden" style={{ background: "linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--ibloov-light-gray)) 40%, hsl(var(--ibloov-orange) / 0.08) 100%)" }}>
       <Navbar />
       <FloatingMath />
 
