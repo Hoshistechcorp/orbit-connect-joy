@@ -45,15 +45,6 @@ const Navbar = () => {
             </Link>
           )}
 
-          <Link to="/mission">
-            <motion.span
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}>
-              Mission
-            </motion.span>
-          </Link>
-
           <motion.a
             href="https://ibloov.com"
             target="_blank"
@@ -98,31 +89,12 @@ const Navbar = () => {
                 <SheetTitle className="sr-only">Navigation</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-6 mt-8 text-base font-medium font-display">
-                {isAuraPage && (
-                  <Link
-                    to="/"
-                    onClick={() => setOpen(false)}
-                    className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
-                    <Home className="w-4 h-4" />
-                    Home
-                  </Link>
-                )}
-
-                {!isAuraPage && (
-                  <Link
-                    to="/"
-                    onClick={() => setOpen(false)}
-                    className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
-                    <Home className="w-4 h-4" />
-                    Home
-                  </Link>
-                )}
-
                 <Link
-                  to="/mission"
+                  to="/"
                   onClick={() => setOpen(false)}
-                  className="text-foreground hover:text-primary transition-colors">
-                  Mission
+                  className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
+                  <Home className="w-4 h-4" />
+                  Home
                 </Link>
 
                 <a
