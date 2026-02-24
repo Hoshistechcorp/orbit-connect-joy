@@ -1,5 +1,52 @@
 import { motion } from "framer-motion";
-import { Globe, Heart, Instagram, Twitter, Linkedin, Youtube } from "lucide-react";
+import { Globe, Heart, Instagram, Twitter, Linkedin, Youtube, Mail, MapPin, ShoppingBag } from "lucide-react";
+import { Link } from "react-router-dom";
+import ibloovLogo from "@/assets/ibloov-logo.jpeg";
+
+const footerSections = [
+  {
+    title: "Platform",
+    links: [
+      { label: "Enter the Orbit", to: "/detect" },
+      { label: "Aura", to: "/aura" },
+      { label: "Consumer Dashboard", to: "/dashboard" },
+      { label: "Enterprise Dashboard", to: "/dashboard/enterprise" },
+    ],
+  },
+  {
+    title: "Explore",
+    links: [
+      { label: "Africa", to: "/orbit/africa" },
+      { label: "Europe", to: "/orbit/europe" },
+      { label: "North America", to: "/orbit/north-america" },
+      { label: "South America", to: "/orbit/south-america" },
+      { label: "Asia", to: "/orbit/asia" },
+      { label: "Oceania", to: "/orbit/oceania" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Mission", to: "/mission" },
+      { label: "Store", href: "https://ibloov.com" },
+    ],
+  },
+  {
+    title: "Get Started",
+    links: [
+      { label: "Sign In", to: "/auth" },
+      { label: "Consumer Sign Up", to: "/signup/consumer" },
+      { label: "Enterprise Onboarding", to: "/onboarding/enterprise" },
+    ],
+  },
+];
+
+const socialLinks = [
+  { icon: Instagram, href: "https://instagram.com/ibloov", label: "Instagram" },
+  { icon: Twitter, href: "https://twitter.com/ibloov", label: "Twitter" },
+  { icon: Linkedin, href: "https://linkedin.com/company/ibloov", label: "LinkedIn" },
+  { icon: Youtube, href: "https://youtube.com/@ibloov", label: "YouTube" },
+];
 
 const missionCards = [
   {
@@ -22,18 +69,11 @@ const missionCards = [
   },
 ];
 
-const socialLinks = [
-  { icon: Instagram, href: "https://instagram.com/ibloov", label: "Instagram" },
-  { icon: Twitter, href: "https://twitter.com/ibloov", label: "Twitter" },
-  { icon: Linkedin, href: "https://linkedin.com/company/ibloov", label: "LinkedIn" },
-  { icon: Youtube, href: "https://youtube.com/@ibloov", label: "YouTube" },
-];
-
 const Footer = () => {
   return (
     <footer className="relative border-t border-border bg-muted/50 backdrop-blur-sm">
       {/* Mission Section */}
-      <div className="max-w-4xl mx-auto px-4 pt-16 pb-10">
+      <div className="max-w-5xl mx-auto px-4 pt-16 pb-12">
         <motion.h2
           className="text-center font-mono text-2xl sm:text-3xl font-bold text-foreground mb-10"
           initial={{ opacity: 0, y: 20 }}
@@ -100,36 +140,96 @@ const Footer = () => {
             Support the Vision
           </motion.a>
         </motion.div>
+      </div>
 
-        {/* Social Links */}
-        <div className="flex justify-center gap-4 mt-8">
-          {socialLinks.map((social) => (
-            <motion.a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={social.label}
-              className="p-2.5 rounded-full border border-border bg-background/80 text-muted-foreground hover:text-foreground transition-colors"
-              whileHover={{ scale: 1.15, y: -3 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <social.icon className="w-4 h-4" />
-            </motion.a>
-          ))}
+      {/* Links Grid */}
+      <div className="border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+            {/* Brand Column */}
+            <div className="col-span-2 md:col-span-1">
+              <Link to="/" className="flex items-center gap-2 mb-4">
+                <img src={ibloovLogo} alt="iBloov" className="h-8 w-auto rounded-lg" />
+                <span className="font-display font-bold text-foreground">iBloov</span>
+              </Link>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                The world's first Life & Leisure Operating System. Solving for shared joy.
+              </p>
+              {/* Social Links */}
+              <div className="flex gap-2.5">
+                {socialLinks.map((social) => (
+                  <motion.a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="p-2 rounded-full border border-border bg-background/80 text-muted-foreground hover:text-foreground transition-colors"
+                    whileHover={{ scale: 1.15, y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <social.icon className="w-3.5 h-3.5" />
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+
+            {/* Link Columns */}
+            {footerSections.map((section) => (
+              <div key={section.title}>
+                <h4 className="font-display font-semibold text-foreground text-sm mb-3">
+                  {section.title}
+                </h4>
+                <ul className="space-y-2">
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      {"to" in link && link.to ? (
+                        <Link
+                          to={link.to}
+                          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={(link as any).href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+                        >
+                          {link.label}
+                          <ShoppingBag className="w-3 h-3" />
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div className="border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">
-          <div className="flex items-center gap-2">
-            <Globe className="w-3.5 h-3.5" />
-            <span>Global (English)</span>
+        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5" />
+              <span>Global (English)</span>
+            </div>
+            <span className="hidden sm:inline">·</span>
+            <div className="flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5" />
+              <a href="mailto:hello@ibloov.com" className="hover:text-foreground transition-colors">
+                hello@ibloov.com
+              </a>
+            </div>
           </div>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
             <a href="#" className="hover:text-foreground transition-colors">Terms</a>
+            <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
             <span className="flex items-center gap-1">
               Made with{" "}
               <motion.span
