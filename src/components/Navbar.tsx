@@ -49,7 +49,7 @@ const Navbar = () => {
             href="https://ibloov.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider text-xs font-semibold"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-foreground text-background font-semibold text-xs uppercase tracking-wider"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}>
             <span>Store</span>
@@ -101,7 +101,7 @@ const Navbar = () => {
                   href="https://ibloov.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-foreground text-background font-semibold text-sm">
                   <span>Store</span>
                   <ShoppingBag className="w-4 h-4" />
                 </a>
