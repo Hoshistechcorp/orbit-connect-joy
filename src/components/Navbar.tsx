@@ -8,8 +8,8 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  SheetTrigger } from
+"@/components/ui/sheet";
 
 const Navbar = () => {
   const location = useLocation();
@@ -33,17 +33,17 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <div className="hidden sm:flex items-center gap-5 md:gap-7 text-sm font-medium font-display">
-          {isAuraPage && (
-            <Link to="/">
+          {isAuraPage &&
+          <Link to="/">
               <motion.span
-                className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}>
+              className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}>
                 <Home className="w-4 h-4" />
                 Home
               </motion.span>
             </Link>
-          )}
+          }
 
           <motion.a
             href="https://ibloov.com"
@@ -57,16 +57,16 @@ const Navbar = () => {
           </motion.a>
 
           <Link to="/detect">
-            <motion.span
-              className="inline-block px-5 py-2 rounded-full bg-foreground text-background font-semibold text-sm"
-              whileHover={{
-                scale: 1.06,
-                boxShadow: "0 4px 20px hsl(var(--foreground) / 0.3)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}>
-              Enter Orbit
-            </motion.span>
+            
+
+
+
+
+
+
+
+
+            
           </Link>
         </div>
 
@@ -117,8 +117,8 @@ const Navbar = () => {
           </Sheet>
         </div>
       </nav>
-    </header>
-  );
+    </header>);
+
 };
 
 export default Navbar;
