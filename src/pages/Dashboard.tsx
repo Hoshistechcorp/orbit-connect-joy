@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar, MapPin, Heart, GraduationCap, User, LogOut,
   Bell, Search, Star, Clock, TrendingUp, Users, ChevronRight,
-  Compass, Bookmark, Sparkles, Flame, ArrowRight
+  Compass, Bookmark, Sparkles, Flame, ArrowRight, Plus,
+  CalendarPlus, ExternalLink
 } from "lucide-react";
 import AuraLinksSection from "@/components/dashboard/AuraLinksSection";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "@/hooks/use-toast";
 
 const CATEGORIES = [
   { id: "for-you", label: "For You", icon: Sparkles },
@@ -18,10 +22,12 @@ const CATEGORIES = [
   { id: "institute", label: "Institute", icon: GraduationCap },
 ];
 
-const UPCOMING = [
-  { title: "Morning Yoga Flow", time: "Today 7:00 AM", icon: "🧘", category: "Wellness" },
-  { title: "Community Potluck", time: "Wed 6:30 PM", icon: "🍲", category: "Events" },
-  { title: "Photography Walk", time: "Sat 10:00 AM", icon: "📷", category: "Events" },
+const UPCOMING_EVENTS = [
+  { title: "Morning Yoga Flow", time: "Today 7:00 AM", date: "2026-03-04", icon: "🧘", category: "Wellness", location: "Zen Studio Downtown" },
+  { title: "Community Potluck", time: "Wed 6:30 PM", date: "2026-03-06", icon: "🍲", category: "Events", location: "Community Center Hall B" },
+  { title: "Photography Walk", time: "Sat 10:00 AM", date: "2026-03-08", icon: "📷", category: "Events", location: "Central Park East" },
+  { title: "IV Therapy Session", time: "Mon 2:00 PM", date: "2026-03-10", icon: "💉", category: "Wellness", location: "Vitality Clinic" },
+  { title: "Hospitality Trends Talk", time: "Tue 5:00 PM", date: "2026-03-11", icon: "🎤", category: "Institute", location: "Grand Hotel Ballroom" },
 ];
 
 const FEATURED = [
@@ -29,13 +35,49 @@ const FEATURED = [
   { title: "Rooftop Sunset Session", subtitle: "Tomorrow · 489 going", image: "🌅", tag: "New", tagColor: "bg-primary/10 text-primary" },
 ];
 
-const RECOMMENDED = [
-  { title: "Hidden Jazz Lounge", desc: "Live music every Friday", image: "🎵", rating: 4.9, attendees: 156, category: "places" },
-  { title: "Coastal Meditation Retreat", desc: "3-day mindfulness journey", image: "🌊", rating: 4.8, attendees: 42, category: "wellness" },
-  { title: "Creative Writing Workshop", desc: "8-week intensive course", image: "✍️", rating: 4.7, attendees: 89, category: "institute" },
-  { title: "Night Market Food Tour", desc: "Taste 12 local vendors", image: "🍜", rating: 4.9, attendees: 234, category: "events" },
-  { title: "Sunrise Hike & Brunch", desc: "Mountain trail + chef breakfast", image: "🥾", rating: 4.8, attendees: 67, category: "events" },
-  { title: "Digital Art Masterclass", desc: "From beginner to portfolio", image: "🎨", rating: 4.6, attendees: 312, category: "institute" },
+const RECOMMENDED_DATA: Record<string, Array<{ title: string; desc: string; image: string; rating: number; attendees: number; category: string; location?: string }>> = {
+  events: [
+    { title: "Night Market Food Tour", desc: "Taste 12 local vendors", image: "🍜", rating: 4.9, attendees: 234, category: "events", location: "2.1 mi away" },
+    { title: "Sunrise Hike & Brunch", desc: "Mountain trail + chef breakfast", image: "🥾", rating: 4.8, attendees: 67, category: "events", location: "5.3 mi away" },
+    { title: "Rooftop Jazz Night", desc: "Live jazz, cocktails & city views", image: "🎷", rating: 4.9, attendees: 189, category: "events", location: "0.8 mi away" },
+    { title: "Sunset Beach Bonfire", desc: "S'mores, live guitar & good vibes", image: "🔥", rating: 4.7, attendees: 142, category: "events", location: "3.2 mi away" },
+    { title: "Cultural Food Festival", desc: "50+ cuisines from around the world", image: "🌍", rating: 4.8, attendees: 1200, category: "events", location: "1.5 mi away" },
+    { title: "Outdoor Cinema Night", desc: "Classic films under the stars", image: "🎬", rating: 4.6, attendees: 310, category: "events", location: "2.7 mi away" },
+  ],
+  places: [
+    { title: "The Grand Meridian Hotel", desc: "5-star luxury with rooftop infinity pool", image: "🏨", rating: 4.9, attendees: 1200, category: "places", location: "0.5 mi away" },
+    { title: "Hidden Jazz Lounge", desc: "Live music every Friday night", image: "🎵", rating: 4.9, attendees: 156, category: "places", location: "1.2 mi away" },
+    { title: "Skyline Rooftop Bar", desc: "Craft cocktails with panoramic city views", image: "🍸", rating: 4.8, attendees: 890, category: "places", location: "0.3 mi away" },
+    { title: "Botanical Garden Café", desc: "Coffee surrounded by rare orchids", image: "🌺", rating: 4.7, attendees: 445, category: "places", location: "2.0 mi away" },
+    { title: "Underground Speakeasy", desc: "Password-entry bar, 1920s vibes", image: "🥃", rating: 4.8, attendees: 320, category: "places", location: "1.8 mi away" },
+    { title: "Seaside Boutique Resort", desc: "Beachfront suites with private cabanas", image: "🏖️", rating: 4.9, attendees: 670, category: "places", location: "12 mi away" },
+  ],
+  wellness: [
+    { title: "Coastal Meditation Retreat", desc: "3-day mindfulness journey by the sea", image: "🌊", rating: 4.8, attendees: 42, category: "wellness", location: "8 mi away" },
+    { title: "IV Therapy & Recovery Lab", desc: "Vitamin drips, NAD+ & hydration therapy", image: "💉", rating: 4.9, attendees: 198, category: "wellness", location: "0.9 mi away" },
+    { title: "Hot Yoga & Sound Bath", desc: "Infrared heat + crystal singing bowls", image: "🧘", rating: 4.7, attendees: 134, category: "wellness", location: "1.4 mi away" },
+    { title: "Cryotherapy Studio", desc: "3-min whole body cryo sessions", image: "❄️", rating: 4.8, attendees: 267, category: "wellness", location: "2.1 mi away" },
+    { title: "Float Sensory Tank", desc: "90-min zero-gravity float experience", image: "🫧", rating: 4.9, attendees: 89, category: "wellness", location: "3.5 mi away" },
+    { title: "Breathwork & Ice Bath", desc: "Wim Hof method guided sessions", image: "🧊", rating: 4.8, attendees: 56, category: "wellness", location: "1.7 mi away" },
+  ],
+  institute: [
+    { title: "Hotel Revenue Management", desc: "Master pricing strategy & yield optimization", image: "📊", rating: 4.9, attendees: 89, category: "institute", location: "Online + In-Person" },
+    { title: "F&B Operations Masterclass", desc: "Run a world-class restaurant operation", image: "🍽️", rating: 4.8, attendees: 134, category: "institute", location: "Online + In-Person" },
+    { title: "Luxury Guest Experience Design", desc: "Create unforgettable 5-star guest journeys", image: "✨", rating: 4.9, attendees: 67, category: "institute", location: "Online" },
+    { title: "Event Planning Certification", desc: "Full event lifecycle from concept to execution", image: "🎪", rating: 4.7, attendees: 312, category: "institute", location: "8-week program" },
+    { title: "Spa & Wellness Management", desc: "Build and manage resort-level spa programs", image: "🧖", rating: 4.8, attendees: 78, category: "institute", location: "6-week program" },
+    { title: "Hospitality Leadership", desc: "Executive skills for hotel & resort GMs", image: "👔", rating: 4.9, attendees: 156, category: "institute", location: "12-week program" },
+  ],
+};
+
+// "For You" and "Trending" pull a mix
+const FOR_YOU_MIX = [
+  RECOMMENDED_DATA.events[0], RECOMMENDED_DATA.places[0], RECOMMENDED_DATA.wellness[0],
+  RECOMMENDED_DATA.institute[0], RECOMMENDED_DATA.events[1], RECOMMENDED_DATA.wellness[1],
+];
+const TRENDING_MIX = [
+  RECOMMENDED_DATA.places[2], RECOMMENDED_DATA.events[3], RECOMMENDED_DATA.wellness[4],
+  RECOMMENDED_DATA.institute[3], RECOMMENDED_DATA.places[4], RECOMMENDED_DATA.events[4],
 ];
 
 const QUICK_STATS = [
@@ -53,6 +95,20 @@ const Dashboard = () => {
   const [activeCategory, setActiveCategory] = useState("for-you");
 
   const firstName = (user.name || "Explorer").split(" ")[0];
+
+  const getRecommended = () => {
+    if (activeCategory === "for-you") return FOR_YOU_MIX;
+    if (activeCategory === "trending") return TRENDING_MIX;
+    return RECOMMENDED_DATA[activeCategory] || FOR_YOU_MIX;
+  };
+
+  const addToCalendar = (event: typeof UPCOMING_EVENTS[0]) => {
+    const startDate = new Date(event.date).toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    const endDate = new Date(new Date(event.date).getTime() + 2 * 60 * 60 * 1000).toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${startDate}/${endDate}&location=${encodeURIComponent(event.location)}&details=${encodeURIComponent(`Category: ${event.category}`)}`;
+    window.open(url, "_blank");
+    toast({ title: "Opening Google Calendar", description: `Adding "${event.title}" to your calendar.` });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
@@ -126,34 +182,69 @@ const Dashboard = () => {
 
         <Separator className="mb-10" />
 
-        {/* Your Upcoming */}
+        {/* Your Upcoming — with calendar integration */}
         <section className="mb-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" /> Your Upcoming
             </h2>
-            <button className="text-xs text-primary font-display font-semibold flex items-center gap-1 hover:underline">
-              View calendar <ChevronRight className="w-3 h-3" />
-            </button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs text-primary font-display font-semibold gap-1"
+              onClick={() => {
+                window.open("https://calendar.google.com", "_blank");
+              }}
+            >
+              <ExternalLink className="w-3 h-3" /> Open Calendar
+            </Button>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2">
-            {UPCOMING.map((item, i) => (
+            {UPCOMING_EVENTS.map((item, i) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="min-w-[220px] bg-card border border-border rounded-xl p-4 hover:border-primary/30 transition-all cursor-pointer flex-shrink-0"
+                className="min-w-[260px] bg-card border border-border rounded-xl p-4 hover:border-primary/30 transition-all cursor-pointer flex-shrink-0 group"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{item.icon}</span>
-                  <div>
-                    <p className="font-display font-semibold text-sm text-foreground">{item.title}</p>
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl mt-0.5">{item.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="font-display font-semibold text-sm text-foreground truncate">{item.title}</p>
+                      <Badge variant="outline" className="text-[9px] font-display shrink-0">{item.category}</Badge>
+                    </div>
                     <p className="text-[11px] text-muted-foreground">{item.time}</p>
+                    <p className="text-[10px] text-muted-foreground flex items-center gap-1 mt-0.5">
+                      <MapPin className="w-2.5 h-2.5" /> {item.location}
+                    </p>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 mt-2 text-[10px] text-primary font-display gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCalendar(item);
+                      }}
+                    >
+                      <CalendarPlus className="w-3 h-3" /> Add to Calendar
+                    </Button>
                   </div>
                 </div>
               </motion.div>
             ))}
+            {/* Add event card */}
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              className="min-w-[140px] bg-muted/40 border border-dashed border-border rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-primary/30 transition-all flex-shrink-0"
+              onClick={() => navigate("/dashboard/create")}
+            >
+              <Plus className="w-5 h-5 text-muted-foreground mb-1" />
+              <p className="text-[11px] text-muted-foreground font-display font-semibold">Add Event</p>
+            </motion.div>
           </div>
         </section>
 
@@ -198,8 +289,8 @@ const Dashboard = () => {
 
         <Separator className="mb-10" />
 
-        {/* Recommended */}
-        <section>
+        {/* Recommended — category-specific */}
+        <section className="pb-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" /> Recommended
@@ -222,36 +313,50 @@ const Dashboard = () => {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {RECOMMENDED.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04 }}
-                className="bg-card border border-border rounded-2xl p-4 hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group"
-              >
-                <div className="flex items-start gap-3">
-                  <span className="text-3xl">{item.image}</span>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mt-0.5 truncate">{item.desc}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Users className="w-3 h-3" /> {item.attendees}
-                      </span>
-                      <span className="flex items-center gap-1 text-xs text-secondary">
-                        <Star className="w-3 h-3 fill-current" /> {item.rating}
-                      </span>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            >
+              {getRecommended().map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                  className="bg-card border border-border rounded-2xl p-4 hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-3xl">{item.image}</span>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-display font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-0.5 truncate">{item.desc}</p>
+                      {item.location && (
+                        <p className="text-[10px] text-muted-foreground flex items-center gap-1 mt-1">
+                          <MapPin className="w-2.5 h-2.5" /> {item.location}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-3 mt-2">
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Users className="w-3 h-3" /> {item.attendees}
+                        </span>
+                        <span className="flex items-center gap-1 text-xs text-secondary">
+                          <Star className="w-3 h-3 fill-current" /> {item.rating}
+                        </span>
+                      </div>
                     </div>
+                    <Bookmark className="w-4 h-4 text-muted-foreground hover:text-primary transition-colors cursor-pointer" />
                   </div>
-                  <Bookmark className="w-4 h-4 text-muted-foreground hover:text-primary transition-colors cursor-pointer" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </section>
       </main>
     </div>
