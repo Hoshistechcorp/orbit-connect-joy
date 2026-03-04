@@ -4,7 +4,7 @@ import {
   ArrowLeft, Link2, Users, DollarSign, Gift, Camera,
   Share2, Settings, Edit, Copy, ExternalLink, Calendar,
   Clock, Zap, CalendarCheck, BarChart3, Mail, MessageSquare,
-  ImagePlus, ListChecks, TrendingUp, Eye
+  ImagePlus, ListChecks, TrendingUp, Eye, Sparkles
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -77,8 +77,10 @@ const AuraLinkManage = () => {
 
   if (!link) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/40 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/5 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
+        <div className="text-center relative z-10">
           <h1 className="font-display text-2xl font-bold text-foreground mb-2">AuraLink not found</h1>
           <p className="text-muted-foreground text-sm mb-6">This link doesn't exist or has been removed.</p>
           <Button onClick={() => navigate("/dashboard")} variant="outline" className="rounded-full gap-2 font-display">
@@ -101,7 +103,12 @@ const AuraLinkManage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/40">
+    <div className="min-h-screen bg-gradient-to-br from-background via-primary/3 to-secondary/5 relative overflow-hidden">
+      {/* Decorative blobs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
+      <div className="absolute top-1/2 right-1/4 w-[200px] h-[200px] bg-pink-500/3 rounded-full blur-3xl" />
+
       {/* Top bar */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -112,7 +119,7 @@ const AuraLinkManage = () => {
             <Button size="sm" variant="outline" className="rounded-full gap-1.5 text-xs font-display h-8" onClick={copyLink}>
               <Copy className="w-3.5 h-3.5" /> Copy Link
             </Button>
-            <Button size="sm" variant="outline" className="rounded-full gap-1.5 text-xs font-display h-8">
+            <Button size="sm" variant="outline" className="rounded-full gap-1.5 text-xs font-display h-8" onClick={() => navigate(`/aura/${link.slug}`)}>
               <ExternalLink className="w-3.5 h-3.5" /> Preview
             </Button>
             <Button size="sm" className="rounded-full gap-1.5 text-xs font-display h-8">
@@ -122,7 +129,7 @@ const AuraLinkManage = () => {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-8 relative z-10">
         {/* Hero section */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
@@ -164,7 +171,7 @@ const AuraLinkManage = () => {
             { label: "Photos", value: link.photos.toString(), icon: Camera, color: "text-secondary" },
           ].map((stat, i) => (
             <motion.div key={stat.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
-              <Card className="hover:border-primary/20 transition-colors">
+              <Card className="hover:border-primary/20 transition-colors bg-card/80 backdrop-blur-sm">
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-muted-foreground font-display uppercase tracking-wider">{stat.label}</span>
@@ -193,11 +200,13 @@ const AuraLinkManage = () => {
 
         {/* Quick actions */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-          <h2 className="font-display font-bold text-lg text-foreground mb-4">Quick Actions</h2>
+          <h2 className="font-display font-bold text-lg text-foreground mb-4 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" /> Quick Actions
+          </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
             {QUICK_ACTIONS.map((action, i) => (
               <motion.div key={action.label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.04 }}>
-                <Card className="hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group">
+                <Card className="hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group bg-card/80 backdrop-blur-sm">
                   <CardContent className="p-4 text-center">
                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2 group-hover:bg-primary/20 transition-colors">
                       <action.icon className="w-5 h-5 text-primary" />
@@ -215,9 +224,8 @@ const AuraLinkManage = () => {
 
         {/* Activity & Insights */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent activity */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-            <Card>
+            <Card className="bg-card/80 backdrop-blur-sm">
               <CardHeader className="pb-3">
                 <CardTitle className="font-display text-base flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-primary" /> Recent Activity
@@ -243,9 +251,8 @@ const AuraLinkManage = () => {
             </Card>
           </motion.div>
 
-          {/* Link performance */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}>
-            <Card>
+            <Card className="bg-card/80 backdrop-blur-sm">
               <CardHeader className="pb-3">
                 <CardTitle className="font-display text-base flex items-center gap-2">
                   <BarChart3 className="w-4 h-4 text-primary" /> Link Performance
@@ -274,7 +281,7 @@ const AuraLinkManage = () => {
 
         {/* Share URL bar */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8">
-          <Card className="bg-muted/30">
+          <Card className="bg-muted/30 backdrop-blur-sm">
             <CardContent className="p-4 flex flex-col sm:flex-row items-center gap-3">
               <div className="flex items-center gap-2 flex-1 min-w-0">
                 <Link2 className="w-4 h-4 text-primary shrink-0" />

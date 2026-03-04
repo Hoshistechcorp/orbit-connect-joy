@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, Calendar, Gift, Camera, Heart,
   GraduationCap, PartyPopper, Baby, Users, MapPin,
-  Clock, DollarSign, Link2, Check, Sparkles
+  Clock, DollarSign, Link2, Check, Sparkles, FileText,
+  Compass, Zap, Crown, Lock, ExternalLink
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,20 +15,33 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 
+const MAX_FREE_LINKS = 3;
+const EXISTING_LINKS_COUNT = 2; // Mock: user already has 2 links
+
 const TEMPLATES = [
-  { id: "birthday", label: "Birthday", emoji: "🎂", icon: PartyPopper, desc: "Celebrate another trip around the sun", color: "bg-pink-500/10 text-pink-500 border-pink-500/20" },
+  { id: "blank", label: "Blank Canvas", emoji: "✨", icon: FileText, desc: "Start from scratch with a custom template", color: "bg-muted text-foreground border-border" },
+  { id: "events", label: "Events", emoji: "🎉", icon: PartyPopper, desc: "Concerts, meetups, parties & celebrations", color: "bg-primary/10 text-primary border-primary/20" },
+  { id: "places", label: "Places", emoji: "📍", icon: MapPin, desc: "Venues, restaurants, travel destinations", color: "bg-secondary/10 text-secondary border-secondary/20" },
+  { id: "wellness", label: "Wellness", emoji: "🧘", icon: Heart, desc: "Yoga, retreats, meditation & health", color: "bg-pink-500/10 text-pink-500 border-pink-500/20" },
+  { id: "institute", label: "Institute", emoji: "🎓", icon: GraduationCap, desc: "Courses, workshops & learning programs", color: "bg-purple-500/10 text-purple-500 border-purple-500/20" },
+  { id: "fundraiser", label: "Fundraiser", emoji: "💰", icon: DollarSign, desc: "Rally support & collect contributions", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" },
   { id: "wedding", label: "Wedding", emoji: "💍", icon: Heart, desc: "Your special day, beautifully organized", color: "bg-rose-500/10 text-rose-500 border-rose-500/20" },
   { id: "baby-shower", label: "Baby Shower", emoji: "🍼", icon: Baby, desc: "Welcome the newest arrival", color: "bg-sky-500/10 text-sky-500 border-sky-500/20" },
-  { id: "graduation", label: "Graduation", emoji: "🎓", icon: GraduationCap, desc: "Celebrate academic achievement", color: "bg-purple-500/10 text-purple-500 border-purple-500/20" },
-  { id: "fundraiser", label: "Fundraiser", emoji: "💰", icon: DollarSign, desc: "Rally support for a cause", color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" },
-  { id: "gathering", label: "Gathering", emoji: "🎉", icon: Users, desc: "Any occasion worth sharing", color: "bg-secondary/10 text-secondary border-secondary/20" },
 ];
 
 const FEATURES = [
-  { id: "rsvp", label: "RSVPs", icon: Users, desc: "Collect guest responses" },
-  { id: "wishlist", label: "Wishlist", icon: Gift, desc: "Gift registry & funding" },
-  { id: "donations", label: "Donations", icon: DollarSign, desc: "Accept contributions" },
-  { id: "photos", label: "Photo Gallery", icon: Camera, desc: "Shared photo album" },
+  { id: "rsvp", label: "RSVPs", icon: Users, desc: "Collect guest responses", placeholder: "https://your-rsvp-form.com" },
+  { id: "wishlist", label: "Wishlist", icon: Gift, desc: "Gift registry & funding", placeholder: "https://your-registry-link.com" },
+  { id: "donations", label: "Donations", icon: DollarSign, desc: "Accept contributions", placeholder: "https://your-payment-link.com" },
+  { id: "photos", label: "Photo Gallery", icon: Camera, desc: "Shared photo album", placeholder: "https://your-photo-album.com" },
+  { id: "directions", label: "Directions", icon: Compass, desc: "Location & maps", placeholder: "https://maps.google.com/..." },
+  { id: "livestream", label: "Livestream", icon: Zap, desc: "Watch remotely", placeholder: "https://your-stream-link.com" },
+];
+
+const PLANS = [
+  { id: "starter", name: "Starter", price: "$4.99/mo", features: ["Up to 10 AuraLinks", "All templates", "Basic analytics"], color: "border-primary/30" },
+  { id: "pro", name: "Pro", price: "$12.99/mo", features: ["Unlimited AuraLinks", "Custom branding", "Advanced analytics", "Priority support"], color: "border-secondary ring-2 ring-secondary/20", popular: true },
+  { id: "business", name: "Business", price: "$29.99/mo", features: ["Everything in Pro", "Team collaboration", "API access", "White-label"], color: "border-border" },
 ];
 
 const CreateAuraLink = () => {
@@ -35,6 +49,8 @@ const CreateAuraLink = () => {
   const [step, setStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [features, setFeatures] = useState<string[]>(["rsvp"]);
+  const [featureLinks, setFeatureLinks] = useState<Record<string, string>>({});
+  const [showUpgrade, setShowUpgrade] = useState(false);
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -46,6 +62,7 @@ const CreateAuraLink = () => {
   });
 
   const totalSteps = 3;
+  const isAtLimit = EXISTING_LINKS_COUNT >= MAX_FREE_LINKS;
 
   const toggleFeature = (id: string) => {
     setFeatures((prev) =>
@@ -57,6 +74,10 @@ const CreateAuraLink = () => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  const updateFeatureLink = (featureId: string, url: string) => {
+    setFeatureLinks((prev) => ({ ...prev, [featureId]: url }));
+  };
+
   const canProceed = () => {
     if (step === 1) return !!selectedTemplate;
     if (step === 2) return form.title.trim() !== "" && form.date !== "";
@@ -64,6 +85,10 @@ const CreateAuraLink = () => {
   };
 
   const handleCreate = () => {
+    if (isAtLimit) {
+      setShowUpgrade(true);
+      return;
+    }
     const slug = form.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
@@ -77,8 +102,76 @@ const CreateAuraLink = () => {
     navigate(`/dashboard/${slug}`);
   };
 
+  // Upgrade modal
+  if (showUpgrade) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/5 relative overflow-hidden">
+        {/* Decorative blobs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+
+        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+          <div className="max-w-4xl mx-auto px-4 h-14 flex items-center">
+            <button onClick={() => setShowUpgrade(false)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-display">
+              <ArrowLeft className="w-4 h-4" /> Back
+            </button>
+          </div>
+        </header>
+
+        <main className="max-w-4xl mx-auto px-4 py-16 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+            <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mx-auto mb-5">
+              <Crown className="w-8 h-8 text-secondary" />
+            </div>
+            <h1 className="font-display text-3xl font-bold text-foreground">Upgrade Your Plan</h1>
+            <p className="text-muted-foreground mt-3 max-w-md mx-auto">
+              You've used your {MAX_FREE_LINKS} free AuraLinks. Unlock unlimited links and premium features.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {PLANS.map((plan, i) => (
+              <motion.div key={plan.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+                <Card className={`relative h-full ${plan.color} hover:shadow-lg transition-all`}>
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <Badge className="bg-secondary text-secondary-foreground font-display text-xs">Most Popular</Badge>
+                    </div>
+                  )}
+                  <CardContent className="p-6 flex flex-col h-full">
+                    <h3 className="font-display font-bold text-lg text-foreground">{plan.name}</h3>
+                    <p className="font-display font-bold text-3xl text-foreground mt-2">{plan.price}</p>
+                    <ul className="mt-5 space-y-3 flex-1">
+                      {plan.features.map((f) => (
+                        <li key={f} className="text-sm text-muted-foreground flex items-center gap-2">
+                          <Check className="w-4 h-4 text-primary shrink-0" /> {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button
+                      className={`rounded-full font-display mt-6 w-full ${plan.popular ? '' : ''}`}
+                      variant={plan.popular ? "default" : "outline"}
+                      onClick={() => toast({ title: "Coming soon!", description: "Subscriptions will be available soon." })}
+                    >
+                      Get {plan.name}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    <div className="min-h-screen bg-gradient-to-br from-background via-primary/3 to-secondary/5 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
+      <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-pink-500/3 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -98,13 +191,18 @@ const CreateAuraLink = () => {
               />
             ))}
           </div>
-          <span className="text-xs text-muted-foreground font-display">
-            Step {step} of {totalSteps}
-          </span>
+          <div className="flex items-center gap-3">
+            <Badge variant="outline" className="font-display text-[10px] gap-1">
+              {EXISTING_LINKS_COUNT}/{MAX_FREE_LINKS} Free
+            </Badge>
+            <span className="text-xs text-muted-foreground font-display">
+              Step {step}/{totalSteps}
+            </span>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 py-10">
+      <main className="max-w-3xl mx-auto px-4 py-10 relative z-10">
         <AnimatePresence mode="wait">
           {/* Step 1: Template Selection */}
           {step === 1 && (
@@ -115,9 +213,12 @@ const CreateAuraLink = () => {
               exit={{ opacity: 0, x: -20 }}
             >
               <div className="text-center mb-8">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                  <Sparkles className="w-6 h-6 text-primary" />
+                </div>
                 <h1 className="font-display text-2xl font-bold text-foreground">Choose a Template</h1>
                 <p className="text-muted-foreground text-sm mt-2">
-                  Pick the type of event for your AuraLink
+                  Pick the type that fits your AuraLink — or start blank
                 </p>
               </div>
 
@@ -163,13 +264,16 @@ const CreateAuraLink = () => {
               exit={{ opacity: 0, x: -20 }}
             >
               <div className="text-center mb-8">
+                <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-6 h-6 text-secondary" />
+                </div>
                 <h1 className="font-display text-2xl font-bold text-foreground">Event Details</h1>
                 <p className="text-muted-foreground text-sm mt-2">
                   Tell us about your {TEMPLATES.find((t) => t.id === selectedTemplate)?.label || "event"}
                 </p>
               </div>
 
-              <Card>
+              <Card className="backdrop-blur-sm bg-card/80">
                 <CardContent className="p-6 space-y-5">
                   <div>
                     <Label htmlFor="title" className="font-display text-sm font-semibold">Event Title *</Label>
@@ -270,7 +374,7 @@ const CreateAuraLink = () => {
             </motion.div>
           )}
 
-          {/* Step 3: Features & Review */}
+          {/* Step 3: Features & Links */}
           {step === 3 && (
             <motion.div
               key="step3"
@@ -279,40 +383,72 @@ const CreateAuraLink = () => {
               exit={{ opacity: 0, x: -20 }}
             >
               <div className="text-center mb-8">
+                <div className="w-12 h-12 rounded-2xl bg-pink-500/10 flex items-center justify-center mx-auto mb-4">
+                  <Zap className="w-6 h-6 text-pink-500" />
+                </div>
                 <h1 className="font-display text-2xl font-bold text-foreground">Enable Features</h1>
                 <p className="text-muted-foreground text-sm mt-2">
-                  Choose what your guests can do on your AuraLink
+                  Choose what your guests can do — and paste links for each
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div className="space-y-4 mb-8">
                 {FEATURES.map((f) => {
                   const active = features.includes(f.id);
                   return (
                     <Card
                       key={f.id}
-                      className={`cursor-pointer transition-all ${
+                      className={`transition-all ${
                         active
                           ? "border-primary ring-2 ring-primary/20"
                           : "border-border hover:border-primary/30"
                       }`}
-                      onClick={() => toggleFeature(f.id)}
                     >
-                      <CardContent className="p-4 flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          active ? "bg-primary/10" : "bg-muted"
-                        }`}>
-                          <f.icon className={`w-5 h-5 ${active ? "text-primary" : "text-muted-foreground"}`} />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-display font-semibold text-sm text-foreground">{f.label}</h3>
-                          <p className="text-xs text-muted-foreground">{f.desc}</p>
-                        </div>
-                        {active && (
-                          <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                            <Check className="w-3 h-3 text-primary-foreground" />
+                      <CardContent className="p-4">
+                        <div
+                          className="flex items-center gap-4 cursor-pointer"
+                          onClick={() => toggleFeature(f.id)}
+                        >
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                            active ? "bg-primary/10" : "bg-muted"
+                          }`}>
+                            <f.icon className={`w-5 h-5 ${active ? "text-primary" : "text-muted-foreground"}`} />
                           </div>
-                        )}
+                          <div className="flex-1">
+                            <h3 className="font-display font-semibold text-sm text-foreground">{f.label}</h3>
+                            <p className="text-xs text-muted-foreground">{f.desc}</p>
+                          </div>
+                          {active && (
+                            <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+                              <Check className="w-3 h-3 text-primary-foreground" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Link input for active features */}
+                        <AnimatePresence>
+                          {active && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="mt-3 pt-3 border-t border-border">
+                                <Label className="font-display text-xs text-muted-foreground flex items-center gap-1.5 mb-1.5">
+                                  <ExternalLink className="w-3 h-3" /> Link / URL (optional)
+                                </Label>
+                                <Input
+                                  placeholder={f.placeholder}
+                                  value={featureLinks[f.id] || ""}
+                                  onChange={(e) => updateFeatureLink(f.id, e.target.value)}
+                                  className="text-sm"
+                                  onClick={(e) => e.stopPropagation()}
+                                />
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </CardContent>
                     </Card>
                   );
@@ -322,7 +458,7 @@ const CreateAuraLink = () => {
               <Separator className="mb-8" />
 
               {/* Review Summary */}
-              <Card className="bg-muted/30">
+              <Card className="bg-card/60 backdrop-blur-sm border-primary/10">
                 <CardContent className="p-6">
                   <h3 className="font-display font-bold text-foreground mb-4 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-primary" /> Review
@@ -366,6 +502,17 @@ const CreateAuraLink = () => {
                       </code>
                     </div>
                   </div>
+
+                  {/* Free limit warning */}
+                  {isAtLimit && (
+                    <div className="mt-5 p-3 rounded-xl bg-secondary/10 border border-secondary/20 flex items-center gap-3">
+                      <Lock className="w-5 h-5 text-secondary shrink-0" />
+                      <div>
+                        <p className="font-display font-semibold text-sm text-foreground">Free limit reached</p>
+                        <p className="text-xs text-muted-foreground">You've used {EXISTING_LINKS_COUNT}/{MAX_FREE_LINKS} free links. Upgrade to continue.</p>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
@@ -396,7 +543,15 @@ const CreateAuraLink = () => {
               onClick={handleCreate}
               disabled={!canProceed()}
             >
-              <Link2 className="w-4 h-4" /> Create AuraLink
+              {isAtLimit ? (
+                <>
+                  <Crown className="w-4 h-4" /> Upgrade to Create
+                </>
+              ) : (
+                <>
+                  <Link2 className="w-4 h-4" /> Create AuraLink
+                </>
+              )}
             </Button>
           )}
         </div>

@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Calendar, MapPin, Clock, Users, Gift, DollarSign, Camera,
-  Heart, Share2, Copy, ExternalLink, Check, ChevronRight
+  Heart, Share2, Copy, ExternalLink, Check, ChevronRight,
+  Sparkles, Music, Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 
-// Mock event data — in production from API
 const MOCK_EVENTS: Record<string, {
   title: string; description: string; template: string; eventDate: string;
   time: string; location: string; hostName: string;
@@ -69,8 +69,10 @@ const AuraLinkPublic = () => {
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 flex items-center justify-center">
-        <div className="text-center px-4">
+      <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/5 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute top-20 left-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
+        <div className="text-center px-4 relative z-10">
           <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-5">
             <ExternalLink className="w-7 h-7 text-muted-foreground" />
           </div>
@@ -100,11 +102,25 @@ const AuraLinkPublic = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+    <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-secondary/5 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-3xl translate-x-1/4 translate-y-1/4" />
+      
+      {/* Floating decorative icons */}
+      <div className="absolute top-32 left-[10%] opacity-10 animate-spin-slow">
+        <Sparkles className="w-8 h-8 text-primary" />
+      </div>
+      <div className="absolute top-48 right-[15%] opacity-10 animate-reverse-spin">
+        <Star className="w-6 h-6 text-secondary" />
+      </div>
+      <div className="absolute bottom-40 left-[20%] opacity-10 animate-spin-slow">
+        <Music className="w-7 h-7 text-pink-500" />
+      </div>
+
       {/* Hero */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-        <div className="max-w-2xl mx-auto px-4 pt-12 pb-8 relative z-10">
+        <div className="max-w-2xl mx-auto px-4 pt-14 pb-8 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
             <Badge variant="outline" className="font-display text-xs mb-4">
               {event.template}
@@ -117,13 +133,13 @@ const AuraLinkPublic = () => {
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4 mt-6 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 bg-card/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border">
                 <Calendar className="w-4 h-4 text-primary" /> {formatDate(event.eventDate)}
               </span>
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 bg-card/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border">
                 <Clock className="w-4 h-4 text-primary" /> {event.time}
               </span>
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 bg-card/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border">
                 <MapPin className="w-4 h-4 text-primary" /> {event.location}
               </span>
             </div>
@@ -131,7 +147,7 @@ const AuraLinkPublic = () => {
             <div className="mt-4">
               <Badge
                 variant={isPast ? "secondary" : "default"}
-                className="font-display"
+                className="font-display text-sm px-4 py-1"
               >
                 {daysLabel}
               </Badge>
@@ -144,16 +160,17 @@ const AuraLinkPublic = () => {
         </div>
       </div>
 
-      <main className="max-w-2xl mx-auto px-4 pb-16">
+      <main className="max-w-2xl mx-auto px-4 pb-16 relative z-10">
         {/* RSVP Section */}
         {!isPast && (
           <motion.section
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-10"
+            className="mb-8"
           >
-            <Card className="border-primary/20">
+            <Card className="border-primary/20 bg-card/80 backdrop-blur-sm overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-primary via-secondary to-primary" />
               <CardContent className="p-6">
                 <h2 className="font-display font-bold text-lg text-foreground mb-1 flex items-center gap-2">
                   <Users className="w-4 h-4 text-primary" /> RSVP
@@ -178,6 +195,7 @@ const AuraLinkPublic = () => {
                       value={rsvpName}
                       onChange={(e) => setRsvpName(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleRsvp()}
+                      className="bg-background/50"
                     />
                     <Button className="rounded-full font-display shrink-0" onClick={handleRsvp}>
                       RSVP <ChevronRight className="w-4 h-4" />
@@ -195,9 +213,9 @@ const AuraLinkPublic = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-10"
+            className="mb-8"
           >
-            <Card>
+            <Card className="bg-card/80 backdrop-blur-sm">
               <CardContent className="p-6">
                 <h2 className="font-display font-bold text-lg text-foreground mb-1 flex items-center gap-2">
                   <DollarSign className="w-4 h-4 text-emerald-500" /> Contribute
@@ -211,7 +229,7 @@ const AuraLinkPublic = () => {
                     <Button
                       key={amt}
                       variant="outline"
-                      className="rounded-full font-display"
+                      className="rounded-full font-display hover:bg-primary/5 hover:border-primary/30"
                       onClick={() =>
                         toast({ title: "Thank you! 💖", description: `$${amt} contribution recorded.` })
                       }
@@ -231,9 +249,9 @@ const AuraLinkPublic = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mb-10"
+            className="mb-8"
           >
-            <Card>
+            <Card className="bg-card/80 backdrop-blur-sm">
               <CardContent className="p-6">
                 <h2 className="font-display font-bold text-lg text-foreground mb-1 flex items-center gap-2">
                   <Gift className="w-4 h-4 text-purple-500" /> Wishlist
@@ -289,21 +307,24 @@ const AuraLinkPublic = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mb-10"
+            className="mb-8"
           >
-            <Card>
+            <Card className="bg-card/80 backdrop-blur-sm">
               <CardContent className="p-6">
                 <h2 className="font-display font-bold text-lg text-foreground mb-4 flex items-center gap-2">
                   <Camera className="w-4 h-4 text-secondary" /> Photos
                 </h2>
                 <div className="grid grid-cols-3 gap-3">
                   {event.photos.map((photo, i) => (
-                    <div
+                    <motion.div
                       key={i}
-                      className="aspect-square rounded-xl bg-muted flex items-center justify-center text-3xl border border-border hover:border-primary/30 transition-all cursor-pointer"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5 + i * 0.05 }}
+                      className="aspect-square rounded-xl bg-muted/50 flex items-center justify-center text-3xl border border-border hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
                     >
                       {photo}
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
                 <Button variant="outline" className="w-full mt-4 rounded-full font-display gap-2">
@@ -323,16 +344,28 @@ const AuraLinkPublic = () => {
           transition={{ delay: 0.5 }}
           className="text-center"
         >
-          <p className="text-sm text-muted-foreground mb-3 font-display">Share this AuraLink</p>
-          <div className="flex justify-center gap-2">
-            <Button variant="outline" className="rounded-full font-display gap-2" onClick={copyLink}>
-              <Copy className="w-4 h-4" /> Copy Link
-            </Button>
-            <Button variant="outline" className="rounded-full font-display gap-2" onClick={copyLink}>
-              <Share2 className="w-4 h-4" /> Share
-            </Button>
-          </div>
+          <Card className="bg-card/60 backdrop-blur-sm border-dashed">
+            <CardContent className="p-6">
+              <Sparkles className="w-5 h-5 text-primary mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground mb-3 font-display">Share this AuraLink</p>
+              <div className="flex justify-center gap-2">
+                <Button variant="outline" className="rounded-full font-display gap-2" onClick={copyLink}>
+                  <Copy className="w-4 h-4" /> Copy Link
+                </Button>
+                <Button variant="outline" className="rounded-full font-display gap-2" onClick={copyLink}>
+                  <Share2 className="w-4 h-4" /> Share
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
+
+        {/* Powered by */}
+        <div className="text-center mt-8">
+          <p className="text-[10px] text-muted-foreground font-display">
+            Powered by <span className="font-semibold text-primary">AuraLink</span> by ibloov
+          </p>
+        </div>
       </main>
     </div>
   );
