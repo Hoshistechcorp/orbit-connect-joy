@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   Link2, Plus, MoreVertical, Copy, Edit, BarChart3, Trash2,
   Users, DollarSign, Gift, Camera, Clock, Zap, CalendarCheck,
-  Share2, Settings, Sparkles, ExternalLink, Code
+  Share2, Settings, Sparkles, ExternalLink
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -174,16 +174,12 @@ const AuraLinksSection = () => {
                         <DropdownMenuItem onClick={() => navigate(`/dashboard/${link.slug}`)}>
                           <BarChart3 className="w-3.5 h-3.5 mr-2" /> Analytics
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                          navigator.clipboard.writeText(`<iframe src="${window.location.origin}/aura/${link.slug}" width="100%" height="600"></iframe>`);
-                          toast({ title: "Embed code copied!", description: "Paste this into your website." });
-                        }}>
-                          <Code className="w-3.5 h-3.5 mr-2" /> Copy Embed Code
-                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           className="text-destructive focus:text-destructive"
-                          onClick={() => toast({ title: "AuraLink deleted", description: `"${link.title}" has been removed.`, variant: "destructive" })}
+                          onClick={() => {
+                            toast({ title: "AuraLink deleted", description: `"${link.title}" has been removed.`, variant: "destructive" });
+                          }}
                         >
                           <Trash2 className="w-3.5 h-3.5 mr-2" /> Delete
                         </DropdownMenuItem>
@@ -247,7 +243,12 @@ const AuraLinksSection = () => {
                     >
                       <Share2 className="w-3.5 h-3.5" />
                     </Button>
-                    <Button size="sm" variant="outline" className="rounded-full h-8 w-8 p-0">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full h-8 w-8 p-0"
+                      onClick={() => navigate(`/dashboard/${link.slug}`, { state: { tab: "settings" } })}
+                    >
                       <Settings className="w-3.5 h-3.5" />
                     </Button>
                   </div>
