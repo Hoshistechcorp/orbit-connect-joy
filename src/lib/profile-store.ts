@@ -42,6 +42,11 @@ export interface Skill {
   isPublic: boolean;
 }
 
+export interface ProfileAuraLink {
+  id: string;
+  isPublic: boolean;
+}
+
 export interface UserProfile {
   slug: string;
   displayName: string;
@@ -55,6 +60,7 @@ export interface UserProfile {
   gallery: GalleryItem[];
   workExperience: WorkExperience[];
   skills: Skill[];
+  auraLinks: ProfileAuraLink[];
   theme: "light" | "dark" | "gradient";
   updatedAt: string;
 }
@@ -94,6 +100,12 @@ export const getDemoProfile = (): UserProfile => ({
     { id: generateId(), title: "Meta Front-End Developer Certificate", issuer: "Meta / Coursera", year: "2023", isPublic: false },
   ],
   gallery: [],
+  auraLinks: [
+    { id: "1", isPublic: true },
+    { id: "2", isPublic: true },
+    { id: "3", isPublic: false },
+    { id: "4", isPublic: true },
+  ],
   workExperience: [
     { id: generateId(), role: "Creative Director", company: "Neon Studio", period: "2023 – Present", description: "Leading a team of 12 designers and engineers building brand experiences for Fortune 500 clients. Shipped 15+ major campaigns with a combined reach of 40M+ impressions.", isPublic: true },
     { id: generateId(), role: "Senior Full-Stack Developer", company: "Orbitly", period: "2020 – 2023", description: "Architected and built the core platform serving 500K+ monthly users. Led migration from monolith to micro-services, reducing deployment time by 80%.", isPublic: true },
