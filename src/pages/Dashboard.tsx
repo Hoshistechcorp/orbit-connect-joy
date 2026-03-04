@@ -114,6 +114,38 @@ const Dashboard = () => {
           ))}
         </div>
 
+        {/* AuraLinks Section — first */}
+        <AuraLinksSection />
+
+        {/* Upcoming — second */}
+        <div className="mb-6 mt-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-display font-bold text-foreground">Your Upcoming</h2>
+            <button className="text-xs text-primary font-display font-semibold flex items-center gap-1">
+              View calendar <ChevronRight className="w-3 h-3" />
+            </button>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {UPCOMING.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="min-w-[200px] bg-card border border-border rounded-xl p-3.5 hover:border-primary/30 transition-all cursor-pointer flex-shrink-0"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="text-2xl">{item.icon}</span>
+                  <div>
+                    <p className="font-display font-semibold text-sm text-foreground">{item.title}</p>
+                    <p className="text-[11px] text-muted-foreground">{item.time}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
         {/* Featured cards */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
@@ -143,35 +175,6 @@ const Dashboard = () => {
                     <p className="text-xs text-muted-foreground mt-0.5">{item.subtitle}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Upcoming */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-display font-bold text-foreground">Your Upcoming</h2>
-            <button className="text-xs text-primary font-display font-semibold flex items-center gap-1">
-              View calendar <ChevronRight className="w-3 h-3" />
-            </button>
-          </div>
-          <div className="flex gap-3 overflow-x-auto pb-2">
-            {UPCOMING.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="min-w-[200px] bg-card border border-border rounded-xl p-3.5 hover:border-primary/30 transition-all cursor-pointer flex-shrink-0"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="text-2xl">{item.icon}</span>
-                  <div>
-                    <p className="font-display font-semibold text-sm text-foreground">{item.title}</p>
-                    <p className="text-[11px] text-muted-foreground">{item.time}</p>
-                  </div>
                 </div>
               </motion.div>
             ))}
@@ -231,8 +234,6 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-        {/* AuraLinks Section */}
-        <AuraLinksSection />
       </main>
     </div>
   );

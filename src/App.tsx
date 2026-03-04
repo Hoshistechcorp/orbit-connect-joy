@@ -9,6 +9,7 @@ import Aura from "./pages/Aura";
 import Detect from "./pages/Detect";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import AuraLinkManage from "./pages/AuraLinkManage";
 import EnterpriseDashboard from "./pages/EnterpriseDashboard";
 import EnterpriseOnboarding from "./pages/EnterpriseOnboarding";
 import OrbitContinent from "./pages/OrbitContinent";
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/signup/consumer" element={<ConsumerSignup />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:slug" element={<AuraLinkManage />} />
           <Route path="/onboarding/enterprise" element={<EnterpriseOnboarding />} />
           <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           
