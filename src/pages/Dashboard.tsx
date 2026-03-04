@@ -5,6 +5,7 @@ import {
   Bell, Search, Star, Clock, TrendingUp, Users, ChevronRight,
   Compass, Bookmark, Sparkles, Flame, ArrowRight
 } from "lucide-react";
+import AuraLinksSection from "@/components/dashboard/AuraLinksSection";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const CATEGORIES = [
@@ -53,7 +54,7 @@ const Dashboard = () => {
   const firstName = (user.name || "Explorer").split(" ")[0];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/40">
       {/* Top bar */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -230,6 +231,8 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
+        {/* AuraLinks Section */}
+        <AuraLinksSection />
       </main>
     </div>
   );
