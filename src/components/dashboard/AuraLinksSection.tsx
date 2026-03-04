@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   Link2, Plus, MoreVertical, Copy, Edit, BarChart3, Trash2,
   Users, DollarSign, Gift, Camera, Clock, Zap, CalendarCheck,
-  Share2, Settings, Sparkles, ExternalLink
+  Share2, Settings, Sparkles, ExternalLink, AlertTriangle
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +14,10 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuTrigger, DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 
 interface AuraLink {
@@ -75,7 +79,7 @@ const STAT_ICONS = [
 const AuraLinksSection = () => {
   const navigate = useNavigate();
   const [links, setLinks] = useState<AuraLink[]>(MOCK_LINKS);
-
+  const [deleteTarget, setDeleteTarget] = useState<AuraLink | null>(null);
   const totalRsvps = links.reduce((s, l) => s + l.rsvps, 0);
   const totalRaised = links.reduce((s, l) => s + l.donations, 0);
   const totalPhotos = links.reduce((s, l) => s + l.photos, 0);
@@ -86,9 +90,11 @@ const AuraLinksSection = () => {
     toast({ title: "Link copied!", description: "AuraLink URL copied to clipboard." });
   };
 
-  const deleteLink = (id: string, title: string) => {
-    setLinks(prev => prev.filter(l => l.id !== id));
-    toast({ title: "AuraLink deleted", description: `"${title}" has been removed.`, variant: "destructive" });
+  const confirmDelete = () => {
+    if (!deleteTarget) return;
+    setLinks(prev => prev.filter(l => l.id !== deleteTarget.id));
+    toast({ title: "AuraLink deleted", description: `"${deleteTarget.title}" has been removed.`, variant: "destructive" });
+    setDeleteTarget(null);
   };
 
   if (links.length === 0) {
@@ -182,7 +188,7 @@ const AuraLinksSection = () => {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           className="text-destructive focus:text-destructive"
-                          onSelect={() => deleteLink(link.id, link.title)}
+                          onSelect={() => setDeleteTarget(link)}
                         >
                           <Trash2 className="w-3.5 h-3.5 mr-2" /> Delete
                         </DropdownMenuItem>
@@ -258,7 +264,7 @@ const AuraLinksSection = () => {
                       size="sm"
                       variant="outline"
                       className="rounded-full h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => deleteLink(link.id, link.title)}
+                      onClick={() => setDeleteTarget(link)}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </Button>
@@ -269,6 +275,30 @@ const AuraLinksSection = () => {
           );
         })}
       </div>
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2 font-display">
+              <AlertTriangle className="w-5 h-5 text-destructive" />
+              Delete AuraLink?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete <strong>"{deleteTarget?.title}"</strong>? This will permanently remove all RSVPs, donations, and photos associated with this link. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="font-display">Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 font-display"
+              onClick={confirmDelete}
+            >
+              Delete Forever
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
