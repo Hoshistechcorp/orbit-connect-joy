@@ -37,36 +37,36 @@ const FEATURED = [
 
 const RECOMMENDED_DATA: Record<string, Array<{ title: string; desc: string; image: string; rating: number; attendees: number; category: string; location?: string }>> = {
   events: [
-    { title: "Night Market Food Tour", desc: "Taste 12 local vendors", image: "🍜", rating: 4.9, attendees: 234, category: "events", location: "2.1 mi away" },
-    { title: "Sunrise Hike & Brunch", desc: "Mountain trail + chef breakfast", image: "🥾", rating: 4.8, attendees: 67, category: "events", location: "5.3 mi away" },
-    { title: "Rooftop Jazz Night", desc: "Live jazz, cocktails & city views", image: "🎷", rating: 4.9, attendees: 189, category: "events", location: "0.8 mi away" },
-    { title: "Sunset Beach Bonfire", desc: "S'mores, live guitar & good vibes", image: "🔥", rating: 4.7, attendees: 142, category: "events", location: "3.2 mi away" },
-    { title: "Cultural Food Festival", desc: "50+ cuisines from around the world", image: "🌍", rating: 4.8, attendees: 1200, category: "events", location: "1.5 mi away" },
-    { title: "Outdoor Cinema Night", desc: "Classic films under the stars", image: "🎬", rating: 4.6, attendees: 310, category: "events", location: "2.7 mi away" },
+    { title: "Night Market Food Tour", desc: "Taste 12 local vendors", image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop", rating: 4.9, attendees: 234, category: "events", location: "2.1 mi away" },
+    { title: "Sunrise Hike & Brunch", desc: "Mountain trail + chef breakfast", image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&h=300&fit=crop", rating: 4.8, attendees: 67, category: "events", location: "5.3 mi away" },
+    { title: "Rooftop Jazz Night", desc: "Live jazz, cocktails & city views", image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=400&h=300&fit=crop", rating: 4.9, attendees: 189, category: "events", location: "0.8 mi away" },
+    { title: "Sunset Beach Bonfire", desc: "S'mores, live guitar & good vibes", image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop", rating: 4.7, attendees: 142, category: "events", location: "3.2 mi away" },
+    { title: "Cultural Food Festival", desc: "50+ cuisines from around the world", image: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?w=400&h=300&fit=crop", rating: 4.8, attendees: 1200, category: "events", location: "1.5 mi away" },
+    { title: "Outdoor Cinema Night", desc: "Classic films under the stars", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=300&fit=crop", rating: 4.6, attendees: 310, category: "events", location: "2.7 mi away" },
   ],
   places: [
-    { title: "The Grand Meridian Hotel", desc: "5-star luxury with rooftop infinity pool", image: "🏨", rating: 4.9, attendees: 1200, category: "places", location: "0.5 mi away" },
-    { title: "Hidden Jazz Lounge", desc: "Live music every Friday night", image: "🎵", rating: 4.9, attendees: 156, category: "places", location: "1.2 mi away" },
-    { title: "Skyline Rooftop Bar", desc: "Craft cocktails with panoramic city views", image: "🍸", rating: 4.8, attendees: 890, category: "places", location: "0.3 mi away" },
-    { title: "Botanical Garden Café", desc: "Coffee surrounded by rare orchids", image: "🌺", rating: 4.7, attendees: 445, category: "places", location: "2.0 mi away" },
-    { title: "Underground Speakeasy", desc: "Password-entry bar, 1920s vibes", image: "🥃", rating: 4.8, attendees: 320, category: "places", location: "1.8 mi away" },
-    { title: "Seaside Boutique Resort", desc: "Beachfront suites with private cabanas", image: "🏖️", rating: 4.9, attendees: 670, category: "places", location: "12 mi away" },
+    { title: "The Grand Meridian Hotel", desc: "5-star luxury with rooftop infinity pool", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop", rating: 4.9, attendees: 1200, category: "places", location: "0.5 mi away" },
+    { title: "Hidden Jazz Lounge", desc: "Live music every Friday night", image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&h=300&fit=crop", rating: 4.9, attendees: 156, category: "places", location: "1.2 mi away" },
+    { title: "Skyline Rooftop Bar", desc: "Craft cocktails with panoramic city views", image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400&h=300&fit=crop", rating: 4.8, attendees: 890, category: "places", location: "0.3 mi away" },
+    { title: "Botanical Garden Café", desc: "Coffee surrounded by rare orchids", image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=400&h=300&fit=crop", rating: 4.7, attendees: 445, category: "places", location: "2.0 mi away" },
+    { title: "Underground Speakeasy", desc: "Password-entry bar, 1920s vibes", image: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=400&h=300&fit=crop", rating: 4.8, attendees: 320, category: "places", location: "1.8 mi away" },
+    { title: "Seaside Boutique Resort", desc: "Beachfront suites with private cabanas", image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=300&fit=crop", rating: 4.9, attendees: 670, category: "places", location: "12 mi away" },
   ],
   wellness: [
-    { title: "Coastal Meditation Retreat", desc: "3-day mindfulness journey by the sea", image: "🌊", rating: 4.8, attendees: 42, category: "wellness", location: "8 mi away" },
-    { title: "IV Therapy & Recovery Lab", desc: "Vitamin drips, NAD+ & hydration therapy", image: "💉", rating: 4.9, attendees: 198, category: "wellness", location: "0.9 mi away" },
-    { title: "Hot Yoga & Sound Bath", desc: "Infrared heat + crystal singing bowls", image: "🧘", rating: 4.7, attendees: 134, category: "wellness", location: "1.4 mi away" },
-    { title: "Cryotherapy Studio", desc: "3-min whole body cryo sessions", image: "❄️", rating: 4.8, attendees: 267, category: "wellness", location: "2.1 mi away" },
-    { title: "Float Sensory Tank", desc: "90-min zero-gravity float experience", image: "🫧", rating: 4.9, attendees: 89, category: "wellness", location: "3.5 mi away" },
-    { title: "Breathwork & Ice Bath", desc: "Wim Hof method guided sessions", image: "🧊", rating: 4.8, attendees: 56, category: "wellness", location: "1.7 mi away" },
+    { title: "Coastal Meditation Retreat", desc: "3-day mindfulness journey by the sea", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop", rating: 4.8, attendees: 42, category: "wellness", location: "8 mi away" },
+    { title: "IV Therapy & Recovery Lab", desc: "Vitamin drips, NAD+ & hydration therapy", image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=300&fit=crop", rating: 4.9, attendees: 198, category: "wellness", location: "0.9 mi away" },
+    { title: "Hot Yoga & Sound Bath", desc: "Infrared heat + crystal singing bowls", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop", rating: 4.7, attendees: 134, category: "wellness", location: "1.4 mi away" },
+    { title: "Cryotherapy Studio", desc: "3-min whole body cryo sessions", image: "https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=400&h=300&fit=crop", rating: 4.8, attendees: 267, category: "wellness", location: "2.1 mi away" },
+    { title: "Float Sensory Tank", desc: "90-min zero-gravity float experience", image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=400&h=300&fit=crop", rating: 4.9, attendees: 89, category: "wellness", location: "3.5 mi away" },
+    { title: "Breathwork & Ice Bath", desc: "Wim Hof method guided sessions", image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop", rating: 4.8, attendees: 56, category: "wellness", location: "1.7 mi away" },
   ],
   institute: [
-    { title: "Hotel Revenue Management", desc: "Master pricing strategy & yield optimization", image: "📊", rating: 4.9, attendees: 89, category: "institute", location: "Online + In-Person" },
-    { title: "F&B Operations Masterclass", desc: "Run a world-class restaurant operation", image: "🍽️", rating: 4.8, attendees: 134, category: "institute", location: "Online + In-Person" },
-    { title: "Luxury Guest Experience Design", desc: "Create unforgettable 5-star guest journeys", image: "✨", rating: 4.9, attendees: 67, category: "institute", location: "Online" },
-    { title: "Event Planning Certification", desc: "Full event lifecycle from concept to execution", image: "🎪", rating: 4.7, attendees: 312, category: "institute", location: "8-week program" },
-    { title: "Spa & Wellness Management", desc: "Build and manage resort-level spa programs", image: "🧖", rating: 4.8, attendees: 78, category: "institute", location: "6-week program" },
-    { title: "Hospitality Leadership", desc: "Executive skills for hotel & resort GMs", image: "👔", rating: 4.9, attendees: 156, category: "institute", location: "12-week program" },
+    { title: "Hotel Revenue Management", desc: "Master pricing strategy & yield optimization", image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=300&fit=crop", rating: 4.9, attendees: 89, category: "institute", location: "Online + In-Person" },
+    { title: "F&B Operations Masterclass", desc: "Run a world-class restaurant operation", image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop", rating: 4.8, attendees: 134, category: "institute", location: "Online + In-Person" },
+    { title: "Luxury Guest Experience Design", desc: "Create unforgettable 5-star guest journeys", image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=300&fit=crop", rating: 4.9, attendees: 67, category: "institute", location: "Online" },
+    { title: "Event Planning Certification", desc: "Full event lifecycle from concept to execution", image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop", rating: 4.7, attendees: 312, category: "institute", location: "8-week program" },
+    { title: "Spa & Wellness Management", desc: "Build and manage resort-level spa programs", image: "https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=400&h=300&fit=crop", rating: 4.8, attendees: 78, category: "institute", location: "6-week program" },
+    { title: "Hospitality Leadership", desc: "Executive skills for hotel & resort GMs", image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=300&fit=crop", rating: 4.9, attendees: 156, category: "institute", location: "12-week program" },
   ],
 };
 
@@ -331,7 +331,7 @@ const Dashboard = () => {
                   className="bg-card border border-border rounded-2xl p-4 hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="text-3xl">{item.image}</span>
+                    <img src={item.image} alt={item.title} className="w-14 h-14 rounded-xl object-cover shrink-0" />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-display font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
                         {item.title}

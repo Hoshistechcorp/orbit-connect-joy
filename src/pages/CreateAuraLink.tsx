@@ -15,9 +15,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
+import { saveAuraLink, getAuraLinks } from "@/lib/auralink-store";
 
 const MAX_FREE_LINKS = 3;
-const EXISTING_LINKS_COUNT = 2; // Mock: user already has 2 links
 
 const TEMPLATES = [
   { id: "blank", label: "Blank Canvas", emoji: "✨", icon: FileText, desc: "Start from scratch with a custom template", color: "bg-muted text-foreground border-border" },
@@ -65,7 +65,8 @@ const CreateAuraLink = () => {
   });
 
   const totalSteps = 3;
-  const isAtLimit = EXISTING_LINKS_COUNT >= MAX_FREE_LINKS;
+  const existingCount = getAuraLinks().length;
+  const isAtLimit = existingCount >= MAX_FREE_LINKS;
 
   const toggleFeature = (id: string) => {
     setFeatures((prev) =>
@@ -97,12 +98,47 @@ const CreateAuraLink = () => {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
 
-    toast({
-      title: "AuraLink Created! 🎉",
-      description: `Your link is live at /aura/${slug}`,
-    });
+    // Convert uploaded images to base64 for localStorage persistence
+    const imagePromises = images.map(
+      (img) =>
+        new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(img.file);
+        })
+    );
 
-    navigate(`/dashboard/${slug}`);
+    Promise.all(imagePromises).then((base64Images) => {
+      const templateLabel = TEMPLATES.find((t) => t.id === selectedTemplate)?.label || selectedTemplate;
+
+      saveAuraLink({
+        id: crypto.randomUUID(),
+        slug,
+        title: form.title,
+        description: form.description,
+        template: templateLabel,
+        eventDate: form.date,
+        time: form.time,
+        location: form.location,
+        rsvpLimit: parseInt(form.rsvpLimit) || 50,
+        donationGoal: parseInt(form.donationGoal) || 0,
+        features,
+        featureLinks,
+        images: base64Images,
+        rsvps: 0,
+        donations: 0,
+        wishlistFunded: 0,
+        photos: 0,
+        createdAt: new Date().toISOString(),
+      });
+
+      toast({
+        title: "AuraLink Created! 🎉",
+        description: `Your link is live at /aura/${slug}`,
+      });
+
+      navigate("/dashboard");
+    });
   };
 
   // Upgrade modal
@@ -127,8 +163,8 @@ const CreateAuraLink = () => {
               <Crown className="w-8 h-8 text-secondary" />
             </div>
             <h1 className="font-display text-3xl font-bold text-foreground">Upgrade Your Plan</h1>
-            <p className="text-muted-foreground mt-3 max-w-md mx-auto">
-              You've used your {MAX_FREE_LINKS} free AuraLinks. Unlock unlimited links and premium features.
+             <p className="text-muted-foreground mt-3 max-w-md mx-auto">
+               You've used your {MAX_FREE_LINKS} free AuraLinks. Unlock unlimited links and premium features.
             </p>
           </motion.div>
 
@@ -196,7 +232,7 @@ const CreateAuraLink = () => {
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="outline" className="font-display text-[10px] gap-1">
-              {EXISTING_LINKS_COUNT}/{MAX_FREE_LINKS} Free
+              {existingCount}/{MAX_FREE_LINKS} Free
             </Badge>
             <span className="text-xs text-muted-foreground font-display">
               Step {step}/{totalSteps}
@@ -564,7 +600,7 @@ const CreateAuraLink = () => {
                       <Lock className="w-5 h-5 text-secondary shrink-0" />
                       <div>
                         <p className="font-display font-semibold text-sm text-foreground">Free limit reached</p>
-                        <p className="text-xs text-muted-foreground">You've used {EXISTING_LINKS_COUNT}/{MAX_FREE_LINKS} free links. Upgrade to continue.</p>
+                        <p className="text-xs text-muted-foreground">You've used {existingCount}/{MAX_FREE_LINKS} free links. Upgrade to continue.</p>
                       </div>
                     </div>
                   )}

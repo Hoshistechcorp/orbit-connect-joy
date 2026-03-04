@@ -19,46 +19,7 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
-
-interface AuraLink {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  template: string;
-  eventDate: string;
-  rsvps: number;
-  donations: number;
-  wishlistFunded: number;
-  photos: number;
-}
-
-const MOCK_LINKS: AuraLink[] = [
-  {
-    id: "1", slug: "maya-turns-30", title: "Maya Turns 30 🎉",
-    description: "A surprise rooftop celebration with close friends and family under the city lights.",
-    template: "Birthday", eventDate: "2026-04-15",
-    rsvps: 42, donations: 1250, wishlistFunded: 68, photos: 134,
-  },
-  {
-    id: "2", slug: "johnson-wedding", title: "The Johnson Wedding 💍",
-    description: "An intimate garden ceremony followed by dinner and dancing.",
-    template: "Wedding", eventDate: "2026-06-20",
-    rsvps: 156, donations: 8400, wishlistFunded: 82, photos: 0,
-  },
-  {
-    id: "3", slug: "baby-shower-aria", title: "Baby Shower for Aria 🍼",
-    description: "Welcoming baby Aria with love, gifts, and good vibes.",
-    template: "Baby Shower", eventDate: "2026-03-01",
-    rsvps: 28, donations: 620, wishlistFunded: 45, photos: 67,
-  },
-  {
-    id: "4", slug: "graduation-2026", title: "Class of 2026 Grad Party 🎓",
-    description: "Celebrating four years of hard work with the whole crew.",
-    template: "Graduation", eventDate: "2025-12-10",
-    rsvps: 89, donations: 3200, wishlistFunded: 100, photos: 245,
-  },
-];
+import { getAuraLinks, deleteAuraLink, type AuraLinkData } from "@/lib/auralink-store";
 
 function getEventStatus(dateStr: string): { label: string; variant: "default" | "secondary" | "destructive" | "outline" } {
   const now = new Date();
@@ -78,8 +39,8 @@ const STAT_ICONS = [
 
 const AuraLinksSection = () => {
   const navigate = useNavigate();
-  const [links, setLinks] = useState<AuraLink[]>(MOCK_LINKS);
-  const [deleteTarget, setDeleteTarget] = useState<AuraLink | null>(null);
+  const [links, setLinks] = useState<AuraLinkData[]>(getAuraLinks());
+  const [deleteTarget, setDeleteTarget] = useState<AuraLinkData | null>(null);
   const totalRsvps = links.reduce((s, l) => s + l.rsvps, 0);
   const totalRaised = links.reduce((s, l) => s + l.donations, 0);
   const totalPhotos = links.reduce((s, l) => s + l.photos, 0);
@@ -92,7 +53,8 @@ const AuraLinksSection = () => {
 
   const confirmDelete = () => {
     if (!deleteTarget) return;
-    setLinks(prev => prev.filter(l => l.id !== deleteTarget.id));
+    deleteAuraLink(deleteTarget.id);
+    setLinks(getAuraLinks());
     toast({ title: "AuraLink deleted", description: `"${deleteTarget.title}" has been removed.`, variant: "destructive" });
     setDeleteTarget(null);
   };

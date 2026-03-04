@@ -12,38 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
-
-// Shared mock data — in production this would come from an API/context
-const MOCK_LINKS = [
-  {
-    id: "1", slug: "maya-turns-30", title: "Maya Turns 30 🎉",
-    description: "A surprise rooftop celebration with close friends and family under the city lights.",
-    template: "Birthday", eventDate: "2026-04-15",
-    rsvps: 42, donations: 1250, wishlistFunded: 68, photos: 134,
-    rsvpLimit: 60, donationGoal: 2000, wishlistItems: 12, wishlistClaimed: 8,
-  },
-  {
-    id: "2", slug: "johnson-wedding", title: "The Johnson Wedding 💍",
-    description: "An intimate garden ceremony followed by dinner and dancing.",
-    template: "Wedding", eventDate: "2026-06-20",
-    rsvps: 156, donations: 8400, wishlistFunded: 82, photos: 0,
-    rsvpLimit: 200, donationGoal: 10000, wishlistItems: 25, wishlistClaimed: 20,
-  },
-  {
-    id: "3", slug: "baby-shower-aria", title: "Baby Shower for Aria 🍼",
-    description: "Welcoming baby Aria with love, gifts, and good vibes.",
-    template: "Baby Shower", eventDate: "2026-03-01",
-    rsvps: 28, donations: 620, wishlistFunded: 45, photos: 67,
-    rsvpLimit: 40, donationGoal: 1500, wishlistItems: 10, wishlistClaimed: 4,
-  },
-  {
-    id: "4", slug: "graduation-2026", title: "Class of 2026 Grad Party 🎓",
-    description: "Celebrating four years of hard work with the whole crew.",
-    template: "Graduation", eventDate: "2025-12-10",
-    rsvps: 89, donations: 3200, wishlistFunded: 100, photos: 245,
-    rsvpLimit: 100, donationGoal: 3000, wishlistItems: 15, wishlistClaimed: 15,
-  },
-];
+import { getAuraLink } from "@/lib/auralink-store";
 
 function getEventStatus(dateStr: string) {
   const now = new Date();
@@ -73,7 +42,12 @@ const AuraLinkManage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
-  const link = MOCK_LINKS.find((l) => l.slug === slug);
+  const storeLink = slug ? getAuraLink(slug) : null;
+  const link = storeLink ? {
+    ...storeLink,
+    wishlistItems: 0,
+    wishlistClaimed: 0,
+  } : null;
 
   if (!link) {
     return (
