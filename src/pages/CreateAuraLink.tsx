@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, Calendar, Gift, Camera, Heart,
   GraduationCap, PartyPopper, Baby, Users, MapPin,
   Clock, DollarSign, Link2, Check, Sparkles, FileText,
-  Compass, Zap, Crown, Lock, ExternalLink
+  Compass, Zap, Crown, Lock, ExternalLink, ImagePlus, X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +52,8 @@ const CreateAuraLink = () => {
   const [features, setFeatures] = useState<string[]>(["rsvp"]);
   const [featureLinks, setFeatureLinks] = useState<Record<string, string>>({});
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [images, setImages] = useState<{ file: File; preview: string }[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -288,13 +291,65 @@ const CreateAuraLink = () => {
 
                   <div>
                     <Label htmlFor="description" className="font-display text-sm font-semibold">Description</Label>
-                    <Input
+                    <Textarea
                       id="description"
-                      placeholder="A brief description of your event"
+                      placeholder="Describe your event, include details guests should know..."
                       value={form.description}
                       onChange={(e) => updateForm("description", e.target.value)}
-                      className="mt-1.5"
+                      className="mt-1.5 min-h-[100px] resize-none"
+                      rows={4}
                     />
+                  </div>
+
+                  {/* Image upload */}
+                  <div>
+                    <Label className="font-display text-sm font-semibold flex items-center gap-1.5">
+                      <ImagePlus className="w-3.5 h-3.5" /> Cover Images
+                    </Label>
+                    <p className="text-[11px] text-muted-foreground mb-2">Add images to make your link stand out</p>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        const newImages = files.map((file) => ({
+                          file,
+                          preview: URL.createObjectURL(file),
+                        }));
+                        setImages((prev) => [...prev, ...newImages].slice(0, 6));
+                        if (e.target.files && e.target.files.length > 0) {
+                          toast({ title: `${files.length} image(s) added`, description: "You can add up to 6 images." });
+                        }
+                        e.target.value = "";
+                      }}
+                    />
+                    <div className="grid grid-cols-3 gap-2">
+                      {images.map((img, i) => (
+                        <div key={i} className="relative aspect-video rounded-lg overflow-hidden border border-border group">
+                          <img src={img.preview} alt={`Upload ${i + 1}`} className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => setImages((prev) => prev.filter((_, idx) => idx !== i))}
+                            className="absolute top-1 right-1 w-5 h-5 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-3 h-3 text-foreground" />
+                          </button>
+                        </div>
+                      ))}
+                      {images.length < 6 && (
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="aspect-video rounded-lg border-2 border-dashed border-border hover:border-primary/40 flex flex-col items-center justify-center gap-1 transition-colors cursor-pointer bg-muted/30"
+                        >
+                          <ImagePlus className="w-5 h-5 text-muted-foreground" />
+                          <span className="text-[10px] text-muted-foreground font-display">Add Image</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   <Separator />
