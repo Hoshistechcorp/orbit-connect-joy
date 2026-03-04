@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import AuraLinksSection from "@/components/dashboard/AuraLinksSection";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
 
 const CATEGORIES = [
   { id: "for-you", label: "For You", icon: Sparkles },
@@ -17,15 +18,15 @@ const CATEGORIES = [
   { id: "institute", label: "Institute", icon: GraduationCap },
 ];
 
-const FEATURED = [
-  { title: "Weekend Art Festival", subtitle: "This Saturday · 2.4K going", image: "🎨", tag: "Trending", tagColor: "bg-ibloov-orange/10 text-ibloov-orange" },
-  { title: "Rooftop Sunset Session", subtitle: "Tomorrow · 489 going", image: "🌅", tag: "New", tagColor: "bg-primary/10 text-primary" },
-];
-
 const UPCOMING = [
   { title: "Morning Yoga Flow", time: "Today 7:00 AM", icon: "🧘", category: "Wellness" },
   { title: "Community Potluck", time: "Wed 6:30 PM", icon: "🍲", category: "Events" },
   { title: "Photography Walk", time: "Sat 10:00 AM", icon: "📷", category: "Events" },
+];
+
+const FEATURED = [
+  { title: "Weekend Art Festival", subtitle: "This Saturday · 2.4K going", image: "🎨", tag: "Trending", tagColor: "bg-secondary/10 text-secondary" },
+  { title: "Rooftop Sunset Session", subtitle: "Tomorrow · 489 going", image: "🌅", tag: "New", tagColor: "bg-primary/10 text-primary" },
 ];
 
 const RECOMMENDED = [
@@ -38,8 +39,8 @@ const RECOMMENDED = [
 ];
 
 const QUICK_STATS = [
-  { label: "Upcoming", value: "12", icon: Clock, color: "text-ibloov-blue" },
-  { label: "Trending Near You", value: "8", icon: TrendingUp, color: "text-ibloov-orange" },
+  { label: "Upcoming", value: "12", icon: Clock, color: "text-primary" },
+  { label: "Trending Near You", value: "8", icon: TrendingUp, color: "text-secondary" },
   { label: "Your Circle", value: "24", icon: Users, color: "text-pink-500" },
   { label: "Saved", value: "6", icon: Bookmark, color: "text-purple-500" },
 ];
@@ -54,7 +55,7 @@ const Dashboard = () => {
   const firstName = (user.name || "Explorer").split(" ")[0];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/40">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
       {/* Top bar */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -88,9 +89,9 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-6">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         {/* Welcome */}
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h1 className="font-display text-2xl font-bold text-foreground">
             Welcome back, {firstName} 👋
           </h1>
@@ -98,30 +99,40 @@ const Dashboard = () => {
         </motion.div>
 
         {/* Quick stats */}
-        <div className="grid grid-cols-4 gap-3 mb-6">
-          {QUICK_STATS.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="bg-card border border-border rounded-xl p-3 text-center cursor-pointer hover:border-primary/30 transition-all"
-            >
-              <stat.icon className={`w-4 h-4 mx-auto mb-1 ${stat.color}`} />
-              <p className="font-display font-bold text-lg text-foreground">{stat.value}</p>
-              <p className="text-[10px] text-muted-foreground leading-tight">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
+        <section className="mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {QUICK_STATS.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="bg-card border border-border rounded-xl p-4 text-center cursor-pointer hover:border-primary/30 transition-all"
+              >
+                <stat.icon className={`w-4 h-4 mx-auto mb-1.5 ${stat.color}`} />
+                <p className="font-display font-bold text-lg text-foreground">{stat.value}</p>
+                <p className="text-[10px] text-muted-foreground leading-tight">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
-        {/* AuraLinks Section — first */}
-        <AuraLinksSection />
+        <Separator className="mb-10" />
 
-        {/* Upcoming — second */}
-        <div className="mb-6 mt-8">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-display font-bold text-foreground">Your Upcoming</h2>
-            <button className="text-xs text-primary font-display font-semibold flex items-center gap-1">
+        {/* AuraLinks Section */}
+        <section className="mb-10">
+          <AuraLinksSection />
+        </section>
+
+        <Separator className="mb-10" />
+
+        {/* Your Upcoming */}
+        <section className="mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" /> Your Upcoming
+            </h2>
+            <button className="text-xs text-primary font-display font-semibold flex items-center gap-1 hover:underline">
               View calendar <ChevronRight className="w-3 h-3" />
             </button>
           </div>
@@ -132,9 +143,9 @@ const Dashboard = () => {
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="min-w-[200px] bg-card border border-border rounded-xl p-3.5 hover:border-primary/30 transition-all cursor-pointer flex-shrink-0"
+                className="min-w-[220px] bg-card border border-border rounded-xl p-4 hover:border-primary/30 transition-all cursor-pointer flex-shrink-0"
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-3">
                   <span className="text-2xl">{item.icon}</span>
                   <div>
                     <p className="font-display font-semibold text-sm text-foreground">{item.title}</p>
@@ -144,17 +155,21 @@ const Dashboard = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Featured cards */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-display font-bold text-foreground">Featured</h2>
-            <button className="text-xs text-primary font-display font-semibold flex items-center gap-1">
+        <Separator className="mb-10" />
+
+        {/* Featured */}
+        <section className="mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+              <Flame className="w-4 h-4 text-secondary" /> Featured
+            </h2>
+            <button className="text-xs text-primary font-display font-semibold flex items-center gap-1 hover:underline">
               See all <ChevronRight className="w-3 h-3" />
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {FEATURED.map((item, i) => (
               <motion.div
                 key={item.title}
@@ -179,14 +194,18 @@ const Dashboard = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Category tabs + Recommended */}
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-display font-bold text-foreground">Recommended</h2>
+        <Separator className="mb-10" />
+
+        {/* Recommended */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-primary" /> Recommended
+            </h2>
           </div>
-          <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
+          <div className="flex gap-2 mb-5 overflow-x-auto pb-1">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
@@ -203,7 +222,7 @@ const Dashboard = () => {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {RECOMMENDED.map((item, i) => (
               <motion.div
                 key={item.title}
@@ -223,7 +242,7 @@ const Dashboard = () => {
                       <span className="flex items-center gap-1 text-xs text-muted-foreground">
                         <Users className="w-3 h-3" /> {item.attendees}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-ibloov-orange">
+                      <span className="flex items-center gap-1 text-xs text-secondary">
                         <Star className="w-3 h-3 fill-current" /> {item.rating}
                       </span>
                     </div>
@@ -233,7 +252,7 @@ const Dashboard = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );

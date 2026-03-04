@@ -17,6 +17,8 @@ import ConsumerSignup from "./pages/ConsumerSignup";
 import Onboarding from "./pages/Onboarding";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
+import CreateAuraLink from "./pages/CreateAuraLink";
+import AuraLinkPublic from "./pages/AuraLinkPublic";
 
 const queryClient = new QueryClient();
 
@@ -36,10 +38,11 @@ const App = () => (
           <Route path="/signup/consumer" element={<ConsumerSignup />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/create" element={<CreateAuraLink />} />
+          <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           <Route path="/dashboard/:slug" element={<AuraLinkManage />} />
           <Route path="/onboarding/enterprise" element={<EnterpriseOnboarding />} />
-          <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
-          
+          <Route path="/aura/:slug" element={<AuraLinkPublic />} />
           <Route path="/coming-soon" element={<ComingSoon />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
