@@ -1,30 +1,30 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft, User, Link2, Heart, Award, Image, Briefcase, Zap,
-  Plus, Trash2, Eye, EyeOff, Save, ExternalLink, Camera, GripVertical
+  Plus, Trash2, Eye, EyeOff, Save, ExternalLink, Camera, Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import {
   getProfile, saveProfile, createId, SOCIAL_PLATFORMS,
   type UserProfile, type SocialLink, type Interest, type Certification,
-  type GalleryItem, type WorkExperience, type Skill
+  type GalleryItem, type WorkExperience, type Skill, type ProfileAuraLink
 } from "@/lib/profile-store";
+import { getAuraLinks, type AuraLinkData } from "@/lib/auralink-store";
 
 const SECTIONS = [
   { id: "bio", label: "Bio", icon: User },
-  { id: "socials", label: "Social Links", icon: Link2 },
+  { id: "socials", label: "Socials", icon: Link2 },
+  { id: "auralinks", label: "AuraLinks", icon: Sparkles },
   { id: "interests", label: "Interests", icon: Heart },
-  { id: "certifications", label: "Certifications", icon: Award },
+  { id: "certifications", label: "Certs", icon: Award },
   { id: "gallery", label: "Gallery", icon: Image },
-  { id: "work", label: "Work Experience", icon: Briefcase },
+  { id: "work", label: "Work", icon: Briefcase },
   { id: "skills", label: "Skills", icon: Zap },
 ];
 
@@ -34,6 +34,7 @@ const ProfileEdit = () => {
   const [activeSection, setActiveSection] = useState("bio");
   const avatarRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
+  const allAuraLinks = getAuraLinks();
 
   const update = (partial: Partial<UserProfile>) => {
     setProfile(prev => ({ ...prev, ...partial }));
@@ -70,15 +71,9 @@ const ProfileEdit = () => {
   };
 
   // Social links
-  const addSocial = () => {
-    update({ socials: [...profile.socials, { id: createId(), platform: "instagram", url: "", isPublic: true }] });
-  };
-  const updateSocial = (id: string, partial: Partial<SocialLink>) => {
-    update({ socials: profile.socials.map(s => s.id === id ? { ...s, ...partial } : s) });
-  };
-  const removeSocial = (id: string) => {
-    update({ socials: profile.socials.filter(s => s.id !== id) });
-  };
+  const addSocial = () => update({ socials: [...profile.socials, { id: createId(), platform: "instagram", url: "", isPublic: true }] });
+  const updateSocial = (id: string, partial: Partial<SocialLink>) => update({ socials: profile.socials.map(s => s.id === id ? { ...s, ...partial } : s) });
+  const removeSocial = (id: string) => update({ socials: profile.socials.filter(s => s.id !== id) });
 
   // Interests
   const [newInterest, setNewInterest] = useState("");
@@ -87,52 +82,43 @@ const ProfileEdit = () => {
     update({ interests: [...profile.interests, { id: createId(), label: newInterest.trim(), isPublic: true }] });
     setNewInterest("");
   };
-  const toggleInterestVisibility = (id: string) => {
-    update({ interests: profile.interests.map(i => i.id === id ? { ...i, isPublic: !i.isPublic } : i) });
-  };
-  const removeInterest = (id: string) => {
-    update({ interests: profile.interests.filter(i => i.id !== id) });
-  };
 
   // Certifications
-  const addCert = () => {
-    update({ certifications: [...profile.certifications, { id: createId(), title: "", issuer: "", year: "", isPublic: true }] });
-  };
-  const updateCert = (id: string, partial: Partial<Certification>) => {
-    update({ certifications: profile.certifications.map(c => c.id === id ? { ...c, ...partial } : c) });
-  };
-  const removeCert = (id: string) => {
-    update({ certifications: profile.certifications.filter(c => c.id !== id) });
-  };
+  const addCert = () => update({ certifications: [...profile.certifications, { id: createId(), title: "", issuer: "", year: "", isPublic: true }] });
+  const updateCert = (id: string, partial: Partial<Certification>) => update({ certifications: profile.certifications.map(c => c.id === id ? { ...c, ...partial } : c) });
+  const removeCert = (id: string) => update({ certifications: profile.certifications.filter(c => c.id !== id) });
 
   // Work experience
-  const addWork = () => {
-    update({ workExperience: [...profile.workExperience, { id: createId(), role: "", company: "", period: "", description: "", isPublic: true }] });
-  };
-  const updateWork = (id: string, partial: Partial<WorkExperience>) => {
-    update({ workExperience: profile.workExperience.map(w => w.id === id ? { ...w, ...partial } : w) });
-  };
-  const removeWork = (id: string) => {
-    update({ workExperience: profile.workExperience.filter(w => w.id !== id) });
-  };
+  const addWork = () => update({ workExperience: [...profile.workExperience, { id: createId(), role: "", company: "", period: "", description: "", isPublic: true }] });
+  const updateWork = (id: string, partial: Partial<WorkExperience>) => update({ workExperience: profile.workExperience.map(w => w.id === id ? { ...w, ...partial } : w) });
+  const removeWork = (id: string) => update({ workExperience: profile.workExperience.filter(w => w.id !== id) });
 
   // Skills
-  const addSkill = () => {
-    update({ skills: [...profile.skills, { id: createId(), label: "", level: 3, isPublic: true }] });
-  };
-  const updateSkill = (id: string, partial: Partial<Skill>) => {
-    update({ skills: profile.skills.map(s => s.id === id ? { ...s, ...partial } : s) });
-  };
-  const removeSkill = (id: string) => {
-    update({ skills: profile.skills.filter(s => s.id !== id) });
-  };
+  const addSkill = () => update({ skills: [...profile.skills, { id: createId(), label: "", level: 3, isPublic: true }] });
+  const updateSkill = (id: string, partial: Partial<Skill>) => update({ skills: profile.skills.map(s => s.id === id ? { ...s, ...partial } : s) });
+  const removeSkill = (id: string) => update({ skills: profile.skills.filter(s => s.id !== id) });
 
   // Gallery
-  const updateGalleryItem = (id: string, partial: Partial<GalleryItem>) => {
-    update({ gallery: profile.gallery.map(g => g.id === id ? { ...g, ...partial } : g) });
+  const updateGalleryItem = (id: string, partial: Partial<GalleryItem>) => update({ gallery: profile.gallery.map(g => g.id === id ? { ...g, ...partial } : g) });
+  const removeGalleryItem = (id: string) => update({ gallery: profile.gallery.filter(g => g.id !== id) });
+
+  // AuraLinks
+  const toggleAuraLink = (linkId: string) => {
+    const existing = profile.auraLinks.find(a => a.id === linkId);
+    if (existing) {
+      update({ auraLinks: profile.auraLinks.map(a => a.id === linkId ? { ...a, isPublic: !a.isPublic } : a) });
+    } else {
+      update({ auraLinks: [...profile.auraLinks, { id: linkId, isPublic: true }] });
+    }
   };
-  const removeGalleryItem = (id: string) => {
-    update({ gallery: profile.gallery.filter(g => g.id !== id) });
+  const removeAuraLink = (linkId: string) => {
+    update({ auraLinks: profile.auraLinks.filter(a => a.id !== linkId) });
+  };
+  const addAllAuraLinks = () => {
+    const newLinks: ProfileAuraLink[] = allAuraLinks
+      .filter(l => !profile.auraLinks.find(a => a.id === l.id))
+      .map(l => ({ id: l.id, isPublic: true }));
+    update({ auraLinks: [...profile.auraLinks, ...newLinks] });
   };
 
   const VisibilityToggle = ({ isPublic, onToggle }: { isPublic: boolean; onToggle: () => void }) => (
@@ -182,32 +168,20 @@ const ProfileEdit = () => {
               <input ref={avatarRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarUpload} />
             </div>
             <div className="flex-1 space-y-2">
-              <Input
-                value={profile.displayName}
-                onChange={e => update({ displayName: e.target.value })}
-                placeholder="Your Name"
-                className="font-display font-bold text-lg h-auto py-1 border-none shadow-none px-0 focus-visible:ring-0"
-              />
-              <Input
-                value={profile.headline}
-                onChange={e => update({ headline: e.target.value })}
-                placeholder="Your headline — e.g. Creative Director & Wellness Coach"
-                className="text-sm text-muted-foreground h-auto py-1 border-none shadow-none px-0 focus-visible:ring-0"
-              />
+              <Input value={profile.displayName} onChange={e => update({ displayName: e.target.value })} placeholder="Your Name" className="font-display font-bold text-lg h-auto py-1 border-none shadow-none px-0 focus-visible:ring-0" />
+              <Input value={profile.headline} onChange={e => update({ headline: e.target.value })} placeholder="Your headline" className="text-sm text-muted-foreground h-auto py-1 border-none shadow-none px-0 focus-visible:ring-0" />
             </div>
           </div>
         </motion.section>
 
         {/* Section tabs */}
-        <div className="flex gap-1.5 overflow-x-auto pb-2 mb-6">
+        <div className="flex gap-1.5 overflow-x-auto pb-2 mb-6 scrollbar-hide">
           {SECTIONS.map(s => (
             <button
               key={s.id}
               onClick={() => setActiveSection(s.id)}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-display font-semibold whitespace-nowrap transition-all ${
-                activeSection === s.id
-                  ? "bg-foreground text-background shadow-sm"
-                  : "bg-muted text-muted-foreground hover:text-foreground"
+                activeSection === s.id ? "bg-foreground text-background shadow-sm" : "bg-muted text-muted-foreground hover:text-foreground"
               }`}
             >
               <s.icon className="w-3.5 h-3.5" />
@@ -223,12 +197,7 @@ const ProfileEdit = () => {
             {activeSection === "bio" && (
               <div className="space-y-4">
                 <h2 className="font-display font-bold text-foreground flex items-center gap-2"><User className="w-4 h-4 text-primary" /> About You</h2>
-                <Textarea
-                  value={profile.bio}
-                  onChange={e => update({ bio: e.target.value })}
-                  placeholder="Tell people about yourself, your passions, and what makes you unique..."
-                  className="min-h-[160px] text-sm"
-                />
+                <Textarea value={profile.bio} onChange={e => update({ bio: e.target.value })} placeholder="Tell people about yourself..." className="min-h-[160px] text-sm" />
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-muted-foreground">{profile.bio.length} / 500 characters</p>
                   <Badge variant="outline" className="text-[10px]">Always Public</Badge>
@@ -243,33 +212,67 @@ const ProfileEdit = () => {
                   <h2 className="font-display font-bold text-foreground flex items-center gap-2"><Link2 className="w-4 h-4 text-primary" /> Social Links</h2>
                   <Button variant="outline" size="sm" className="text-xs font-display gap-1" onClick={addSocial}><Plus className="w-3 h-3" /> Add Link</Button>
                 </div>
-                {profile.socials.length === 0 && (
-                  <div className="text-center py-10 text-muted-foreground text-sm">No social links yet. Click "Add Link" to get started.</div>
-                )}
+                {profile.socials.length === 0 && <div className="text-center py-10 text-muted-foreground text-sm">No social links yet.</div>}
                 <div className="space-y-3">
                   {profile.socials.map(s => (
                     <div key={s.id} className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
                       <span className="text-xl">{SOCIAL_PLATFORMS.find(p => p.value === s.platform)?.icon || "🔗"}</span>
-                      <select
-                        value={s.platform}
-                        onChange={e => updateSocial(s.id, { platform: e.target.value })}
-                        className="bg-muted rounded-lg px-2 py-1.5 text-xs font-display border-none outline-none"
-                      >
+                      <select value={s.platform} onChange={e => updateSocial(s.id, { platform: e.target.value })} className="bg-muted rounded-lg px-2 py-1.5 text-xs font-display border-none outline-none">
                         {SOCIAL_PLATFORMS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
                       </select>
-                      <Input
-                        value={s.url}
-                        onChange={e => updateSocial(s.id, { url: e.target.value })}
-                        placeholder="https://..."
-                        className="flex-1 text-sm h-8"
-                      />
+                      <Input value={s.url} onChange={e => updateSocial(s.id, { url: e.target.value })} placeholder="https://..." className="flex-1 text-sm h-8" />
                       <VisibilityToggle isPublic={s.isPublic} onToggle={() => updateSocial(s.id, { isPublic: !s.isPublic })} />
-                      <button onClick={() => removeSocial(s.id)} className="text-muted-foreground hover:text-destructive transition-colors">
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      <button onClick={() => removeSocial(s.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="w-3.5 h-3.5" /></button>
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* AURALINKS */}
+            {activeSection === "auralinks" && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="font-display font-bold text-foreground flex items-center gap-2"><Sparkles className="w-4 h-4 text-primary" /> AuraLinks on Profile</h2>
+                  {allAuraLinks.length > 0 && (
+                    <Button variant="outline" size="sm" className="text-xs font-display gap-1" onClick={addAllAuraLinks}><Plus className="w-3 h-3" /> Add All</Button>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground">Choose which AuraLinks appear on your public profile. Toggle visibility per link.</p>
+                {allAuraLinks.length === 0 ? (
+                  <div className="text-center py-10 text-muted-foreground text-sm">
+                    No AuraLinks created yet. <button onClick={() => navigate("/dashboard/create")} className="text-primary underline">Create one</button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {allAuraLinks.map(link => {
+                      const profileLink = profile.auraLinks.find(a => a.id === link.id);
+                      const isAdded = !!profileLink;
+                      return (
+                        <div key={link.id} className={`border rounded-xl p-4 transition-all ${isAdded ? "bg-card border-primary/20" : "bg-muted/30 border-border opacity-60"}`}>
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-display font-semibold text-sm text-foreground truncate">{link.title}</p>
+                              <p className="text-[11px] text-muted-foreground">{link.template} · {link.eventDate}</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              {isAdded && (
+                                <VisibilityToggle isPublic={profileLink!.isPublic} onToggle={() => toggleAuraLink(link.id)} />
+                              )}
+                              {isAdded ? (
+                                <button onClick={() => removeAuraLink(link.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="w-3.5 h-3.5" /></button>
+                              ) : (
+                                <Button variant="outline" size="sm" className="text-xs h-7" onClick={() => toggleAuraLink(link.id)}>
+                                  <Plus className="w-3 h-3 mr-1" /> Add
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
 
@@ -278,23 +281,17 @@ const ProfileEdit = () => {
               <div className="space-y-4">
                 <h2 className="font-display font-bold text-foreground flex items-center gap-2"><Heart className="w-4 h-4 text-primary" /> Interests</h2>
                 <div className="flex gap-2">
-                  <Input
-                    value={newInterest}
-                    onChange={e => setNewInterest(e.target.value)}
-                    onKeyDown={e => e.key === "Enter" && addInterest()}
-                    placeholder="Add an interest — e.g. Photography, Travel, Yoga..."
-                    className="flex-1 text-sm"
-                  />
+                  <Input value={newInterest} onChange={e => setNewInterest(e.target.value)} onKeyDown={e => e.key === "Enter" && addInterest()} placeholder="Add an interest..." className="flex-1 text-sm" />
                   <Button variant="outline" size="sm" onClick={addInterest}><Plus className="w-3 h-3" /></Button>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {profile.interests.map(i => (
                     <div key={i.id} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-display font-semibold border transition-all ${i.isPublic ? "bg-primary/10 text-primary border-primary/20" : "bg-muted text-muted-foreground border-border"}`}>
                       {i.label}
-                      <button onClick={() => toggleInterestVisibility(i.id)}>
+                      <button onClick={() => update({ interests: profile.interests.map(x => x.id === i.id ? { ...x, isPublic: !x.isPublic } : x) })}>
                         {i.isPublic ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
                       </button>
-                      <button onClick={() => removeInterest(i.id)} className="hover:text-destructive"><Trash2 className="w-3 h-3" /></button>
+                      <button onClick={() => update({ interests: profile.interests.filter(x => x.id !== i.id) })} className="hover:text-destructive"><Trash2 className="w-3 h-3" /></button>
                     </div>
                   ))}
                 </div>
@@ -343,27 +340,19 @@ const ProfileEdit = () => {
                     <div key={g.id} className="relative group rounded-xl overflow-hidden border border-border aspect-square">
                       <img src={g.image} alt={g.caption} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
-                        <Input
-                          value={g.caption}
-                          onChange={e => updateGalleryItem(g.id, { caption: e.target.value })}
-                          placeholder="Caption..."
-                          className="w-4/5 text-xs h-7 bg-background/90"
-                          onClick={e => e.stopPropagation()}
-                        />
+                        <Input value={g.caption} onChange={e => updateGalleryItem(g.id, { caption: e.target.value })} placeholder="Caption..." className="w-4/5 text-xs h-7 bg-background/90" onClick={e => e.stopPropagation()} />
                         <div className="flex gap-2">
                           <button onClick={() => updateGalleryItem(g.id, { isPublic: !g.isPublic })} className="text-background text-[10px] flex items-center gap-1">
                             {g.isPublic ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
                             {g.isPublic ? "Public" : "Private"}
                           </button>
-                          <button onClick={() => removeGalleryItem(g.id)} className="text-destructive text-[10px] flex items-center gap-1">
-                            <Trash2 className="w-3 h-3" /> Remove
-                          </button>
+                          <button onClick={() => removeGalleryItem(g.id)} className="text-destructive text-[10px] flex items-center gap-1"><Trash2 className="w-3 h-3" /> Remove</button>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
-                {profile.gallery.length === 0 && <p className="text-center py-8 text-muted-foreground text-sm">No photos yet. Add some to showcase your work.</p>}
+                {profile.gallery.length === 0 && <p className="text-center py-8 text-muted-foreground text-sm">No photos yet.</p>}
               </div>
             )}
 
@@ -388,7 +377,7 @@ const ProfileEdit = () => {
                         <Input value={w.company} onChange={e => updateWork(w.id, { company: e.target.value })} placeholder="Company" className="text-xs h-7 flex-1" />
                         <Input value={w.period} onChange={e => updateWork(w.id, { period: e.target.value })} placeholder="2022 – Present" className="text-xs h-7 w-32" />
                       </div>
-                      <Textarea value={w.description} onChange={e => updateWork(w.id, { description: e.target.value })} placeholder="Brief description of your role..." className="text-xs min-h-[60px]" />
+                      <Textarea value={w.description} onChange={e => updateWork(w.id, { description: e.target.value })} placeholder="Brief description..." className="text-xs min-h-[60px]" />
                     </div>
                   ))}
                 </div>
@@ -409,11 +398,7 @@ const ProfileEdit = () => {
                       <Input value={s.label} onChange={e => updateSkill(s.id, { label: e.target.value })} placeholder="Skill name" className="font-display text-sm h-8 flex-1" />
                       <div className="flex items-center gap-1">
                         {[1, 2, 3, 4, 5].map(level => (
-                          <button
-                            key={level}
-                            onClick={() => updateSkill(s.id, { level })}
-                            className={`w-3 h-3 rounded-full transition-colors ${level <= s.level ? "bg-primary" : "bg-muted"}`}
-                          />
+                          <button key={level} onClick={() => updateSkill(s.id, { level })} className={`w-3 h-3 rounded-full transition-colors ${level <= s.level ? "bg-primary" : "bg-muted"}`} />
                         ))}
                       </div>
                       <VisibilityToggle isPublic={s.isPublic} onToggle={() => updateSkill(s.id, { isPublic: !s.isPublic })} />
