@@ -13,38 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
-
-const MOCK_EVENTS: Record<string, {
-  title: string; description: string; template: string; eventDate: string;
-  time: string; location: string; hostName: string;
-  rsvps: number; rsvpLimit: number; donations: number; donationGoal: number;
-  wishlistFunded: number; wishlistItems: { name: string; price: number; funded: boolean }[];
-  photos: string[];
-}> = {
-  "maya-turns-30": {
-    title: "Maya Turns 30 🎉", description: "A surprise rooftop celebration with close friends and family under the city lights. Join us for food, music, and unforgettable vibes!",
-    template: "Birthday", eventDate: "2026-04-15", time: "7:00 PM", location: "Skyline Rooftop, Downtown LA",
-    hostName: "Maya Johnson", rsvps: 42, rsvpLimit: 60, donations: 1250, donationGoal: 2000, wishlistFunded: 68,
-    wishlistItems: [
-      { name: "Espresso Machine", price: 299, funded: true },
-      { name: "Yoga Retreat Weekend", price: 450, funded: false },
-      { name: "Art Supply Kit", price: 85, funded: true },
-      { name: "Noise-Canceling Headphones", price: 350, funded: false },
-    ],
-    photos: ["🌅", "🎶", "🍰", "🥂", "🎈", "✨"],
-  },
-  "johnson-wedding": {
-    title: "The Johnson Wedding 💍", description: "An intimate garden ceremony followed by dinner and dancing under the stars. We can't wait to celebrate with you!",
-    template: "Wedding", eventDate: "2026-06-20", time: "4:00 PM", location: "Rosewood Gardens, Malibu",
-    hostName: "James & Sarah Johnson", rsvps: 156, rsvpLimit: 200, donations: 8400, donationGoal: 10000, wishlistFunded: 82,
-    wishlistItems: [
-      { name: "Honeymoon Fund", price: 5000, funded: false },
-      { name: "Kitchen Aid Mixer", price: 400, funded: true },
-      { name: "Dinner Set for 12", price: 250, funded: true },
-    ],
-    photos: [],
-  },
-};
+import { getAuraLink } from "@/lib/auralink-store";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-US", {
@@ -65,7 +34,26 @@ const AuraLinkPublic = () => {
   const [rsvpName, setRsvpName] = useState("");
   const [rsvpDone, setRsvpDone] = useState(false);
 
-  const event = slug ? MOCK_EVENTS[slug] : null;
+  const linkData = slug ? getAuraLink(slug) : null;
+
+  // Build event-like object from store data
+  const event = linkData ? {
+    title: linkData.title,
+    description: linkData.description,
+    template: linkData.template,
+    eventDate: linkData.eventDate,
+    time: linkData.time || "TBD",
+    location: linkData.location || "TBD",
+    hostName: "Event Host",
+    rsvps: linkData.rsvps,
+    rsvpLimit: linkData.rsvpLimit || 50,
+    donations: linkData.donations,
+    donationGoal: linkData.donationGoal || 0,
+    wishlistFunded: linkData.wishlistFunded,
+    wishlistItems: [] as { name: string; price: number; funded: boolean }[],
+    photos: linkData.images || [],
+    features: linkData.features || [],
+  } : null;
 
   if (!event) {
     return (
@@ -301,7 +289,7 @@ const AuraLinkPublic = () => {
           </motion.section>
         )}
 
-        {/* Photos */}
+        {/* Photos / Images */}
         {event.photos.length > 0 && (
           <motion.section
             initial={{ opacity: 0, y: 15 }}
@@ -314,16 +302,22 @@ const AuraLinkPublic = () => {
                 <h2 className="font-display font-bold text-lg text-foreground mb-4 flex items-center gap-2">
                   <Camera className="w-4 h-4 text-secondary" /> Photos
                 </h2>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {event.photos.map((photo, i) => (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.5 + i * 0.05 }}
-                      className="aspect-square rounded-xl bg-muted/50 flex items-center justify-center text-3xl border border-border hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
+                      className="aspect-video rounded-xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-md transition-all cursor-pointer"
                     >
-                      {photo}
+                      {photo.startsWith("data:") || photo.startsWith("http") ? (
+                        <img src={photo} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-muted/50 flex items-center justify-center text-3xl">
+                          {photo}
+                        </div>
+                      )}
                     </motion.div>
                   ))}
                 </div>
