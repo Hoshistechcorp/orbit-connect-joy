@@ -106,7 +106,7 @@ const AuraLinksSection = () => {
   }
 
   return (
-    <div className="mt-10">
+    <div>
       {/* Section header */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
