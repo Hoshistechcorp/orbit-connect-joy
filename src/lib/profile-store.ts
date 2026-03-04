@@ -63,22 +63,56 @@ const STORAGE_KEY = "ibloov-user-profile";
 
 const generateId = () => Math.random().toString(36).substring(2, 10);
 
-export const getDefaultProfile = (): UserProfile => ({
-  slug: "my-profile",
-  displayName: "Explorer",
-  headline: "Building something amazing",
-  bio: "",
+export const getDemoProfile = (): UserProfile => ({
+  slug: "alex-morgan",
+  displayName: "Alex Morgan",
+  headline: "Creative Director & Full-Stack Developer",
+  bio: "I'm a multi-disciplinary creative who bridges design and engineering. With 8+ years building digital products, I help startups and brands craft experiences that resonate. When I'm not coding, you'll find me photographing street art or experimenting with fermentation recipes.",
   avatar: "",
   coverImage: "",
-  socials: [],
-  interests: [],
-  certifications: [],
+  socials: [
+    { id: generateId(), platform: "instagram", url: "https://instagram.com/alexmorgan", isPublic: true },
+    { id: generateId(), platform: "twitter", url: "https://x.com/alexmdev", isPublic: true },
+    { id: generateId(), platform: "linkedin", url: "https://linkedin.com/in/alexmorgan", isPublic: true },
+    { id: generateId(), platform: "github", url: "https://github.com/alexmorgan", isPublic: true },
+    { id: generateId(), platform: "website", url: "https://alexmorgan.dev", isPublic: true },
+    { id: generateId(), platform: "youtube", url: "https://youtube.com/@alexcreates", isPublic: false },
+  ],
+  interests: [
+    { id: generateId(), label: "UI/UX Design", isPublic: true },
+    { id: generateId(), label: "Street Photography", isPublic: true },
+    { id: generateId(), label: "Open Source", isPublic: true },
+    { id: generateId(), label: "Fermentation", isPublic: true },
+    { id: generateId(), label: "Rock Climbing", isPublic: true },
+    { id: generateId(), label: "Sci-Fi Novels", isPublic: false },
+    { id: generateId(), label: "Mechanical Keyboards", isPublic: true },
+  ],
+  certifications: [
+    { id: generateId(), title: "AWS Solutions Architect – Associate", issuer: "Amazon Web Services", year: "2024", isPublic: true },
+    { id: generateId(), title: "Google UX Design Professional Certificate", issuer: "Google / Coursera", year: "2023", isPublic: true },
+    { id: generateId(), title: "Certified ScrumMaster (CSM)", issuer: "Scrum Alliance", year: "2022", isPublic: true },
+    { id: generateId(), title: "Meta Front-End Developer Certificate", issuer: "Meta / Coursera", year: "2023", isPublic: false },
+  ],
   gallery: [],
-  workExperience: [],
-  skills: [],
+  workExperience: [
+    { id: generateId(), role: "Creative Director", company: "Neon Studio", period: "2023 – Present", description: "Leading a team of 12 designers and engineers building brand experiences for Fortune 500 clients. Shipped 15+ major campaigns with a combined reach of 40M+ impressions.", isPublic: true },
+    { id: generateId(), role: "Senior Full-Stack Developer", company: "Orbitly", period: "2020 – 2023", description: "Architected and built the core platform serving 500K+ monthly users. Led migration from monolith to micro-services, reducing deployment time by 80%.", isPublic: true },
+    { id: generateId(), role: "Front-End Engineer", company: "PixelForge", period: "2018 – 2020", description: "Built responsive web applications and design systems using React and TypeScript. Mentored 4 junior developers.", isPublic: true },
+    { id: generateId(), role: "Freelance Web Developer", company: "Self-Employed", period: "2016 – 2018", description: "Delivered 30+ client projects spanning e-commerce, portfolios, and SaaS dashboards.", isPublic: false },
+  ],
+  skills: [
+    { id: generateId(), label: "React / TypeScript", level: 5, isPublic: true },
+    { id: generateId(), label: "Node.js / Express", level: 4, isPublic: true },
+    { id: generateId(), label: "Figma / Design Systems", level: 5, isPublic: true },
+    { id: generateId(), label: "AWS / Cloud Infra", level: 4, isPublic: true },
+    { id: generateId(), label: "Python / Data Analysis", level: 3, isPublic: true },
+    { id: generateId(), label: "Motion Design", level: 3, isPublic: false },
+  ],
   theme: "gradient",
   updatedAt: new Date().toISOString(),
 });
+
+export const getDefaultProfile = (): UserProfile => getDemoProfile();
 
 export const getProfile = (): UserProfile => {
   try {
