@@ -276,7 +276,7 @@ const CreateAuraLink = () => {
               <Card className="backdrop-blur-sm bg-card/80">
                 <CardContent className="p-6 space-y-5">
                   <div>
-                    <Label htmlFor="title" className="font-display text-sm font-semibold">Event Title *</Label>
+                    <Label htmlFor="title" className="font-display text-sm font-semibold">Link Title *</Label>
                     <Input
                       id="title"
                       placeholder="e.g. Maya Turns 30"
