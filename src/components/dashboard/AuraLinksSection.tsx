@@ -74,7 +74,7 @@ const STAT_ICONS = [
 
 const AuraLinksSection = () => {
   const navigate = useNavigate();
-  const [links] = useState<AuraLink[]>(MOCK_LINKS);
+  const [links, setLinks] = useState<AuraLink[]>(MOCK_LINKS);
 
   const totalRsvps = links.reduce((s, l) => s + l.rsvps, 0);
   const totalRaised = links.reduce((s, l) => s + l.donations, 0);
@@ -84,6 +84,11 @@ const AuraLinksSection = () => {
   const copyLink = (slug: string) => {
     navigator.clipboard.writeText(`${window.location.origin}/aura/${slug}`);
     toast({ title: "Link copied!", description: "AuraLink URL copied to clipboard." });
+  };
+
+  const deleteLink = (id: string, title: string) => {
+    setLinks(prev => prev.filter(l => l.id !== id));
+    toast({ title: "AuraLink deleted", description: `"${title}" has been removed.`, variant: "destructive" });
   };
 
   if (links.length === 0) {
@@ -161,25 +166,23 @@ const AuraLinksSection = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-48">
-                        <DropdownMenuItem onClick={() => copyLink(link.slug)}>
+                        <DropdownMenuItem onSelect={() => copyLink(link.slug)}>
                           <Copy className="w-3.5 h-3.5 mr-2" /> Copy Link
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => navigate(`/aura/${link.slug}`)}>
+                        <DropdownMenuItem onSelect={() => navigate(`/aura/${link.slug}`)}>
                           <ExternalLink className="w-3.5 h-3.5 mr-2" /> View Public Page
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => navigate(`/dashboard/${link.slug}`)}>
+                        <DropdownMenuItem onSelect={() => navigate(`/dashboard/${link.slug}`)}>
                           <Edit className="w-3.5 h-3.5 mr-2" /> Edit & Manage
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => navigate(`/dashboard/${link.slug}`)}>
+                        <DropdownMenuItem onSelect={() => navigate(`/dashboard/${link.slug}`)}>
                           <BarChart3 className="w-3.5 h-3.5 mr-2" /> Analytics
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           className="text-destructive focus:text-destructive"
-                          onClick={() => {
-                            toast({ title: "AuraLink deleted", description: `"${link.title}" has been removed.`, variant: "destructive" });
-                          }}
+                          onSelect={() => deleteLink(link.id, link.title)}
                         >
                           <Trash2 className="w-3.5 h-3.5 mr-2" /> Delete
                         </DropdownMenuItem>
@@ -233,7 +236,7 @@ const AuraLinksSection = () => {
                       className="flex-1 rounded-full font-display text-xs h-8"
                       onClick={() => navigate(`/dashboard/${link.slug}`)}
                     >
-                      Manage
+                      <Edit className="w-3 h-3 mr-1" /> Edit
                     </Button>
                     <Button
                       size="sm"
@@ -250,6 +253,14 @@ const AuraLinksSection = () => {
                       onClick={() => navigate(`/dashboard/${link.slug}`, { state: { tab: "settings" } })}
                     >
                       <Settings className="w-3.5 h-3.5" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                      onClick={() => deleteLink(link.id, link.title)}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
                     </Button>
                   </div>
                 </CardContent>
