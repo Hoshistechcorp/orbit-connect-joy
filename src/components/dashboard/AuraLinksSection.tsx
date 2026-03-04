@@ -97,7 +97,7 @@ const AuraLinksSection = () => {
           <p className="text-muted-foreground text-sm text-center max-w-sm mb-6">
             Create your first smart link to start collecting RSVPs, donations, wishlists, and photos for life's big moments.
           </p>
-          <Button className="rounded-full gap-2 font-display">
+          <Button className="rounded-full gap-2 font-display" onClick={() => navigate("/dashboard/create")}>
             <Plus className="w-4 h-4" /> Create Your First AuraLink
           </Button>
         </div>
@@ -115,9 +115,9 @@ const AuraLinksSection = () => {
           </h2>
           <p className="text-sm text-muted-foreground mt-1">Manage your smart links for life's big moments</p>
         </div>
-        <Button className="rounded-full gap-2 font-display text-xs" size="sm">
-          <Plus className="w-3.5 h-3.5" /> Create AuraLink
-        </Button>
+          <Button className="rounded-full gap-2 font-display text-xs" size="sm" onClick={() => navigate("/dashboard/create")}>
+            <Plus className="w-3.5 h-3.5" /> Create AuraLink
+          </Button>
       </motion.div>
 
       {/* Stats row */}
