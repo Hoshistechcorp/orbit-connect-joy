@@ -240,7 +240,10 @@ const AuraLinksSection = () => {
                     <Button
                       size="sm"
                       className="flex-1 rounded-full font-display text-xs h-8"
-                      onClick={() => navigate(`/dashboard/${link.slug}`)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/dashboard/${link.slug}`);
+                      }}
                     >
                       <Edit className="w-3 h-3 mr-1" /> Edit
                     </Button>
@@ -256,7 +259,10 @@ const AuraLinksSection = () => {
                       size="sm"
                       variant="outline"
                       className="rounded-full h-8 w-8 p-0"
-                      onClick={() => navigate(`/dashboard/${link.slug}`, { state: { tab: "settings" } })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/dashboard/${link.slug}`, { state: { tab: "settings" } });
+                      }}
                     >
                       <Settings className="w-3.5 h-3.5" />
                     </Button>
@@ -264,7 +270,10 @@ const AuraLinksSection = () => {
                       size="sm"
                       variant="outline"
                       className="rounded-full h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                      onClick={() => setDeleteTarget(link)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteTarget(link);
+                      }}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </Button>
