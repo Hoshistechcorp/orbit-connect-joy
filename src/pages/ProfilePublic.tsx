@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   User, Heart, Award, Image, Briefcase, Zap, ExternalLink,
-  Sparkles, Users, DollarSign, Calendar, MapPin, ArrowUpRight
+  Sparkles, Users, DollarSign, Calendar, MapPin, ArrowUpRight,
+  Share2, QrCode, Copy, Check, X
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 import { Badge } from "@/components/ui/badge";
 import { getProfile, SOCIAL_PLATFORMS, type UserProfile } from "@/lib/profile-store";
 import { getAuraLinks } from "@/lib/auralink-store";
@@ -26,6 +29,15 @@ const SectionHeader = ({ icon: Icon, label }: { icon: React.ElementType; label: 
 const ProfilePublic = () => {
   const { slug } = useParams();
   const profile = getProfile();
+  const [showQR, setShowQR] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const profileUrl = `${window.location.origin}/profile/${slug}`;
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(profileUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   if (profile.slug !== slug) {
     return (
@@ -85,6 +97,12 @@ const ProfilePublic = () => {
                   <h1 className="font-display text-2xl font-bold text-foreground truncate">{profile.displayName}</h1>
                   {profile.headline && <p className="text-sm text-muted-foreground mt-0.5 truncate">{profile.headline}</p>}
                 </div>
+                <button
+                  onClick={() => setShowQR(true)}
+                  className="w-10 h-10 rounded-xl bg-muted/60 border border-border hover:border-primary/30 hover:bg-primary/10 flex items-center justify-center transition-all flex-shrink-0"
+                >
+                  <QrCode className="w-4 h-4 text-muted-foreground" />
+                </button>
               </div>
               {profile.bio && (
                 <p className="text-sm text-foreground/75 leading-relaxed">{profile.bio}</p>
@@ -244,6 +262,51 @@ const ProfilePublic = () => {
           </p>
         </motion.div>
       </div>
+
+      {/* QR Code Modal */}
+      <AnimatePresence>
+        {showQR && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-foreground/60 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setShowQR(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={e => e.stopPropagation()}
+              className="bg-card border border-border rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-display font-bold text-lg text-foreground">Share Profile</h3>
+                <button onClick={() => setShowQR(false)} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80">
+                  <X className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </div>
+              <div className="bg-background rounded-2xl p-6 mb-6 inline-block">
+                <QRCodeSVG
+                  value={profileUrl}
+                  size={200}
+                  bgColor="transparent"
+                  fgColor="currentColor"
+                  className="text-foreground"
+                  level="M"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground mb-4 font-display">Scan to view {profile.displayName}'s profile</p>
+              <button
+                onClick={copyLink}
+                className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-xl px-4 py-3 text-sm font-display font-semibold hover:bg-primary/90 transition-colors"
+              >
+                {copied ? <><Check className="w-4 h-4" /> Copied!</> : <><Copy className="w-4 h-4" /> Copy Link</>}
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
