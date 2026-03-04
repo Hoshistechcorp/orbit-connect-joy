@@ -19,6 +19,8 @@ import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 import CreateAuraLink from "./pages/CreateAuraLink";
 import AuraLinkPublic from "./pages/AuraLinkPublic";
+import ProfileEdit from "./pages/ProfileEdit";
+import ProfilePublic from "./pages/ProfilePublic";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,8 @@ const App = () => (
           <Route path="/dashboard/:slug" element={<AuraLinkManage />} />
           <Route path="/onboarding/enterprise" element={<EnterpriseOnboarding />} />
           <Route path="/aura/:slug" element={<AuraLinkPublic />} />
+          <Route path="/profile/edit" element={<ProfileEdit />} />
+          <Route path="/profile/:slug" element={<ProfilePublic />} />
           <Route path="/coming-soon" element={<ComingSoon />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

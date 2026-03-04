@@ -7,6 +7,7 @@ import {
   CalendarPlus, ExternalLink
 } from "lucide-react";
 import AuraLinksSection from "@/components/dashboard/AuraLinksSection";
+import ProfileCard from "@/components/dashboard/ProfileCard";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -171,6 +172,13 @@ const Dashboard = () => {
               </motion.div>
             ))}
           </div>
+        </section>
+
+        <Separator className="mb-10" />
+
+        {/* My Profile Section */}
+        <section className="mb-10">
+          <ProfileCard />
         </section>
 
         <Separator className="mb-10" />
