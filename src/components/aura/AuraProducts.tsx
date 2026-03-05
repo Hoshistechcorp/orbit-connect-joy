@@ -30,9 +30,6 @@ const AuraProducts = () => {
   return (
     <section id="products" className="py-20 px-6 bg-background">
       <div className="max-w-6xl mx-auto">
-        {/* AuraLink Hero Card — largest card first */}
-        <AuraLinkHeroCard />
-
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -43,9 +40,12 @@ const AuraProducts = () => {
             The iBloov <span className="text-ibloov-orange">AURA</span>
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            Six powerful products working together to transform how you work, travel, and live.
+            Seven powerful products working together to transform how you work, travel, and live.
           </p>
         </motion.div>
+
+        {/* AuraLink Hero Card — the bridge product */}
+        <AuraLinkHeroCard />
 
         {/* Featured product - light card with gradient button */}
         <motion.div
