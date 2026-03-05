@@ -6,6 +6,7 @@ import ibloovPlaces from "@/assets/ibloov-places.jpg";
 import ibloovWellness from "@/assets/ibloov-wellness.jpg";
 import ibloovInstitute from "@/assets/ibloov-institute.jpg";
 import flexIt from "@/assets/flex-it.jpg";
+import AuraLinkHeroCard from "./AuraLinkHeroCard";
 
 const featuredProduct = {
   name: "iBloov Events",
@@ -29,6 +30,9 @@ const AuraProducts = () => {
   return (
     <section id="products" className="py-20 px-6 bg-background">
       <div className="max-w-6xl mx-auto">
+        {/* AuraLink Hero Card — largest card first */}
+        <AuraLinkHeroCard />
+
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
