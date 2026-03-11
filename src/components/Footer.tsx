@@ -8,6 +8,7 @@ const footerSections = [
     title: "Platform",
     links: [
       { label: "Aura", to: "/aura" },
+      { label: "View the Orbit", to: "/coming-soon" },
     ],
   },
   {
