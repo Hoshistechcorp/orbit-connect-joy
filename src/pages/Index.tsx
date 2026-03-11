@@ -225,7 +225,7 @@ const Index = () => {
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
               >
                 <Orbit className="w-4 h-4" />
-                Get Started
+                Enter the Orbit
               </motion.span>
             </Link>
             <Link to="/aura">
