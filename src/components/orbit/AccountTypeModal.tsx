@@ -13,11 +13,7 @@ const AccountTypeModal = ({ open, onClose, continent }: AccountTypeModalProps) =
 
   const handleSelect = (type: "consumer" | "enterprise") => {
     onClose();
-    if (type === "consumer") {
-      navigate("/signup/consumer", { state: { continent } });
-    } else {
-      navigate("/auth", { state: { location: { continent }, preselect: "enterprise" } });
-    }
+    navigate("/coming-soon", { state: { continent, type } });
   };
 
   return (
