@@ -9,8 +9,6 @@ const footerSections = [
     links: [
       { label: "Enter the Orbit", to: "/detect" },
       { label: "Aura", to: "/aura" },
-      { label: "Consumer Dashboard", to: "/dashboard" },
-      { label: "Enterprise Dashboard", to: "/dashboard/enterprise" },
     ],
   },
   {
