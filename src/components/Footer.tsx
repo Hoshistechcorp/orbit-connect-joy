@@ -7,32 +7,15 @@ const footerSections = [
   {
     title: "Platform",
     links: [
-      { label: "Enter the Orbit", to: "/detect" },
       { label: "Aura", to: "/aura" },
-    ],
-  },
-  {
-    title: "Explore",
-    links: [
-      { label: "Africa", to: "/orbit/africa" },
-      { label: "Europe", to: "/orbit/europe" },
-      { label: "North America", to: "/orbit/north-america" },
-      { label: "South America", to: "/orbit/south-america" },
-      { label: "Asia", to: "/orbit/asia" },
-      { label: "Oceania", to: "/orbit/oceania" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "Mission", to: "/mission" },
+      { label: "GTM", href: "https://ibloovresearch.manus.space" },
       { label: "Store", href: "https://ibloov.com" },
-    ],
-  },
-  {
-    title: "Get Started",
-    links: [
-      { label: "Enter the Orbit", to: "/detect" },
     ],
   },
 ];
@@ -116,7 +99,7 @@ const Footer = () => {
       {/* Links Grid */}
       <div className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             {/* Brand Column */}
             <div className="col-span-2 md:col-span-1">
               <Link to="/" className="flex items-center gap-2 mb-4">
@@ -169,7 +152,7 @@ const Footer = () => {
                           className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
                         >
                           {link.label}
-                          <ShoppingBag className="w-3 h-3" />
+                          {link.label === "Store" && <ShoppingBag className="w-3 h-3" />}
                         </a>
                       )}
                     </li>
