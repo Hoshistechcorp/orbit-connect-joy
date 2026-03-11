@@ -30,14 +30,8 @@ const App = () => (
           <Route path="/aura" element={<Aura />} />
           <Route path="/detect" element={<Detect />} />
           <Route path="/orbit/:continent" element={<OrbitContinent />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/signup/consumer" element={<ConsumerSignup />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/create" element={<CreateAuraLink />} />
-          <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           <Route path="/dashboard/:slug" element={<AuraLinkManage />} />
-          <Route path="/onboarding/enterprise" element={<EnterpriseOnboarding />} />
           <Route path="/aura/:slug" element={<AuraLinkPublic />} />
           <Route path="/profile/edit" element={<ProfileEdit />} />
           <Route path="/profile/:slug" element={<ProfilePublic />} />
