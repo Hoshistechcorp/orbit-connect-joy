@@ -16,7 +16,7 @@ const footerSections = [
     links: [
       { label: "Mission", to: "/mission" },
       { label: "GTM", href: "https://ibloovresearch.manus.space" },
-      { label: "Store", href: "https://ibloov.com" },
+      { label: "Store", to: "/store" },
     ],
   },
 ];
