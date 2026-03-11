@@ -9,8 +9,6 @@ const footerSections = [
     links: [
       { label: "Enter the Orbit", to: "/detect" },
       { label: "Aura", to: "/aura" },
-      { label: "Consumer Dashboard", to: "/dashboard" },
-      { label: "Enterprise Dashboard", to: "/dashboard/enterprise" },
     ],
   },
   {
@@ -34,9 +32,7 @@ const footerSections = [
   {
     title: "Get Started",
     links: [
-      { label: "Sign In", to: "/auth" },
-      { label: "Consumer Sign Up", to: "/signup/consumer" },
-      { label: "Enterprise Onboarding", to: "/onboarding/enterprise" },
+      { label: "Enter the Orbit", to: "/detect" },
     ],
   },
 ];

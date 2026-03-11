@@ -7,14 +7,8 @@ import Index from "./pages/Index";
 import Mission from "./pages/Mission";
 import Aura from "./pages/Aura";
 import Detect from "./pages/Detect";
-import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
 import AuraLinkManage from "./pages/AuraLinkManage";
-import EnterpriseDashboard from "./pages/EnterpriseDashboard";
-import EnterpriseOnboarding from "./pages/EnterpriseOnboarding";
 import OrbitContinent from "./pages/OrbitContinent";
-import ConsumerSignup from "./pages/ConsumerSignup";
-import Onboarding from "./pages/Onboarding";
 import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 import CreateAuraLink from "./pages/CreateAuraLink";
@@ -36,14 +30,8 @@ const App = () => (
           <Route path="/aura" element={<Aura />} />
           <Route path="/detect" element={<Detect />} />
           <Route path="/orbit/:continent" element={<OrbitContinent />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/signup/consumer" element={<ConsumerSignup />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/create" element={<CreateAuraLink />} />
-          <Route path="/dashboard/enterprise" element={<EnterpriseDashboard />} />
           <Route path="/dashboard/:slug" element={<AuraLinkManage />} />
-          <Route path="/onboarding/enterprise" element={<EnterpriseOnboarding />} />
           <Route path="/aura/:slug" element={<AuraLinkPublic />} />
           <Route path="/profile/edit" element={<ProfileEdit />} />
           <Route path="/profile/:slug" element={<ProfilePublic />} />

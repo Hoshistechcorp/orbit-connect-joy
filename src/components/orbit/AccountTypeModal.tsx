@@ -13,11 +13,7 @@ const AccountTypeModal = ({ open, onClose, continent }: AccountTypeModalProps) =
 
   const handleSelect = (type: "consumer" | "enterprise") => {
     onClose();
-    if (type === "consumer") {
-      navigate("/signup/consumer", { state: { continent } });
-    } else {
-      navigate("/auth", { state: { location: { continent }, preselect: "enterprise" } });
-    }
+    navigate("/coming-soon", { state: { continent, type } });
   };
 
   return (
@@ -110,7 +106,7 @@ const AccountTypeModal = ({ open, onClose, continent }: AccountTypeModalProps) =
             <p className="text-center text-xs text-muted-foreground mt-5">
               Already have an account?{" "}
               <button
-                onClick={() => { onClose(); navigate("/auth"); }}
+                onClick={() => { onClose(); navigate("/coming-soon"); }}
                 className="text-primary font-semibold hover:underline"
               >
                 Sign In
