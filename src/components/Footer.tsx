@@ -152,7 +152,7 @@ const Footer = () => {
                           className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
                         >
                           {link.label}
-                          <ShoppingBag className="w-3 h-3" />
+                          {link.label === "Store" && <ShoppingBag className="w-3 h-3" />}
                         </a>
                       )}
                     </li>
