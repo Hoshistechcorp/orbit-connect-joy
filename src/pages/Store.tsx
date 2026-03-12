@@ -23,7 +23,7 @@ const ProductCard = ({
 }) => {
   const image = product.node.images.edges[0]?.node;
   const price = product.node.priceRange.minVariantPrice;
-  const hasDiscount = comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount);
+  
 
   return (
     <motion.div
