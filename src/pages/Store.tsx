@@ -77,14 +77,6 @@ const ProductCard = ({
           </div>
         </div>
 
-        {/* Discount badge */}
-        {hasDiscount && (
-          <div className="absolute top-3 left-3">
-            <span className="inline-block px-2.5 py-1 rounded-full text-xs font-bold bg-destructive text-destructive-foreground shadow-md">
-              Sale
-            </span>
-          </div>
-        )}
       </Link>
 
       {/* Info */}
