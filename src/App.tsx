@@ -25,6 +25,7 @@ function AppInner() {
       <Route path="/store" element={<Store />} />
       <Route path="/product/:handle" element={<ProductDetail />} />
       <Route path="/coming-soon" element={<ComingSoon />} />
+      <Route path="/email-preview" element={<EmailPreview />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
