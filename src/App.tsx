@@ -11,6 +11,7 @@ import ComingSoon from "./pages/ComingSoon";
 import NotFound from "./pages/NotFound";
 import Store from "./pages/Store";
 import ProductDetail from "./pages/ProductDetail";
+import EmailPreview from "./pages/EmailPreview";
 
 const queryClient = new QueryClient();
 
