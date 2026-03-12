@@ -93,11 +93,6 @@ const ProductCard = ({
           <span className="font-display font-bold text-lg text-foreground">
             ${parseFloat(price.amount).toFixed(2)}
           </span>
-          {hasDiscount && (
-            <span className="text-sm text-muted-foreground line-through">
-              ${parseFloat(comparePrice.amount).toFixed(2)}
-            </span>
-          )}
           <span className="text-xs text-muted-foreground ml-auto uppercase tracking-wider">
             {price.currencyCode}
           </span>
