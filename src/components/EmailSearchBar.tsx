@@ -97,7 +97,7 @@ const EmailSearchBar = () => {
               <Check className="w-4 h-4 text-accent-foreground" />
             </motion.div>
             <span className="text-foreground font-semibold">
-              You're in the Orbit! 🎉
+              Welcome to the Orbit. Check your email 📬
             </span>
             <Sparkles className="w-4 h-4 text-ibloov-orange" />
           </motion.div>
